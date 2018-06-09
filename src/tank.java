@@ -1,3 +1,3 @@
 public class tank {
-    int tank = 0;
+    int tank = 80;
 }
