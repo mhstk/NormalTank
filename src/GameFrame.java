@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
     public static final int GAME_WIDTH = 1920;  // wide aspect ratio
 
 
-    //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
+    //uncomment all /*...*/ in the class for using PlayerTank icon instead of a simple circle
     private BufferedImage tankBody;
     private BufferedImage tankGun;
 
@@ -46,8 +46,8 @@ public class GameFrame extends JFrame {
         fpsHistory = new ArrayList<>(100);
 
         try {
-            tankBody = ImageIO.read(new File("Tank-under.png"));
-            tankGun = ImageIO.read(new File("Tank-top.png"));
+            tankBody = ImageIO.read(new File("PlayerTank-under.png"));
+            tankGun = ImageIO.read(new File("PlayerTank-top.png"));
 
         } catch (IOException e) {
             System.out.println(e);
@@ -107,34 +107,35 @@ public class GameFrame extends JFrame {
         g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         // Draw ball
 
-        AffineTransform oldtrans = g2d.getTransform();
+        AffineTransform oldTrans = g2d.getTransform();
         g2d.setColor(Color.BLACK);
-        g2d.fillOval(state.locX, state.locY, 10, 10);
+        g2d.fillOval(state.getPlayerTank().getX(), state.getPlayerTank().getY(), 10, 10);
 
 
         AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(state.rad2), state.locX + tankBody.getWidth() / 2, state.locY + tankBody.getHeight() / 2);
+        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
         g2d.setTransform(atBody);
-        g2d.drawImage(tankBody, state.locX, state.locY, null);
+        g2d.drawImage(state.getPlayerTank().getBodyImage(), state.getPlayerTank().getX(), state.getPlayerTank().getY(), null);
 
-        g2d.setTransform(oldtrans);
+        g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
-        atGun.translate(state.locX , state.locY );
-        atGun.rotate(state.rad, 87,67);
+        atGun.translate(state.getPlayerTank().getX() , state.getPlayerTank().getY() );
+        System.out.println("AAAAAAAAAAAAAA : " + Math.toDegrees(state.getPlayerTank().getAngelGun()));
+        atGun.rotate(state.getPlayerTank().getAngelGun(), 87,67);
 
 
         g2d.setTransform(atGun);
 
 
-        g2d.drawImage(tankGun,0,0,null);
+        g2d.drawImage(state.getPlayerTank().getGunImage(),0,0,null);
 
 
 
         g2d.setColor(Color.BLACK);
 
-        g2d.setTransform(oldtrans);
-        g2d.fillOval(state.locX + 87, state.locY + 67, 2, 2);
-        g2d.drawLine(state.locX+87,state.locY+67,state.mouseX,state.mouseY);
+        g2d.setTransform(oldTrans);
+        g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 2, 2);
+        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
 
 
@@ -164,7 +165,7 @@ public class GameFrame extends JFrame {
         lastRender = currentRender;
         // Print user guide
         String userGuide
-                = "Use ARROW KEYS to move the Tank. "
+                = "Use ARROW KEYS to move the PlayerTank. "
                 + "Press ESCAPE to end the game.";
         g2d.setFont(g2d.getFont().deriveFont(18.0f));
         g2d.drawString(userGuide, 10, GAME_HEIGHT - 10);
