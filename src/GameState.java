@@ -7,26 +7,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.security.Key;
 
 /**
  * This class holds the state of game and all of its elements.
  * This class also handles user inputs, which affect the game state.
- *
- * @author Seyed Mohammad Ghaffarian
  */
 public class GameState {
 
     public int locX, locY, diam;
     public boolean gameOver;
 
+    private PlayerTank playerTank = new PlayerTank("Tank-under.png","Tank-top.png");
+
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public double rad = 0;
     public double rad2 = 0;
-    public double rad3 = 0;
     private boolean mousePress;
     private boolean mouseMoved;
     public int mouseX, mouseY;
+    private static int count = 1 ;
+    private double timePressDif =0 ;
+    private long  timeLastPress = 0 ;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
@@ -54,32 +55,11 @@ public class GameState {
      * The method which updates the game state.
      */
     public void update() {
-        if (mouseMoved) {
-            rad = Math.atan2(mouseY - (locY + 67), mouseX - (locX + 87));
+        playerTank.move();
+        if (mousePress && timePressDif >= playerTank.getDifTimeBullet() && playerTank.checkMouseLoc()){
+            playerTank.shoot(playerTank.getGunX(),playerTank.getGunY(),mouseX,mouseY);
+            mousePress = false;
         }
-
-        if (keyUP) {
-            locY -= 8;
-            moveUp();
-        }
-
-        if (keyDOWN) {
-            locY += 8;
-            moveDown();
-        }
-        if (keyLEFT) {
-            locX -= 8;
-            moveLeft();
-        }
-        if (keyRIGHT) {
-            locX += 8;
-            moveRight();
-        }
-
-        locX = Math.max(locX, 0);
-        locX = Math.min(locX, GameFrame.GAME_WIDTH-177);
-        locY = Math.max(locY, 0);
-        locY = Math.min(locY, GameFrame.GAME_HEIGHT-134);
     }
 
 
@@ -95,159 +75,7 @@ public class GameState {
         return mouseHandler;
     }
 
-    public void moveUp() {
-        if (keyRIGHT) {
-            if ((angelInRange(rad2) > 315 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 135)) {
-                rad2 -= 10;
-                System.out.println("up");
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 135 && angelInRange(rad2) < 315) {
-                rad2 += 10;
 
-            }
-
-        } else if (keyLEFT) {
-            if ((angelInRange(rad2) > 225 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 45)) {
-                rad2 -= 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 45 && angelInRange(rad2) < 225) {
-                rad2 += 10;
-
-            }
-
-        } else if (!(angelInRange(rad2) == 90)) {
-
-
-            if ((angelInRange(rad2) >= 0 && angelInRange(rad2) < 90) || (angelInRange(rad2) > 270 && angelInRange(rad2) < 360)) {
-                rad2 -= 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 90 && angelInRange(rad2) < 270) {
-                rad2 += 10;
-
-            }
-
-        }
-    }
-
-    public void moveDown() {
-        if (keyLEFT) {
-            if ((angelInRange(rad2) > 315 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 135)) {
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 135 && angelInRange(rad2) < 315) {
-                rad2 -= 10;
-
-            }
-
-        } else if (keyRIGHT) {
-            if ((angelInRange(rad2) > 225 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 45)) {
-                System.out.println("right");
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 45 && angelInRange(rad2) < 225) {
-                rad2 -= 10;
-
-            }
-
-        } else if (!(angelInRange(rad2) == 90)) {
-
-            if ((angelInRange(rad2) >= 0 && angelInRange(rad2) < 90) || (angelInRange(rad2) > 270 && angelInRange(rad2) < 360)) {
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 90 && angelInRange(rad2) < 270) {
-                rad2 -= 10;
-
-            }
-
-
-        }
-    }
-
-    public void moveLeft() {
-        if (keyDOWN) {
-            if ((angelInRange(rad2) > 315 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 135)) {
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 135 && angelInRange(rad2) < 315) {
-                rad2 -= 10;
-
-            }
-
-        } else if (keyUP) {
-            if ((angelInRange(rad2) > 225 && angelInRange(rad2) < 360) || (angelInRange(rad2) >= 0 && angelInRange(rad2) < 45)) {
-                rad2 -= 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 45 && angelInRange(rad2) < 225) {
-                rad2 += 10;
-
-            }
-
-        } else if (!(angelInRange(rad2) == 0)) {
-            if ((angelInRange(rad2) > 0 && angelInRange(rad2) < 180)) {
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 180 && angelInRange(rad2) < 360) {
-                rad2 -= 10;
-
-            }
-        }
-
-    }
-
-    public void moveRight() {
-        if (keyUP) {
-            if ((angelInRange(rad2) > 315 && angelInRange(rad2) < 360) || (angelInRange(rad2) > 0 && angelInRange(rad2) < 135)) {
-                rad2 -= 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 135 && angelInRange(rad2) < 315) {
-                rad2 += 10;
-
-            }
-
-        } else if (keyDOWN) {
-            if ((angelInRange(rad2) > 225 && angelInRange(rad2) < 360) || (angelInRange(rad2) > 0 && angelInRange(rad2) < 45)) {
-                rad2 += 10;
-                System.out.println(rad2);
-            }
-            if (angelInRange(rad2) > 45 && angelInRange(rad2) < 225) {
-                rad2 -= 10;
-
-            }
-
-        } else {
-            if (!(angelInRange(rad2) == 180)) {
-
-                if ((angelInRange(rad2) > 0 && angelInRange(rad2) < 180)) {
-                    rad2 -= 10;
-                    System.out.println(rad2);
-                }
-                if (angelInRange(rad2) > 180 && angelInRange(rad2) < 360) {
-                    rad2 += 10;
-
-                }
-            }
-        }
-
-    }
-
-    public double angelInRange(double angel) {
-
-        if (angel % 360 < 0) {
-            return 360 + angel % 360;
-        } else {
-            return angel % 360;
-        }
-    }
 
 
     /**
@@ -260,27 +88,27 @@ public class GameState {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
                 case (KeyEvent.VK_UP):
-                    keyUP = true;
-                    keyDOWN = false;
+                    playerTank.setKeyUP(true);
+                    playerTank.setKeyDOWN(false);
 
 
                     break;
                 case KeyEvent.VK_S:
                 case KeyEvent.VK_DOWN:
-                    keyDOWN = true;
-                    keyUP = false;
+                    playerTank.setKeyUP(false);
+                    playerTank.setKeyDOWN(true);
 
                     break;
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_LEFT:
-                    keyLEFT = true;
-                    keyRIGHT = false;
+                    playerTank.setKeyRIGHT(false);
+                    playerTank.setKeyLEFT(true);
 
                     break;
                 case KeyEvent.VK_D:
                 case KeyEvent.VK_RIGHT:
-                    keyRIGHT = true;
-                    keyLEFT = false;
+                    playerTank.setKeyRIGHT(true);
+                    playerTank.setKeyLEFT(false);
 
                     break;
                 case KeyEvent.VK_ESCAPE:
@@ -294,19 +122,19 @@ public class GameState {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
                 case KeyEvent.VK_UP:
-                    keyUP = false;
+                    playerTank.setKeyUP(false);
                     break;
                 case KeyEvent.VK_S:
                 case KeyEvent.VK_DOWN:
-                    keyDOWN = false;
+                    playerTank.setKeyDOWN(false);
                     break;
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_LEFT:
-                    keyLEFT = false;
+                    playerTank.setKeyLEFT(false);
                     break;
                 case KeyEvent.VK_D:
                 case KeyEvent.VK_RIGHT:
-                    keyRIGHT = false;
+                    playerTank.setKeyRIGHT(false);
                     break;
             }
         }
@@ -320,9 +148,27 @@ public class GameState {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            mouseX = e.getX();
-            mouseY = e.getY();
-            mousePress = true;
+
+            if (e.getButton()==MouseEvent.BUTTON3){
+                if (count==1){
+                    playerTank.changeGunTow();
+                    count=2;
+                }else {
+                    playerTank.changeGunOne();
+                    count=1;
+                }
+            }else {
+                mouseX = e.getX();
+                mouseY = e.getY();
+                playerTank.setMouseX(mouseX);
+                playerTank.setMouseY(mouseY);
+                playerTank.setMousePress(true);
+                mousePress = true;
+                Long now = System.nanoTime();
+                timePressDif = (now - timeLastPress)/100000000.0;
+                System.out.println(timePressDif);
+                timeLastPress = now;
+            }
         }
 
         @Override
@@ -330,19 +176,28 @@ public class GameState {
             super.mouseMoved(e);
             mouseX = e.getX();
             mouseY = e.getY();
-            mouseMoved = true;
+            playerTank.setMouseX(mouseX);
+            playerTank.setMouseY(mouseY);
+            playerTank.setMouseMoved(true);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             mousePress = false;
+            playerTank.setMousePress(false);
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
             mouseX = e.getX();
             mouseY = e.getY();
+            playerTank.setMouseX(mouseX);
+            playerTank.setMouseY(mouseY);
         }
+    }
+
+    public PlayerTank getPlayerTank() {
+        return playerTank;
     }
 }
 
