@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class PlayerTank extends Moving {
     private BufferedImage gunImage;
@@ -13,7 +14,7 @@ public class PlayerTank extends Moving {
     public int mouseX, mouseY;
 
 
-    public PlayerTank(String imageFileBody , String imageFileGun) {
+    public PlayerTank(String imageFileBody , String imageFileGun ) {
         super();
         positionX=100;
         positionY=100;
@@ -26,6 +27,7 @@ public class PlayerTank extends Moving {
         }
         angelBody = 0;
         angelGun = 0;
+        bulletImageAddres = "Tank-Bullet.png";
 
     }
 
@@ -160,7 +162,28 @@ public class PlayerTank extends Moving {
         }
     }
 
+    @Override
+    public void shoot(int originX, int originY, int destX, int destY) {
+        super.shoot(originX, originY, destX, destY);
+        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddres);
+        bullets.add(bullet);
+    }
 
+    public void updateBullet(){
+        Iterator it = bullets.iterator();
+        while (it.hasNext()){
+            Bullet bullet = (Bullet)it.next();
+            bullet.updateLocation();
+        }
+    }
+
+    public boolean checkMouseLoc(){
+        if (mouseX-positionX>-5 && mouseX-positionX<200 && mouseY-positionY>-10 && mouseY-positionY<154){
+            return false;
+        }else {
+            return true;
+        }
+    }
 
     public double angelInRange(double angel) {
 
@@ -262,4 +285,13 @@ public class PlayerTank extends Moving {
     public BufferedImage getBodyImage(){
         return image;
     }
+
+    public int getGunX(){
+        return positionX + 87 + (int) ( Math.cos(angelGun) * 90.0) ;
+    }
+    public int getGunY(){
+        return positionY + 67 + (int) ( Math.cos(angelGun) * (-10)) + (int) ( Math.sin(angelGun) * 90.0)  ;
+    }
+
+
 }

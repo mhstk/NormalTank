@@ -25,6 +25,8 @@ public class GameState {
     private boolean mousePress;
     private boolean mouseMoved;
     public int mouseX, mouseY;
+    private long timePressDif =0 ;
+    private long  timeLastPress = 0 ;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
@@ -53,6 +55,10 @@ public class GameState {
      */
     public void update() {
         playerTank.move();
+        if (mousePress && timePressDif >= 2 && playerTank.checkMouseLoc()){
+            playerTank.shoot(playerTank.getGunX(),playerTank.getGunY(),mouseX,mouseY);
+            mousePress = false;
+        }
     }
 
 
@@ -145,8 +151,12 @@ public class GameState {
             mouseY = e.getY();
             playerTank.setMouseX(mouseX);
             playerTank.setMouseY(mouseY);
-            System.out.println("shooot");
             playerTank.setMousePress(true);
+            mousePress = true;
+            Long now = System.nanoTime();
+            timePressDif = (now - timeLastPress)/100000000;
+            System.out.println(timePressDif);
+            timeLastPress = now;
         }
 
         @Override

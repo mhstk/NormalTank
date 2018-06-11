@@ -105,38 +105,49 @@ public class GameFrame extends JFrame {
         // Draw background
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        // Draw ball
+
 
         AffineTransform oldTrans = g2d.getTransform();
         g2d.setColor(Color.BLACK);
         g2d.fillOval(state.getPlayerTank().getX(), state.getPlayerTank().getY(), 10, 10);
 
 
+        // Draw Tank Body
+
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
         g2d.setTransform(atBody);
         g2d.drawImage(state.getPlayerTank().getBodyImage(), state.getPlayerTank().getX(), state.getPlayerTank().getY(), null);
+        g2d.setTransform(oldTrans);
 
+        //Draw Bullet's Gun
+        for (Bullet bullet : state.getPlayerTank().getBullets()){
+            AffineTransform atBullet = g2d.getTransform();
+            atBullet.translate(bullet.getPositionX(),bullet.getPositionY());
+            atBullet.rotate(bullet.getAngel(),0,0);
+            g2d.setTransform(atBullet);
+            g2d.drawImage(bullet.getImage(),0,0,null);
+            g2d.setTransform(oldTrans);
+        }
+
+        state.getPlayerTank().updateBullet();
+
+
+        // Draw Tank Gun
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(state.getPlayerTank().getX() , state.getPlayerTank().getY() );
-        System.out.println("AAAAAAAAAAAAAA : " + Math.toDegrees(state.getPlayerTank().getAngelGun()));
         atGun.rotate(state.getPlayerTank().getAngelGun(), 87,67);
-
-
         g2d.setTransform(atGun);
-
-
         g2d.drawImage(state.getPlayerTank().getGunImage(),0,0,null);
 
 
-
-        g2d.setColor(Color.BLACK);
-
+        // Back to normal affine
         g2d.setTransform(oldTrans);
-        g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 2, 2);
-        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
+        g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
+//        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
+        g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
 
 
 

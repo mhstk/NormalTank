@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Runner {
     protected int health;
@@ -6,6 +7,18 @@ public abstract class Runner {
     protected int positionX;
     protected int positionY;
     protected BufferedImage image;
+    protected ArrayList<Bullet> bullets ;
+    protected String bulletImageAddres;
 
+    public Runner() {
+        bullets = new ArrayList<>();
+    }
 
+    public void shoot(int originX , int originY , int destX , int destY){
+
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
 }

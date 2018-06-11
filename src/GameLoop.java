@@ -19,7 +19,7 @@ public class GameLoop implements Runnable {
      * Frame Per Second.
      * Higher is better, but any value above 24 is fine.
      */
-    public static final int FPS = 40;
+    public static final int FPS = 30;
 
     private GameFrame canvas;
     private GameState state;
