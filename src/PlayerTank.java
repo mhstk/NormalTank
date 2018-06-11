@@ -11,6 +11,8 @@ public class PlayerTank extends Moving {
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mousePress;
     private boolean mouseMoved;
+    private int bulletSpeed;
+    private double difTimeBullet;
     public int mouseX, mouseY;
 
 
@@ -27,7 +29,9 @@ public class PlayerTank extends Moving {
         }
         angelBody = 0;
         angelGun = 0;
+        bulletSpeed = 15;
         bulletImageAddres = "Tank-Bullet.png";
+        difTimeBullet=3 ;
 
     }
 
@@ -165,7 +169,7 @@ public class PlayerTank extends Moving {
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
         super.shoot(originX, originY, destX, destY);
-        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddres);
+        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddres , bulletSpeed);
         bullets.add(bullet);
     }
 
@@ -182,6 +186,28 @@ public class PlayerTank extends Moving {
             return false;
         }else {
             return true;
+        }
+    }
+
+    public void changeGunTow(){
+        bulletImageAddres = "Tank-Bullet3.png";
+        bulletSpeed = 25;
+        difTimeBullet = 1.5;
+        try {
+            gunImage = ImageIO.read(new File("Tank-top2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeGunOne(){
+        bulletImageAddres = "Tank-Bullet.png";
+        bulletSpeed = 15;
+        difTimeBullet = 3;
+        try {
+            gunImage = ImageIO.read(new File("Tank-top.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -293,5 +319,7 @@ public class PlayerTank extends Moving {
         return positionY + 67 + (int) ( Math.cos(angelGun) * (-10)) + (int) ( Math.sin(angelGun) * 90.0)  ;
     }
 
-
+    public double getDifTimeBullet() {
+        return difTimeBullet;
+    }
 }
