@@ -17,7 +17,7 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
 
-    private PlayerTank playerTank = new PlayerTank("Tank-under.png","Tank-top.png");
+    private PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public double rad = 0;
@@ -25,9 +25,8 @@ public class GameState {
     private boolean mousePress;
     private boolean mouseMoved;
     public int mouseX, mouseY;
-    private static int count = 1 ;
-    private double timePressDif =0 ;
-    private long  timeLastPress = 0 ;
+    private static int count = 1;
+    private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
@@ -56,9 +55,14 @@ public class GameState {
      */
     public void update() {
         playerTank.move();
-        if (mousePress && timePressDif >= playerTank.getDifTimeBullet() && playerTank.checkMouseLoc()){
-            playerTank.shoot(playerTank.getGunX(),playerTank.getGunY(),mouseX,mouseY);
-            mousePress = false;
+        if (mousePress && playerTank.checkMouseLoc()) {
+            Long now = System.nanoTime();
+            if ((now - timeLastShotGun) / 1000000000.0 > playerTank.getDifTimeBullet()) {
+
+                playerTank.shoot(playerTank.getGunX(), playerTank.getGunY(), mouseX, mouseY);
+                timeLastShotGun = now;
+
+            }
         }
     }
 
@@ -74,8 +78,6 @@ public class GameState {
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
     }
-
-
 
 
     /**
@@ -149,25 +151,21 @@ public class GameState {
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (e.getButton()==MouseEvent.BUTTON3){
-                if (count==1){
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (count == 1) {
                     playerTank.changeGunTow();
-                    count=2;
-                }else {
+                    count = 2;
+                } else {
                     playerTank.changeGunOne();
-                    count=1;
+                    count = 1;
                 }
-            }else {
+            } else {
                 mouseX = e.getX();
                 mouseY = e.getY();
                 playerTank.setMouseX(mouseX);
                 playerTank.setMouseY(mouseY);
                 playerTank.setMousePress(true);
                 mousePress = true;
-                Long now = System.nanoTime();
-                timePressDif = (now - timeLastPress)/100000000.0;
-                System.out.println(timePressDif);
-                timeLastPress = now;
             }
         }
 
