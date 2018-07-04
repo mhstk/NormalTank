@@ -17,7 +17,7 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
 
-    private PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png");
+    private PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public double rad = 0;

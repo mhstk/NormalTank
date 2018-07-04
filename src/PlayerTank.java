@@ -4,33 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class PlayerTank extends Moving {
-    private BufferedImage gunImage;
-    private double angelBody;
-    private double angelGun;
+public class PlayerTank extends Tank {
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mousePress;
     private boolean mouseMoved;
-    private int bulletSpeed;
-    private double difTimeBullet;
     public int mouseX, mouseY;
 
 
-    public PlayerTank(String imageFileBody , String imageFileGun ) {
-        super();
+    public PlayerTank(String imageFileBody , String imageFileGun,String bulletImageAddress ) {
+        super(imageFileBody ,imageFileGun , bulletImageAddress);
         positionX=100;
         positionY=600;
         speed = 8;
-        try {
-            image = ImageIO.read(new File(imageFileBody));
-            gunImage = ImageIO.read(new File(imageFileGun));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        angelBody = 0;
-        angelGun = 0;
         bulletSpeed = 20;
-        bulletImageAddres = "Tank-Bullet.png";
+//        bulletImageAddress = "Tank-Bullet.png";
         difTimeBullet=0.7 ;
 
     }
@@ -170,7 +157,7 @@ public class PlayerTank extends Moving {
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
         super.shoot(originX, originY, destX, destY);
-        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddres , bulletSpeed);
+        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddress, bulletSpeed);
         bullets.add(bullet);
     }
 
@@ -192,7 +179,7 @@ public class PlayerTank extends Moving {
 
 
     public void changeGunTow(){
-        bulletImageAddres = "Tank-Bullet3.png";
+        bulletImageAddress = "Tank-Bullet3.png";
         bulletSpeed = 25;
         difTimeBullet = 0.2;
         try {
@@ -203,7 +190,7 @@ public class PlayerTank extends Moving {
     }
 
     public void changeGunOne(){
-        bulletImageAddres = "Tank-Bullet.png";
+        bulletImageAddress = "Tank-Bullet.png";
         bulletSpeed = 20;
         difTimeBullet = 0.7;
         try {
