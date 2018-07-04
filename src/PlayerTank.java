@@ -19,7 +19,7 @@ public class PlayerTank extends Moving {
     public PlayerTank(String imageFileBody , String imageFileGun ) {
         super();
         positionX=100;
-        positionY=100;
+        positionY=600;
         speed = 8;
         try {
             image = ImageIO.read(new File(imageFileBody));
@@ -29,9 +29,9 @@ public class PlayerTank extends Moving {
         }
         angelBody = 0;
         angelGun = 0;
-        bulletSpeed = 15;
+        bulletSpeed = 20;
         bulletImageAddres = "Tank-Bullet.png";
-        difTimeBullet=3 ;
+        difTimeBullet=0.7 ;
 
     }
 
@@ -42,12 +42,13 @@ public class PlayerTank extends Moving {
         }
 
         if (keyUP) {
-            positionY -= 8;
+                positionY -= 8;
             moveUp();
         }
 
         if (keyDOWN) {
-            positionY += 8;
+
+                positionY += 8;
             moveDown();
         }
         if (keyLEFT) {
@@ -189,10 +190,11 @@ public class PlayerTank extends Moving {
         }
     }
 
+
     public void changeGunTow(){
         bulletImageAddres = "Tank-Bullet3.png";
         bulletSpeed = 25;
-        difTimeBullet = 1.5;
+        difTimeBullet = 0.2;
         try {
             gunImage = ImageIO.read(new File("Tank-top2.png"));
         } catch (IOException e) {
@@ -202,8 +204,8 @@ public class PlayerTank extends Moving {
 
     public void changeGunOne(){
         bulletImageAddres = "Tank-Bullet.png";
-        bulletSpeed = 15;
-        difTimeBullet = 3;
+        bulletSpeed = 20;
+        difTimeBullet = 0.7;
         try {
             gunImage = ImageIO.read(new File("Tank-top.png"));
         } catch (IOException e) {

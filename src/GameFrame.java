@@ -18,7 +18,6 @@ import javax.swing.JFrame;
  * For more information on BufferStrategy check out:
  * http://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
  * http://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferStrategy.html
- *
  */
 public class GameFrame extends JFrame {
 
@@ -27,8 +26,8 @@ public class GameFrame extends JFrame {
 
 
     //uncomment all /*...*/ in the class for using PlayerTank icon instead of a simple circle
-    private BufferedImage tankBody;
-    private BufferedImage tankGun;
+    private BufferedImage area;
+
 
     private long lastRender;
     private ArrayList<Float> fpsHistory;
@@ -46,8 +45,7 @@ public class GameFrame extends JFrame {
         fpsHistory = new ArrayList<>(100);
 
         try {
-            tankBody = ImageIO.read(new File("PlayerTank-under.png"));
-            tankGun = ImageIO.read(new File("PlayerTank-top.png"));
+            area = ImageIO.read(new File("Area.png"));
 
         } catch (IOException e) {
             System.out.println(e);
@@ -102,12 +100,23 @@ public class GameFrame extends JFrame {
      * Rendering all game elements based on the game state.
      */
     private void doRendering(Graphics2D g2d, GameState state) {
-        // Draw background
-        g2d.setColor(Color.GRAY);
-        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-
         AffineTransform oldTrans = g2d.getTransform();
+
+        g2d.fillOval(0, 0, 10, 10);
+        // Draw background
+//        g2d.setColor(Color.GRAY);
+//        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        AffineTransform n = g2d.getTransform();
+
+        n.translate(0,0);
+        g2d.setTransform(n);
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 30; j++) {
+                g2d.drawImage(area, 85 * j, i * 91, null);
+            }
+        }
+        g2d.setTransform(oldTrans);
+        g2d.fillOval(0, 0, 10, 10);
         g2d.setColor(Color.BLACK);
         g2d.fillOval(state.getPlayerTank().getX(), state.getPlayerTank().getY(), 10, 10);
 
@@ -121,12 +130,12 @@ public class GameFrame extends JFrame {
         g2d.setTransform(oldTrans);
 
         //Draw Bullet's Gun
-        for (Bullet bullet : state.getPlayerTank().getBullets()){
+        for (Bullet bullet : state.getPlayerTank().getBullets()) {
             AffineTransform atBullet = g2d.getTransform();
-            atBullet.translate(bullet.getPositionX(),bullet.getPositionY());
-            atBullet.rotate(bullet.getAngel(),0,0);
+            atBullet.translate(bullet.getPositionX(), bullet.getPositionY());
+            atBullet.rotate(bullet.getAngel(), 5, 2);
             g2d.setTransform(atBullet);
-            g2d.drawImage(bullet.getImage(),0,0,null);
+            g2d.drawImage(bullet.getImage(), 0, 0, null);
             g2d.setTransform(oldTrans);
         }
 
@@ -136,20 +145,18 @@ public class GameFrame extends JFrame {
         // Draw Tank Gun
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
-        atGun.translate(state.getPlayerTank().getX() , state.getPlayerTank().getY() );
-        atGun.rotate(state.getPlayerTank().getAngelGun(), 87,67);
+        atGun.translate(state.getPlayerTank().getX(), state.getPlayerTank().getY());
+        atGun.rotate(state.getPlayerTank().getAngelGun(), 87, 67);
         g2d.setTransform(atGun);
-        g2d.drawImage(state.getPlayerTank().getGunImage(),0,0,null);
+        g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
 
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
         g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
-//        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
+        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
         g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
-
-
 
 
 

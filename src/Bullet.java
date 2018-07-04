@@ -12,7 +12,7 @@ public class Bullet {
     private int destY;
     private double angel;
 
-    public Bullet(int positionX, int positionY,int destX , int destY , String bulletImageAddress , int spped) {
+    public Bullet(int positionX, int positionY,int destX , int destY , String bulletImageAddress , int speed) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.destX = destX;
@@ -24,7 +24,7 @@ public class Bullet {
         }
         angel = Math.atan2(destY - (positionY ), destX - (positionX ));
         System.out.println(Math.toDegrees(angel));
-        this.speed = spped;
+        this.speed = speed;
     }
 
     public void updateLocation(){
