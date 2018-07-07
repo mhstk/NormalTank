@@ -23,7 +23,6 @@ public class Bullet {
             e.printStackTrace();
         }
         angel = Math.atan2(destY - (positionY ), destX - (positionX ));
-        System.out.println(Math.toDegrees(angel));
         this.speed = speed;
     }
 

@@ -1,4 +1,6 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,14 +15,17 @@ public class PlayerTank extends Moving {
     private boolean mouseMoved;
     private int bulletSpeed;
     private double difTimeBullet;
+    boolean camerafixedX, camerafixedY;
     public int mouseX, mouseY;
 
 
-    public PlayerTank(String imageFileBody , String imageFileGun ) {
+    public PlayerTank(String imageFileBody, String imageFileGun) {
         super();
-        positionX=100;
-        positionY=600;
-        speed = 8;
+        camerafixedX = false;
+        camerafixedY = false;
+        positionX = 800;
+        positionY = 400;
+        speed = 1;
         try {
             image = ImageIO.read(new File(imageFileBody));
             gunImage = ImageIO.read(new File(imageFileGun));
@@ -31,7 +36,7 @@ public class PlayerTank extends Moving {
         angelGun = 0;
         bulletSpeed = 20;
         bulletImageAddres = "Tank-Bullet.png";
-        difTimeBullet=0.7 ;
+        difTimeBullet = 0.7;
 
     }
 
@@ -42,21 +47,36 @@ public class PlayerTank extends Moving {
         }
 
         if (keyUP) {
-                positionY -= 8;
+            positionY -= speed;
+            if (camerafixedY) {
+                positionY -= 4;
+            }
+
             moveUp();
         }
 
         if (keyDOWN) {
+            positionY += speed;
+            if (camerafixedY) {
+                positionY += 4;
+            }
 
-                positionY += 8;
             moveDown();
         }
         if (keyLEFT) {
-            positionX -= 8;
+            positionX -= speed;
+            if (camerafixedX) {
+                positionX -= 4;
+            }
+
             moveLeft();
         }
         if (keyRIGHT) {
-            positionX += 8;
+            positionX += speed;
+            if (camerafixedX) {
+                positionX += 4;
+            }
+
             moveRight();
         }
 
@@ -170,28 +190,28 @@ public class PlayerTank extends Moving {
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
         super.shoot(originX, originY, destX, destY);
-        Bullet bullet = new Bullet(originX,originY, destX , destY , bulletImageAddres , bulletSpeed);
+        Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddres, bulletSpeed);
         bullets.add(bullet);
     }
 
-    public void updateBullet(){
+    public void updateBullet() {
         Iterator it = bullets.iterator();
-        while (it.hasNext()){
-            Bullet bullet = (Bullet)it.next();
+        while (it.hasNext()) {
+            Bullet bullet = (Bullet) it.next();
             bullet.updateLocation();
         }
     }
 
-    public boolean checkMouseLoc(){
-        if (mouseX-positionX>-5 && mouseX-positionX<200 && mouseY-positionY>-10 && mouseY-positionY<154){
+    public boolean checkMouseLoc() {
+        if (mouseX - positionX > -5 && mouseX - positionX < 200 && mouseY - positionY > -10 && mouseY - positionY < 154) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
 
-    public void changeGunTow(){
+    public void changeGunTow() {
         bulletImageAddres = "Tank-Bullet3.png";
         bulletSpeed = 25;
         difTimeBullet = 0.2;
@@ -202,7 +222,7 @@ public class PlayerTank extends Moving {
         }
     }
 
-    public void changeGunOne(){
+    public void changeGunOne() {
         bulletImageAddres = "Tank-Bullet.png";
         bulletSpeed = 20;
         difTimeBullet = 0.7;
@@ -224,6 +244,44 @@ public class PlayerTank extends Moving {
 
     public BufferedImage getGunImage() {
         return gunImage;
+    }
+
+    public int getGunNumber() {
+        if (difTimeBullet == 0.7) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    public void drawTankBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+        AffineTransform atBody = g2d.getTransform();
+        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
+        g2d.setTransform(atBody);
+        g2d.drawImage(state.getPlayerTank().getBodyImage(), state.getPlayerTank().getX(), state.getPlayerTank().getY(), null);
+        g2d.setTransform(oldTrans);
+    }
+
+    public void drawTankGun(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+        g2d.setTransform(oldTrans);
+        AffineTransform atGun = g2d.getTransform();
+        atGun.translate(state.getPlayerTank().getX(), state.getPlayerTank().getY());
+        atGun.rotate(state.getPlayerTank().getAngelGun(), 87, 67);
+        g2d.setTransform(atGun);
+        g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
+    }
+
+    public void drawBullets(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+        for (Bullet bullet : state.getPlayerTank().getBullets()) {
+            AffineTransform atBullet = g2d.getTransform();
+            atBullet.translate(bullet.getPositionX(), bullet.getPositionY());
+            atBullet.rotate(bullet.getAngel(), 5, 2);
+            g2d.setTransform(atBullet);
+            g2d.drawImage(bullet.getImage(), 0, 0, null);
+            g2d.setTransform(oldTrans);
+        }
+
+        state.getPlayerTank().updateBullet();
     }
 
     public void setGunImage(BufferedImage gunImage) {
@@ -294,11 +352,11 @@ public class PlayerTank extends Moving {
         this.mouseMoved = mouseMoved;
     }
 
-    public int getX(){
+    public int getX() {
         return positionX;
     }
-    
-    public int getY(){
+
+    public int getY() {
         return positionY;
     }
 
@@ -310,15 +368,16 @@ public class PlayerTank extends Moving {
         this.mouseY = mouseY;
     }
 
-    public BufferedImage getBodyImage(){
+    public BufferedImage getBodyImage() {
         return image;
     }
 
-    public int getGunX(){
-        return positionX + 87 + (int) ( Math.cos(angelGun) * 90.0) ;
+    public int getGunX() {
+        return positionX + 87 + (int) (Math.cos(angelGun) * 90.0);
     }
-    public int getGunY(){
-        return positionY + 67 + (int) ( Math.cos(angelGun) * (-10)) + (int) ( Math.sin(angelGun) * 90.0)  ;
+
+    public int getGunY() {
+        return positionY + 67 + (int) (Math.cos(angelGun) * (-10)) + (int) (Math.sin(angelGun) * 90.0);
     }
 
     public double getDifTimeBullet() {
