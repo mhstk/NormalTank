@@ -124,9 +124,21 @@ public class GameFrame extends JFrame {
         // Draw Tank Body
 
         AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
+        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()),
+                state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2,
+                state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
+
         g2d.setTransform(atBody);
         g2d.drawImage(state.getPlayerTank().getBodyImage(), state.getPlayerTank().getX(), state.getPlayerTank().getY(), null);
+        g2d.setTransform(oldTrans);
+
+        //draw enemy tank
+        AffineTransform atBody2 = g2d.getTransform();
+        atBody2.rotate(Math.toRadians(state.getEnemyTank().getAngelBody()),
+                state.getEnemyTank().getX() + state.getEnemyTank().getBodyImage().getWidth() / 2,
+                state.getEnemyTank().getY() + state.getEnemyTank().getBodyImage().getHeight() / 2);
+        g2d.setTransform(atBody2);
+        g2d.drawImage(state.getEnemyTank().getBodyImage(), state.getEnemyTank().getX(), state.getEnemyTank().getY(), null);
         g2d.setTransform(oldTrans);
 
         //Draw Bullet's Gun

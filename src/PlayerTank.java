@@ -17,9 +17,7 @@ public class PlayerTank extends Tank {
         positionY=600;
         speed = 8;
         bulletSpeed = 20;
-//        bulletImageAddress = "Tank-Bullet.png";
         difTimeBullet=0.7 ;
-
     }
 
     @Override
@@ -51,7 +49,6 @@ public class PlayerTank extends Tank {
         positionX = Math.min(positionX, GameFrame.GAME_WIDTH - 177);
         positionY = Math.max(positionY, 0);
         positionY = Math.min(positionY, GameFrame.GAME_HEIGHT - 134);
-
 
     }
 

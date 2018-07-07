@@ -1,5 +1,6 @@
 /*** In The Name of Allah ***/
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -17,7 +18,8 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
 
-    private PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public double rad = 0;
@@ -50,11 +52,15 @@ public class GameState {
         mouseHandler = new MouseHandler();
     }
 
+    public static Point tankPosition(){
+        return new Point(playerTank.getX(),playerTank.getY());
+    }
     /**
      * The method which updates the game state.
      */
     public void update() {
         playerTank.move();
+        enemyTank.move();
         if (mousePress && playerTank.checkMouseLoc()) {
             Long now = System.nanoTime();
             if ((now - timeLastShotGun) / 1000000000.0 > playerTank.getDifTimeBullet()) {
@@ -197,5 +203,6 @@ public class GameState {
     public PlayerTank getPlayerTank() {
         return playerTank;
     }
+    public EnemyTank getEnemyTank(){ return enemyTank;}
 }
 

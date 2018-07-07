@@ -3,12 +3,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Tank extends Moving {
+public abstract class Tank extends Moving {
     protected BufferedImage gunImage;
-    protected double angelBody;
-    protected double angelGun;
     protected int bulletSpeed;
     protected double difTimeBullet;
+    protected double angelGun;
 
     protected Tank(String imageFileBody , String imageFileGun ,String bulletImageAddress){
         super(bulletImageAddress);
@@ -18,7 +17,6 @@ public class Tank extends Moving {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         angelBody = 0;
         angelGun = 0;
     }
