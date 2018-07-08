@@ -76,6 +76,7 @@ public class GameState {
      * The method which updates the game state.
      */
     public void update() {
+
         playerTank.move();
 
         if (keyUP) {

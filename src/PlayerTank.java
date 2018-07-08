@@ -8,6 +8,10 @@ import java.util.Iterator;
 
 public class PlayerTank extends Moving {
     private BufferedImage gunImage;
+    private BufferedImage firstBodyImage;
+    private BufferedImage secondeBodyImage;
+    private boolean isFirstImage = true;
+
     private double angelBody;
     private double angelGun;
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
@@ -15,6 +19,7 @@ public class PlayerTank extends Moving {
     private boolean mouseMoved;
     private int bulletSpeed;
     private double difTimeBullet;
+    private long lastTimeImageChanged;
     boolean camerafixedX, camerafixedY;
     public int mouseX, mouseY;
 
@@ -28,7 +33,10 @@ public class PlayerTank extends Moving {
         speed = 1;
         try {
             image = ImageIO.read(new File(imageFileBody));
+            firstBodyImage = image;
             gunImage = ImageIO.read(new File(imageFileGun));
+            secondeBodyImage = ImageIO.read(new File("Tank-under.png"));
+            image = secondeBodyImage;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,6 +86,30 @@ public class PlayerTank extends Moving {
             }
 
             moveRight();
+        }
+
+        if (keyUP || keyDOWN || keyLEFT || keyRIGHT){
+            long now = System.nanoTime();
+            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08 ){
+                if (isFirstImage){
+                    System.out.println("1");
+                    try {
+                        image = ImageIO.read(new File("Tank-under2.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    isFirstImage = false;
+                }else {
+                    System.out.println("2");
+                    try {
+                        image = ImageIO.read(new File("Tank-under.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    isFirstImage = true;
+                }
+                lastTimeImageChanged = now;
+            }
         }
 
         positionX = Math.max(positionX, 0);
