@@ -1,16 +1,15 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
 
-public class EnemyTank extends Tank {
+public class EnemySuperTank extends SuperTank {
     public boolean up = false;
     public boolean down = false;
     public boolean left = false;
     public boolean right = false;
 
 
-    public EnemyTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
+    public EnemySuperTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         this.positionX = positionX;
         speed = 8;

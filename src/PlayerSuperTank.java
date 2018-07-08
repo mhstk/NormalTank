@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class PlayerTank extends Tank {
+public class PlayerSuperTank extends SuperTank {
     public int mouseX, mouseY;
     private BufferedImage gunImage;
     private BufferedImage firstBodyImage;
@@ -23,7 +23,7 @@ public class PlayerTank extends Tank {
     boolean camerafixedX, camerafixedY;
 
 
-    public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
+    public PlayerSuperTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         positionX = 100;
         positionY = 600;

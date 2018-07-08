@@ -8,8 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -20,8 +18,8 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean camerafixedX, camerafixedY;
-    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private static PlayerSuperTank playerTank = new PlayerSuperTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private EnemySuperTank enemyTank = new EnemySuperTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
@@ -83,7 +81,7 @@ public class GameState {
         return new Point(playerTank.getX(),playerTank.getY());
     }
 
-    public static PlayerTank getTank() {
+    public static PlayerSuperTank getTank() {
         return playerTank;
     }
 
@@ -372,9 +370,9 @@ public class GameState {
         }
     }
 
-    public PlayerTank getPlayerTank() {
+    public PlayerSuperTank getPlayerTank() {
         return playerTank;
     }
-    public EnemyTank getEnemyTank(){ return enemyTank;}
+    public EnemySuperTank getEnemyTank(){ return enemyTank;}
 }
 
