@@ -22,7 +22,7 @@ public class GameLoop implements Runnable {
     public static final int FPS = 50;
 
     private GameFrame canvas;
-    private GameState state;
+    public static GameState state;
 
     public GameLoop(GameFrame frame) {
         canvas = frame;

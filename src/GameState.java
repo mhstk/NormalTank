@@ -1,5 +1,6 @@
 /*** In The Name of Allah ***/
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,8 +19,9 @@ public class GameState {
 
     public int locX, locY, diam;
     public boolean gameOver;
-
-    private PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png");
+    public boolean camerafixedX, camerafixedY;
+    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
@@ -37,6 +39,9 @@ public class GameState {
     int originY = 0;
 
     public GameState() {
+
+        camerafixedX = false;
+        camerafixedY = false;
         locX = 100;
         locY = 100;
         diam = 32;
@@ -66,16 +71,20 @@ public class GameState {
         }
 
         for (int i=0 ; i<10 ; i++){
-            maps[new Random().nextInt(50)][new Random().nextInt(50)] = 1;
+            maps[i][0] = 1;
         }
-
         maps[1][1] = 2;
         maps[1][2] = 2;
         maps[1][3] = 2;
         maps[1][4] = 2;
+    }
 
+    public static Point tankPosition(){
+        return new Point(playerTank.getX(),playerTank.getY());
+    }
 
-
+    public static PlayerTank getTank() {
+        return playerTank;
     }
 
     /**
@@ -84,18 +93,23 @@ public class GameState {
     public void update() {
 
         playerTank.move();
+        enemyTank.isInArea();
 
         if (keyUP) {
             originY += 4;
+            enemyTank.positionY += 4;
         }
         if (keyDOWN) {
             originY -= 4;
+            enemyTank.positionY -= 4;
         }
         if (keyLEFT) {
             originX -= 4;
+            enemyTank.positionX += 4;
         }
         if (keyRIGHT) {
             originX += 4;
+            enemyTank.positionX -= 4;
         }
 
         if (mouseY <= 200 && playerTank.positionY<700){
@@ -106,7 +120,7 @@ public class GameState {
             mouseDOWN = true;
             mouseUP = false;
         }
-        if (mouseX <= 200 && playerTank.positionX<1100){
+        if (mouseX <= 200 && playerTank.positionX<1700){
             mouseLEFT = true;
             mouseRIGHT = false;
         }
@@ -128,47 +142,54 @@ public class GameState {
         }
         if (mouseUP) {
             playerTank.positionY+=5;
-
+            enemyTank.positionY+=5;
             originY += 5;
         }
         if (mouseDOWN) {
             playerTank.positionY-=5;
+            enemyTank.positionY-=5;
             originY -= 5;
         }
         if (mouseLEFT) {
             playerTank.positionX+=5;
+            enemyTank.positionX+=5;
             originX -= 5;
         }
         if (mouseRIGHT) {
             playerTank.positionX-=5;
+            enemyTank.positionX-=5;
             originX += 5;
         }
 
         if (originX < 0) {
-            playerTank.camerafixedX = true;
+            camerafixedX = true;
             if (mouseRIGHT){
                 playerTank.positionX+=5;
+                enemyTank.positionX+=5;
             }
             if (mouseLEFT){
                 playerTank.positionX-=5;
+                enemyTank.positionX-=5;
             }
 
             originX = 0;
         }else {
-            playerTank.camerafixedX = false;
+            camerafixedX = false;
         }
         if (originY < 0) {
-            playerTank.camerafixedY = true;
+            camerafixedY = true;
             if (mouseUP){
                 playerTank.positionY-=5;
+                enemyTank.positionY-=5;
             }
             if (mouseDOWN){
                 playerTank.positionY+=5;
+                enemyTank.positionY+=5;
             }
 
             originY = 0;
         }else {
-            playerTank.camerafixedY = false;
+            camerafixedY = false;
         }
 
 
@@ -197,6 +218,8 @@ public class GameState {
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
     }
+
+
 
 
     /**
@@ -245,6 +268,7 @@ public class GameState {
                     break;
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
+                    Main.SOUND.cancel();
                     break;
             }
         }
@@ -351,5 +375,6 @@ public class GameState {
     public PlayerTank getPlayerTank() {
         return playerTank;
     }
+    public EnemyTank getEnemyTank(){ return enemyTank;}
 }
 

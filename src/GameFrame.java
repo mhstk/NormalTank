@@ -34,8 +34,6 @@ public class GameFrame extends JFrame {
     private long lastRender;
     private ArrayList<Float> fpsHistory;
 
-
-
     private BufferStrategy bufferStrategy;
 
     public GameFrame(String title) {
@@ -148,6 +146,10 @@ public class GameFrame extends JFrame {
         // Draw Tank Body
 
        state.getPlayerTank().drawTankBody(g2d,state,oldTrans);
+        // Draw Tank Body
+
+        state.getEnemyTank().drawTankBody(g2d,state,oldTrans);
+       state.getPlayerTank().drawTankBody(g2d,state,oldTrans);
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d,state,oldTrans);
@@ -155,7 +157,7 @@ public class GameFrame extends JFrame {
 
         // Draw Tank Gun
         state.getPlayerTank().drawTankGun(g2d,state,oldTrans);
-
+        state.getEnemyTank().drawTankGun(g2d,state,oldTrans);
         // Draw trees
         g2d.setTransform(oldTrans);
         atMap = g2d.getTransform();
@@ -180,6 +182,8 @@ public class GameFrame extends JFrame {
         g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
         g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
+
+
 
 
 

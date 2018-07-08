@@ -6,31 +6,34 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class PlayerTank extends Moving {
+public class PlayerTank extends Tank {
+    public int mouseX, mouseY;
     private BufferedImage gunImage;
     private BufferedImage firstBodyImage;
     private BufferedImage secondeBodyImage;
     private boolean isFirstImage = true;
 
-    private double angelBody;
-    private double angelGun;
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mousePress;
     private boolean mouseMoved;
     private int bulletSpeed;
     private double difTimeBullet;
+    private String shootString;
     private long lastTimeImageChanged;
     boolean camerafixedX, camerafixedY;
-    public int mouseX, mouseY;
 
 
-    public PlayerTank(String imageFileBody, String imageFileGun) {
-        super();
-        camerafixedX = false;
-        camerafixedY = false;
+    public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
+        super(imageFileBody, imageFileGun, bulletImageAddress);
+        positionX = 100;
+        positionY = 600;
+        speed = 808;
         positionX = 800;
         positionY = 400;
         speed = 1;
+        shootString = "heavygun.wav";
+        camerafixedX = false;
+        camerafixedY = false;
         try {
             image = ImageIO.read(new File(imageFileBody));
             firstBodyImage = image;
@@ -40,13 +43,12 @@ public class PlayerTank extends Moving {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        angelBody = 0;
         angelGun = 0;
         bulletSpeed = 20;
-        bulletImageAddres = "Tank-Bullet.png";
         difTimeBullet = 0.7;
+     }
 
-    }
+
 
     @Override
     public void move() {
@@ -56,7 +58,7 @@ public class PlayerTank extends Moving {
 
         if (keyUP) {
             positionY -= speed;
-            if (camerafixedY) {
+            if (GameLoop.state.camerafixedY) {
                 positionY -= 4;
             }
 
@@ -65,7 +67,7 @@ public class PlayerTank extends Moving {
 
         if (keyDOWN) {
             positionY += speed;
-            if (camerafixedY) {
+            if (GameLoop.state.camerafixedX) {
                 positionY += 4;
             }
 
@@ -73,7 +75,7 @@ public class PlayerTank extends Moving {
         }
         if (keyLEFT) {
             positionX -= speed;
-            if (camerafixedX) {
+            if (GameLoop.state.camerafixedX) {
                 positionX -= 4;
             }
 
@@ -81,7 +83,7 @@ public class PlayerTank extends Moving {
         }
         if (keyRIGHT) {
             positionX += speed;
-            if (camerafixedX) {
+            if (GameLoop.state.camerafixedX) {
                 positionX += 4;
             }
 
@@ -221,9 +223,12 @@ public class PlayerTank extends Moving {
 
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
+        Sound sound = new Sound(shootString,3000);
+        sound.execute();
         super.shoot(originX, originY, destX, destY);
-        Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddres, bulletSpeed);
+        Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
         bullets.add(bullet);
+        sound.cancel();
     }
 
     public void updateBullet() {
@@ -244,7 +249,8 @@ public class PlayerTank extends Moving {
 
 
     public void changeGunTow() {
-        bulletImageAddres = "Tank-Bullet3.png";
+        setBulletImageAddress("Tank-Bullet3.png");
+        shootString = "lightgun.wav";
         bulletSpeed = 25;
         difTimeBullet = 0.2;
         try {
@@ -255,7 +261,8 @@ public class PlayerTank extends Moving {
     }
 
     public void changeGunOne() {
-        bulletImageAddres = "Tank-Bullet.png";
+        shootString = "heavygun.wav";
+        setBulletImageAddress("Tank-Bullet.png");
         bulletSpeed = 20;
         difTimeBullet = 0.7;
         try {
@@ -416,5 +423,9 @@ public class PlayerTank extends Moving {
 
     public double getDifTimeBullet() {
         return difTimeBullet;
+    }
+
+    public void reduceHealth() {
+        this.health--;
     }
 }

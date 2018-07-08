@@ -8,10 +8,16 @@ public abstract class Runner {
     protected int positionY;
     protected BufferedImage image;
     protected ArrayList<Bullet> bullets ;
-    protected String bulletImageAddres;
+    protected String bulletImageAddress;
 
-    public Runner() {
+    public Runner(String bulletImageAddress) {
+        this.bulletImageAddress = bulletImageAddress;
+
         bullets = new ArrayList<>();
+    }
+
+    public void setBulletImageAddress(String bulletImageAddress){
+        this.bulletImageAddress = bulletImageAddress;
     }
 
     public void shoot(int originX , int originY , int destX , int destY){

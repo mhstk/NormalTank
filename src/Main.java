@@ -1,6 +1,7 @@
 /*** In The Name of Allah ***/
 
 import java.awt.*;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
  */
 public class Main {
 
+    public static final Sound SOUND = new Sound(".\\game.wav", 105000);
     public static void main(String[] args) {
         // Initialize the global thread-pool
         ThreadPool.init();
@@ -22,15 +24,16 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                SOUND.execute();
                 GameFrame frame = new GameFrame("Simple Ball !");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = Toolkit.getDefaultToolkit().getImage(".\\pointer.png");
-                int a = (frame.getX())+30;
-                int b = frame.getY()+30;
-                Cursor c = toolkit.createCustomCursor(image, new Point(a,b),"img");
+                Image image = toolkit.getImage(".\\pointer.png");
+                int a = (frame.getX()) + 30;
+                int b = frame.getY() + 30;
+                Cursor c = toolkit.createCustomCursor(image, new Point(a, b), "img");
                 frame.setCursor(c);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
