@@ -287,6 +287,7 @@ public class PlayerTank extends Moving {
     }
 
     public void drawTankBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+        g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
         g2d.setTransform(atBody);
@@ -301,6 +302,7 @@ public class PlayerTank extends Moving {
         atGun.rotate(state.getPlayerTank().getAngelGun(), 87, 67);
         g2d.setTransform(atGun);
         g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
+        g2d.setTransform(oldTrans);
     }
 
     public void drawBullets(Graphics2D g2d, GameState state, AffineTransform oldTrans) {

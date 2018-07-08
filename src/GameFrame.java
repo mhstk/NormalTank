@@ -28,6 +28,7 @@ public class GameFrame extends JFrame {
     //uncomment all /*...*/ in the class for using PlayerTank icon instead of a simple circle
     private BufferedImage area;
     private BufferedImage plant;
+    private BufferedImage softWall;
 
 
     private long lastRender;
@@ -50,6 +51,7 @@ public class GameFrame extends JFrame {
         try {
             area = ImageIO.read(new File("Area.jpg"));
             plant = ImageIO.read(new File("plant2.png"));
+            softWall = ImageIO.read(new File("softWall.png"));
 
         } catch (IOException e) {
             System.out.println(e);
@@ -126,6 +128,23 @@ public class GameFrame extends JFrame {
         g2d.fillOval(state.getPlayerTank().getX(), state.getPlayerTank().getY(), 10, 10);
 
 
+        // Draw softWalls
+        g2d.setTransform(oldTrans);
+        atMap = g2d.getTransform();
+        atMap.translate(0,1080);
+        atMap.translate(-(state.originX%225),(state.originY%225));
+        g2d.setTransform(atMap);
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 11; j++) {
+                g2d.setTransform(atMap);
+                if (state.maps[j+(int)(state.originX/225)][i+(int)(state.originY/225)] == 2){
+                    g2d.drawImage(softWall, 0, -225, null);
+                }
+                atMap.translate(225,0);
+            }
+            atMap.translate(-11*225,-225);
+        }
+
         // Draw Tank Body
 
        state.getPlayerTank().drawTankBody(g2d,state,oldTrans);
@@ -158,7 +177,7 @@ public class GameFrame extends JFrame {
         // Back to normal affine
         g2d.setTransform(oldTrans);
         g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
-       // g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
+        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
         g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
 

@@ -69,6 +69,12 @@ public class GameState {
             maps[new Random().nextInt(50)][new Random().nextInt(50)] = 1;
         }
 
+        maps[1][1] = 2;
+        maps[1][2] = 2;
+        maps[1][3] = 2;
+        maps[1][4] = 2;
+
+
 
     }
 
@@ -100,7 +106,7 @@ public class GameState {
             mouseDOWN = true;
             mouseUP = false;
         }
-        if (mouseX <= 200 && playerTank.positionX<1700){
+        if (mouseX <= 200 && playerTank.positionX<1100){
             mouseLEFT = true;
             mouseRIGHT = false;
         }
@@ -122,6 +128,7 @@ public class GameState {
         }
         if (mouseUP) {
             playerTank.positionY+=5;
+
             originY += 5;
         }
         if (mouseDOWN) {

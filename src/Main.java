@@ -1,6 +1,9 @@
 /*** In The Name of Allah ***/
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
@@ -22,7 +25,7 @@ public class Main {
                 GameFrame frame = new GameFrame("Simple Ball !");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = toolkit.getImage(".\\pointer.png");
+                Image image = Toolkit.getDefaultToolkit().getImage(".\\pointer.png");
                 int a = (frame.getX())+30;
                 int b = frame.getY()+30;
                 Cursor c = toolkit.createCustomCursor(image, new Point(a,b),"img");
