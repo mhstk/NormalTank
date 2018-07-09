@@ -266,6 +266,7 @@ public class GameState {
                     break;
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
+                    Main.SOUND.cancel();
                     break;
             }
         }
