@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class EnemySuperTank extends SuperTank {
+public class EnemyTank extends SuperTank {
     public boolean up = false;
     public boolean down = false;
     public boolean left = false;
@@ -14,7 +14,7 @@ public class EnemySuperTank extends SuperTank {
     private boolean isFirstImage = true;
 
 
-    public EnemySuperTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
+    public EnemyTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         this.positionX = positionX;
         speed = 8;

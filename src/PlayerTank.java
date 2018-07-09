@@ -6,9 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class PlayerSuperTank extends SuperTank {
+public class PlayerTank extends SuperTank {
     public int mouseX, mouseY;
     private BufferedImage gunImage;
+    private BufferedImage firstBodyImage;
+    private BufferedImage secondeBodyImage;
     private boolean isFirstImage = true;
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
@@ -21,7 +23,7 @@ public class PlayerSuperTank extends SuperTank {
     boolean camerafixedX, camerafixedY;
 
 
-    public PlayerSuperTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
+    public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         positionX = 100;
         positionY = 600;
@@ -34,6 +36,7 @@ public class PlayerSuperTank extends SuperTank {
         camerafixedY = false;
         try {
             image = ImageIO.read(new File(imageFileBody));
+            firstBodyImage = image;
             gunImage = ImageIO.read(new File(imageFileGun));
             secondeBodyImage = ImageIO.read(new File("Tank-under2.png"));
             image = secondeBodyImage;
@@ -218,12 +221,11 @@ public class PlayerSuperTank extends SuperTank {
 
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
-//        Sound sound = new Sound(shootString,3000);
-//        sound.execute();
+        Sound sound = new Sound(shootString,0);
+        sound.execute();
         super.shoot(originX, originY, destX, destY);
         Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
         bullets.add(bullet);
-        //sound.cancel();
     }
 
     public void updateBullet() {

@@ -18,8 +18,8 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean camerafixedX, camerafixedY;
-    private static PlayerSuperTank playerTank = new PlayerSuperTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private EnemySuperTank enemyTank = new EnemySuperTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
@@ -81,7 +81,7 @@ public class GameState {
         return new Point(playerTank.getX(),playerTank.getY());
     }
 
-    public static PlayerSuperTank getTank() {
+    public static PlayerTank getTank() {
         return playerTank;
     }
 
@@ -266,7 +266,6 @@ public class GameState {
                     break;
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
-//                    Main.SOUND.cancel();
                     break;
             }
         }
@@ -370,9 +369,9 @@ public class GameState {
         }
     }
 
-    public PlayerSuperTank getPlayerTank() {
+    public PlayerTank getPlayerTank() {
         return playerTank;
     }
-    public EnemySuperTank getEnemyTank(){ return enemyTank;}
+    public EnemyTank getEnemyTank(){ return enemyTank;}
 }
 
