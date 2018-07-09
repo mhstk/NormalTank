@@ -20,7 +20,7 @@ public class GameState {
     public boolean camerafixedX, camerafixedY;
     private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-
+    private Turret turret = new Turret(100,100,0.0,"Tank-under.png", "Tank-top.png");
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public double rad = 0;
@@ -92,7 +92,7 @@ public class GameState {
 
         playerTank.move();
         enemyTank.isInArea();
-
+turret.act();
         if (keyUP) {
             originY += 4;
             enemyTank.positionY += 4;
@@ -217,7 +217,9 @@ public class GameState {
         return mouseHandler;
     }
 
-
+    public Turret getTurret() {
+        return turret;
+    }
 
 
     /**

@@ -208,9 +208,10 @@ public class EnemyTank extends SuperTank {
             return angel % 360;
         }
     }
+
     public void drawTankBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(angelBody), positionX + getBodyImage().getWidth() / 2, positionY + getBodyImage().getHeight() / 2);
+        atBody.rotate(Math.toRadians(angelBody), getX() + getBodyImage().getWidth() / 2, getY() + getBodyImage().getHeight() / 2);
         g2d.setTransform(atBody);
         g2d.drawImage(getBodyImage(), getX(), getY(), null);
         g2d.setTransform(oldTrans);
