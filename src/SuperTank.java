@@ -23,5 +23,6 @@ public abstract class SuperTank extends Moving {
     }
     @Override
     public void move() {
+
     }
 }

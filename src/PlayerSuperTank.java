@@ -9,8 +9,6 @@ import java.util.Iterator;
 public class PlayerSuperTank extends SuperTank {
     public int mouseX, mouseY;
     private BufferedImage gunImage;
-    private BufferedImage firstBodyImage;
-    private BufferedImage secondeBodyImage;
     private boolean isFirstImage = true;
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
@@ -36,9 +34,8 @@ public class PlayerSuperTank extends SuperTank {
         camerafixedY = false;
         try {
             image = ImageIO.read(new File(imageFileBody));
-            firstBodyImage = image;
             gunImage = ImageIO.read(new File(imageFileGun));
-            secondeBodyImage = ImageIO.read(new File("Tank-under.png"));
+            secondeBodyImage = ImageIO.read(new File("Tank-under2.png"));
             image = secondeBodyImage;
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,7 +64,7 @@ public class PlayerSuperTank extends SuperTank {
 
         if (keyDOWN) {
             positionY += speed;
-            if (GameLoop.state.camerafixedX) {
+            if (GameLoop.state.camerafixedY) {
                 positionY += 4;
             }
 
@@ -94,7 +91,6 @@ public class PlayerSuperTank extends SuperTank {
             long now = System.nanoTime();
             if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08 ){
                 if (isFirstImage){
-                    System.out.println("1");
                     try {
                         image = ImageIO.read(new File("Tank-under2.png"));
                     } catch (IOException e) {
@@ -102,7 +98,6 @@ public class PlayerSuperTank extends SuperTank {
                     }
                     isFirstImage = false;
                 }else {
-                    System.out.println("2");
                     try {
                         image = ImageIO.read(new File("Tank-under.png"));
                     } catch (IOException e) {
@@ -223,12 +218,12 @@ public class PlayerSuperTank extends SuperTank {
 
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
-        Sound sound = new Sound(shootString,3000);
-        sound.execute();
+//        Sound sound = new Sound(shootString,3000);
+//        sound.execute();
         super.shoot(originX, originY, destX, destY);
         Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
         bullets.add(bullet);
-        sound.cancel();
+        //sound.cancel();
     }
 
     public void updateBullet() {

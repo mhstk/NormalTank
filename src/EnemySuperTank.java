@@ -1,12 +1,17 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class EnemySuperTank extends SuperTank {
     public boolean up = false;
     public boolean down = false;
     public boolean left = false;
     public boolean right = false;
+    private long lastTimeImageChanged=0;
+    private boolean isFirstImage = true;
 
 
     public EnemySuperTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
@@ -27,7 +32,8 @@ public class EnemySuperTank extends SuperTank {
     private void changePosition() {
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
         System.out.println("Angel body" + angelBody);
-        angelBody = Math.toRadians(GameState.getTank().angelBody);
+        System.out.println("up: " + up + "***" +"down: " + down + "***"+"left: " + left + "***"+"right: " + right + "***" );
+        //angelBody = Math.toRadians(GameState.getTank().angelBody);
 
     }
 
@@ -47,20 +53,48 @@ public class EnemySuperTank extends SuperTank {
             left = true;
             right = false;
             moveLeft();
+        }else {
+            right = false;
+            left = false;
         }
         if (GameState.tankPosition().y > positionY) {
             positionY += 8;
             if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-            up = true;
-            down = false;
-            moveUp();
+            down = true;
+            up = false;
+            moveDown();
 
         } else if (GameState.tankPosition().y < positionY) {
             positionY -= 8;
             if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-            down = true;
+            up = true;
+            down = false;
+            moveUp();
+        }else {
             up = false;
-            moveDown();
+            down = false;
+        }
+
+        if (up || down || left || right){
+            long now = System.nanoTime();
+            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08 ){
+                if (isFirstImage){
+                    try {
+                        image = ImageIO.read(new File("Tank-under2.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    isFirstImage = false;
+                }else {
+                    try {
+                        image = ImageIO.read(new File("Tank-under.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    isFirstImage = true;
+                }
+                lastTimeImageChanged = now;
+            }
         }
 
     }
@@ -71,7 +105,7 @@ public class EnemySuperTank extends SuperTank {
         if (right) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+                System.out.println("Enemy tank angel body : " + angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody += 10;

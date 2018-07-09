@@ -2,6 +2,10 @@ import sun.audio.AudioData;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
+import javax.sound.sampled.Clip ;
+import javax.sound.sampled.AudioSystem;
+import javafx.scene.media.MediaPlayer;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
