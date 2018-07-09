@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class PlayerSuperTank extends SuperTank {
+public class PlayerTank extends SuperTank {
     public int mouseX, mouseY;
     private BufferedImage gunImage;
     private BufferedImage firstBodyImage;
@@ -23,7 +23,7 @@ public class PlayerSuperTank extends SuperTank {
     boolean camerafixedX, camerafixedY;
 
 
-    public PlayerSuperTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
+    public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         positionX = 100;
         positionY = 600;
@@ -223,12 +223,11 @@ public class PlayerSuperTank extends SuperTank {
 
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
-        Sound sound = new Sound(shootString,3000);
+        Sound sound = new Sound(shootString,0);
         sound.execute();
         super.shoot(originX, originY, destX, destY);
         Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
         bullets.add(bullet);
-        sound.cancel();
     }
 
     public void updateBullet() {

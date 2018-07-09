@@ -1,48 +1,40 @@
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Sound extends SwingWorker<Object, Object> {
-    private AudioPlayer MGP = AudioPlayer.player;
-    private AudioStream BGM;
-    private String url;
-    private int sleepTime ;
-    private boolean isPlaying = true;
 
-    public Sound(String url,int sleepTime) {
+    private boolean playCanceled;
+    private String url;
+    private Clip audioClip;
+    private int sleepTime;
+
+    public Sound(String url, int sleepTime) {
         this.url = url;
         this.sleepTime = sleepTime;
     }
 
     @Override
     protected Object doInBackground() {
-
-        while (isPlaying) {
-        try {
-            BGM = new AudioStream(new FileInputStream(new File(url)));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-            System.out.println("jdk");
-        MGP.start(BGM);
-
+        File audioFile = new File(url);
             try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+                AudioFormat format = audioStream.getFormat();
+
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+                audioClip = (Clip) AudioSystem.getLine(info);
+
+                audioClip.open(audioStream);
+
+                audioClip.start();
+                audioClip.loop(sleepTime);
+            } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }
-        }
-        return null;
-    }
 
-    public void cancel(){
-        MGP.stop(BGM);
-        isPlaying = false;
+        return null;
     }
 }
