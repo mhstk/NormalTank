@@ -95,6 +95,7 @@ public class GameState {
 
         if (keyUP) {
             originY += 4;
+            //enemy tank should'nt move
             enemyTank.positionY += 4;
         }
         if (keyDOWN) {
@@ -118,7 +119,7 @@ public class GameState {
             mouseDOWN = true;
             mouseUP = false;
         }
-        if (mouseX <= 200 && playerTank.positionX<1700){
+        if (mouseX <= 200 && playerTank.positionX<1400){
             mouseLEFT = true;
             mouseRIGHT = false;
         }
@@ -132,7 +133,7 @@ public class GameState {
         if (!(playerTank.positionY>200)){
             mouseDOWN = false;
         }
-        if (!(playerTank.positionX<1700)){
+        if (!(playerTank.positionX<1400)){
             mouseLEFT = false;
         }
         if (!(playerTank.positionX>200)){

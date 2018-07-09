@@ -30,7 +30,7 @@ public class PlayerTank extends SuperTank {
         speed = 808;
         positionX = 800;
         positionY = 400;
-        speed = 1;
+        speed = 2;
         shootString = "heavygun.wav";
         camerafixedX = false;
         camerafixedY = false;

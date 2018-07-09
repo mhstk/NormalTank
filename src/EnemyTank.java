@@ -42,13 +42,19 @@ public class EnemyTank extends SuperTank {
         System.out.println("Move");
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
         if (GameState.tankPosition().x > positionX) {
-            positionX += 8;
+            positionX += 4;
+            if (GameLoop.state.camerafixedX){
+                positionX += 4;
+            }
             if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
             right = true;
             left = false;
             moveRight();
         } else if (GameState.tankPosition().x < positionX) {
-            positionX -= 8;
+            positionX -= 4;
+            if (GameLoop.state.camerafixedX){
+                positionX -= 4;
+            }
             if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
             left = true;
             right = false;
@@ -58,14 +64,20 @@ public class EnemyTank extends SuperTank {
             left = false;
         }
         if (GameState.tankPosition().y > positionY) {
-            positionY += 8;
+            positionY += 4;
+            if (GameLoop.state.camerafixedY){
+                positionY += 4;
+            }
             if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
             down = true;
             up = false;
             moveDown();
 
         } else if (GameState.tankPosition().y < positionY) {
-            positionY -= 8;
+            positionY -= 4;
+            if (GameLoop.state.camerafixedY){
+                positionY -= 4;
+            }
             if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
             up = true;
             down = false;
