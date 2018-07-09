@@ -37,4 +37,8 @@ public class Sound extends SwingWorker<Object, Object> {
 
         return null;
     }
+
+    public void cancel(){
+        audioClip.close();
+    }
 }
