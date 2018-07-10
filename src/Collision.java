@@ -1,31 +1,41 @@
+import javax.sound.sampled.Line;
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Collision {
-    public static boolean isIntersectingTowLine(Point a, Point b, Point c, Point d) {
+    public static boolean   isIntersectingTowLine(Point a, Point b, Point c, Point d) {
         float denominator = ((b.x - a.x) * (d.y - c.y)) - ((b.y - a.y) * (d.x - c.x));
         float numerator1 = ((a.y - c.y) * (d.x - c.x)) - ((a.x - c.x) * (d.y - c.y));
         float numerator2 = ((a.y - c.y) * (b.x - a.x)) - ((a.x - c.x) * (b.y - a.y));
 
         // Detect coincident lines (has a problem, read below)
-        if (denominator == 0) return numerator1 == 0 && numerator2 == 0;
+        System.out.println("1 : "+numerator1 +"     2 : "+ numerator2 + "   ");
+        if (denominator == 0) return ((numerator1 == 0) && (numerator2 == 0));
 
         float r = numerator1 / denominator;
         float s = numerator2 / denominator;
 
         return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
+
     }
 
-    public static boolean intersectALineAndAShape(Point a , Point b , Point l , Point m , Point n , Point q){
+    public static boolean intersectALineAndAShape(Point a , Point b , Point l , Point m , Point n , Point o){
         if(isIntersectingTowLine(a,b,l,m)){
+            System.out.println("wwwwwwwwwwwwwwwwwwww1");
             return true ;
         }
         if(isIntersectingTowLine(a,b,m,n)){
+            System.out.println("wwwwwwwwwwwwwwwwwwww2");
             return true ;
         }
-        if(isIntersectingTowLine(a,b,n,q)){
+        if(isIntersectingTowLine(a,b,n,o)){
+            System.out.println("wwwwwwwwwwwwwwwwwwww3");
             return true ;
         }
-        if(isIntersectingTowLine(a,b,q,l)){
+        if(isIntersectingTowLine(a,b,o,l)){
+            System.out.println("wwwwwwwwwwwwwwwwwwww4");
             return true ;
         }
         else {
@@ -35,15 +45,19 @@ public class Collision {
 
     public static boolean intersectTowShape (Point a , Point b , Point c , Point d , Point l , Point m , Point n , Point o){
         if(intersectALineAndAShape(a,b,l,m,n,o)){
+            System.out.println("1");
             return true ;
         }
         if(intersectALineAndAShape(b,c,l,m,n,o)){
+            System.out.println("2");
             return true ;
         }
         if(intersectALineAndAShape(c,d,l,m,n,o)){
+            System.out.println("3");
             return true ;
         }
         if(intersectALineAndAShape(d,a,l,m,n,o)){
+            System.out.println("4");
             return true ;
         }
         else {
@@ -82,18 +96,24 @@ public class Collision {
         o = rotatePoint(o,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
         l = rotatePoint(l,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
 
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(Color.GREEN);
         g2d.fillOval(a.x,a.y,5,5);
+        g2d.setColor(Color.GREEN);
         g2d.fillOval(b.x,b.y,5,5);
-        g2d.fillOval(c.x,c.y,5,5);
-        g2d.fillOval(d.x,d.y,5,5);
+//        g2d.fillOval(c.x,c.y,5,5);
+//        g2d.fillOval(d.x,d.y,5,5);
+        g2d.setColor(Color.MAGENTA);
         g2d.fillOval(l.x,l.y,5,5);
-        g2d.fillOval(m.x,m.y,5,5);
-        g2d.fillOval(n.x,n.y,5,5);
-        g2d.fillOval(o.x,o.y,5,5);
         g2d.setColor(Color.BLACK);
+        g2d.fillOval(m.x,m.y,5,5);
+//        g2d.setColor(Color.WHITE);
+//        g2d.fillOval(n.x,n.y,5,5);
+//        g2d.fillOval(o.x,o.y,5,5);
+//        g2d.setColor(Color.BLACK);
 
-
+        if(isIntersectingTowLine(a,b,l,m)){
+            System.out.println("dcvrev");
+        }
 
 
         if(intersectTowShape(a,b,c,d,l,m,n,o)){

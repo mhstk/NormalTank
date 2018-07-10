@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -24,6 +25,11 @@ public class GameState {
     private Turret turret = new Turret(700,100,270,"Tank-under.png", "Tank-top.png");
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
+    public ArrayList<Plant> plants = new ArrayList<>() ;
+    public ArrayList<SoftWall> softWalls = new ArrayList<>() ;
+    public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
+
+
     public double rad = 0;
     public double rad2 = 0;
     private boolean mousePress;
@@ -91,6 +97,14 @@ public class GameState {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        for (int i=0 ; i<30 ; i++){
+            for(int j=0 ; j<30 ; j++){
+                if (maps[i][j] == 3){
+                    hardWalls.add(new HardWall(i*150,j*150));
+                }
+            }
         }
     }
 

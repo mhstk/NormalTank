@@ -1,3 +1,5 @@
+import javafx.scene.shape.Line;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -30,5 +32,6 @@ public abstract class SuperTank extends Moving {
 
     public Rectangle getBounds(){
         return  new Rectangle(positionX , positionY , 180,134) ;
+
     }
 }

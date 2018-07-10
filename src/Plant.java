@@ -11,6 +11,10 @@ public class Plant {
         this.positionY = positionY;
     }
 
+    public void draw(Graphics2D g2d){
+
+    }
+
     public Rectangle getBounds(){
         return new Rectangle(positionX,positionY,image.getWidth(),image.getHeight());
     }

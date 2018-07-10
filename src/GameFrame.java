@@ -197,13 +197,24 @@ public class GameFrame extends JFrame {
 //            g2d.fillOval(200, 200, 100, 100);
 //            g2d.setColor(Color.BLACK);
 //        }
-        for (Bullet bullet : state.getPlayerTank().getBullets()){
-            if (Collision.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d)){
-                g2d.setColor(Color.RED);
-                g2d.fillOval(500, 200, 100, 100);
-                g2d.setColor(Color.BLACK);
-            }
-        }
+
+
+//        for (HardWall hardWall : state.hardWalls){
+//            if (Collision.intersect(hardWall.getBounds(),state.getPlayerTank().getBounds(),0,Math.toRadians(state.getPlayerTank().getAngelBody()),g2d)){
+//                g2d.setColor(Color.CYAN);
+//                g2d.fillOval(700, 200, 100, 100);
+//                g2d.setColor(Color.BLACK);
+//            }
+//        }
+
+
+//        for (Bullet bullet : state.getPlayerTank().getBullets()){
+//            if (Collision.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d)){
+//                g2d.setColor(Color.RED);
+//                g2d.fillOval(500, 200, 100, 100);
+//                g2d.setColor(Color.BLACK);
+//            }
+//        }
 
 
 
