@@ -24,22 +24,20 @@ public class EnemyTank extends SuperTank {
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        System.out.println("Distance " + Math.sqrt(distance));
+//        System.out.println("Distance " + Math.sqrt(distance));
         if (Math.sqrt(distance) > 400 && Math.sqrt(distance) < 1000) move();
         else if (Math.sqrt(distance) <= 400) changePosition();
     }
 
     private void changePosition() {
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
-        System.out.println("Angel body" + angelBody);
-        System.out.println("up: " + up + "***" +"down: " + down + "***"+"left: " + left + "***"+"right: " + right + "***" );
-        //angelBody = Math.toRadians(GameState.getTank().angelBody);
+//        System.out.println("Angel body" + angelBody);
+//        System.out.println("up: " + up + "***" +"down: " + down + "***"+"left: " + left + "***"+"right: " + right + "***" );
 
     }
 
 
     public void move() {
-        System.out.println("Move");
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
         if (GameState.tankPosition().x > positionX) {
             positionX += 4;
@@ -117,7 +115,7 @@ public class EnemyTank extends SuperTank {
         if (right) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody -= 10;
-                System.out.println("Enemy tank angel body : " + angelBody);
+                //System.out.println("Enemy tank angel body : " + angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody += 10;
@@ -127,7 +125,7 @@ public class EnemyTank extends SuperTank {
         } else if (left) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody += 10;
@@ -139,7 +137,7 @@ public class EnemyTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody += 10;
@@ -153,7 +151,7 @@ public class EnemyTank extends SuperTank {
         if (left) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody -= 10;
@@ -163,7 +161,7 @@ public class EnemyTank extends SuperTank {
         } else if (right) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody -= 10;
@@ -174,7 +172,7 @@ public class EnemyTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+                //System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody -= 10;
@@ -189,7 +187,7 @@ public class EnemyTank extends SuperTank {
         if (!(angelInRange(angelBody) == 0) && !(down) && !(up)) {
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody -= 10;
@@ -203,7 +201,7 @@ public class EnemyTank extends SuperTank {
 
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody += 10;

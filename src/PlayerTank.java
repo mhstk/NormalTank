@@ -124,7 +124,7 @@ public class PlayerTank extends SuperTank {
         if (keyRIGHT) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody += 10;
@@ -134,7 +134,7 @@ public class PlayerTank extends SuperTank {
         } else if (keyLEFT) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody += 10;
@@ -146,7 +146,7 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+               // System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody += 10;
@@ -160,7 +160,7 @@ public class PlayerTank extends SuperTank {
         if (keyLEFT) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody -= 10;
@@ -170,7 +170,7 @@ public class PlayerTank extends SuperTank {
         } else if (keyRIGHT) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody -= 10;
@@ -181,7 +181,7 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody -= 10;
@@ -196,7 +196,7 @@ public class PlayerTank extends SuperTank {
         if (!(angelInRange(angelBody) == 0) && !(keyDOWN) && !(keyUP)) {
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody += 10;
-                System.out.println(angelBody);
+             //   System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody -= 10;
@@ -210,7 +210,7 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
+              //  System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody += 10;

@@ -1,4 +1,8 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,5 +26,9 @@ public abstract class SuperTank extends Moving {
     @Override
     public void move() {
 
+    }
+
+    public Rectangle getBounds(){
+        return  new Rectangle(positionX , positionY , 180,134) ;
     }
 }

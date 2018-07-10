@@ -18,8 +18,8 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean camerafixedX, camerafixedY;
-    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png", "Tank-Bullet.png");
+    private EnemyTank enemyTank = new EnemyTank(500, 500, "Tank-under.png", "Tank-top.png", "Tank-Bullet.png");
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
@@ -31,6 +31,7 @@ public class GameState {
     private static int count = 1;
     private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
+    public  boolean collision = false;
     private MouseHandler mouseHandler;
     int[][] maps = new int[100][100];
     int originX = 0;
@@ -68,7 +69,7 @@ public class GameState {
             }
         }
 
-        for (int i=0 ; i<10 ; i++){
+        for (int i = 0; i < 10; i++) {
             maps[i][0] = 1;
         }
         maps[1][1] = 2;
@@ -77,8 +78,8 @@ public class GameState {
         maps[1][4] = 2;
     }
 
-    public static Point tankPosition(){
-        return new Point(playerTank.getX(),playerTank.getY());
+    public static Point tankPosition() {
+        return new Point(playerTank.getX(), playerTank.getY());
     }
 
     public static PlayerTank getTank() {
@@ -89,6 +90,10 @@ public class GameState {
      * The method which updates the game state.
      */
     public void update() {
+
+        int lastPosiniotTankX = playerTank.getX();
+        int lastPositionTankY = playerTank.getY();
+
 
         playerTank.move();
         enemyTank.isInArea();
@@ -111,83 +116,83 @@ public class GameState {
             enemyTank.positionX -= 4;
         }
 
-        if (mouseY <= 200 && playerTank.positionY<700){
+        if (mouseY <= 200 && playerTank.positionY < 700) {
             mouseUP = true;
             mouseDOWN = false;
         }
-        if (1080 - mouseY <=200 && playerTank.positionY>200){
+        if (1080 - mouseY <= 200 && playerTank.positionY > 200) {
             mouseDOWN = true;
             mouseUP = false;
         }
-        if (mouseX <= 200 && playerTank.positionX<1400){
+        if (mouseX <= 200 && playerTank.positionX < 1400) {
             mouseLEFT = true;
             mouseRIGHT = false;
         }
-        if (1920 - mouseX <=200 && playerTank.positionX>200){
+        if (1920 - mouseX <= 200 && playerTank.positionX > 200) {
             mouseRIGHT = true;
             mouseLEFT = false;
         }
-        if (!(playerTank.positionY<700)){
+        if (!(playerTank.positionY < 700)) {
             mouseUP = false;
         }
-        if (!(playerTank.positionY>200)){
+        if (!(playerTank.positionY > 200)) {
             mouseDOWN = false;
         }
-        if (!(playerTank.positionX<1400)){
+        if (!(playerTank.positionX < 1400)) {
             mouseLEFT = false;
         }
-        if (!(playerTank.positionX>200)){
+        if (!(playerTank.positionX > 200)) {
             mouseRIGHT = false;
         }
         if (mouseUP) {
-            playerTank.positionY+=5;
-            enemyTank.positionY+=5;
+            playerTank.positionY += 5;
+            enemyTank.positionY += 5;
             originY += 5;
         }
         if (mouseDOWN) {
-            playerTank.positionY-=5;
-            enemyTank.positionY-=5;
+            playerTank.positionY -= 5;
+            enemyTank.positionY -= 5;
             originY -= 5;
         }
         if (mouseLEFT) {
-            playerTank.positionX+=5;
-            enemyTank.positionX+=5;
+            playerTank.positionX += 5;
+            enemyTank.positionX += 5;
             originX -= 5;
         }
         if (mouseRIGHT) {
-            playerTank.positionX-=5;
-            enemyTank.positionX-=5;
+            playerTank.positionX -= 5;
+            enemyTank.positionX -= 5;
             originX += 5;
         }
 
         if (originX < 0) {
             camerafixedX = true;
-            if (mouseRIGHT){
-                playerTank.positionX+=5;
-                enemyTank.positionX+=5;
+            if (mouseRIGHT) {
+                playerTank.positionX += 5;
+                enemyTank.positionX += 5;
             }
-            if (mouseLEFT){
-                playerTank.positionX-=5;
-                enemyTank.positionX-=5;
+            if (mouseLEFT) {
+                playerTank.positionX -= 5;
+                enemyTank.positionX -= 5;
             }
 
             originX = 0;
-        }else {
+        } else {
             camerafixedX = false;
         }
         if (originY < 0) {
             camerafixedY = true;
-            if (mouseUP){
-                playerTank.positionY-=5;
-                enemyTank.positionY-=5;
+            if (mouseUP) {
+                playerTank.positionY -= 5;
+                enemyTank.positionY -= 5;
             }
-            if (mouseDOWN){
-                playerTank.positionY+=5;
-                enemyTank.positionY+=5;
+            if (mouseDOWN) {
+                playerTank.positionY += 5;
+                enemyTank.positionY += 5;
             }
 
             originY = 0;
-        }else {
+        } else {
             camerafixedY = false;
         }
 
@@ -197,12 +202,28 @@ public class GameState {
             if ((now - timeLastShotGun) / 1000000000.0 > playerTank.getDifTimeBullet()) {
                 playerTank.shoot(playerTank.getGunX(), playerTank.getGunY(), mouseX, mouseY);
                 timeLastShotGun = now;
-                if (playerTank.getGunNumber() == 1){
+                if (playerTank.getGunNumber() == 1) {
                     mousePress = false;
                 }
 
             }
         }
+
+        int difX = playerTank.getX() - lastPosiniotTankX;
+        int difY = playerTank.getY() - lastPositionTankY;
+
+
+//        while (Collision.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
+//            playerTank.positionX -= difX;
+//            playerTank.positionY -= difY;
+//            System.out.println("HERDBERB");
+//        }
+//        if (playerTank.getBounds().intersects(enemyTank.getBounds().getBounds())){
+//            collision = true;
+//        }else {
+//            collision = false;
+//        }
+
     }
 
 
@@ -217,8 +238,6 @@ public class GameState {
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
     }
-
-
 
 
     /**
@@ -374,6 +393,9 @@ public class GameState {
     public PlayerTank getPlayerTank() {
         return playerTank;
     }
-    public EnemyTank getEnemyTank(){ return enemyTank;}
+
+    public EnemyTank getEnemyTank() {
+        return enemyTank;
+    }
 }
 
