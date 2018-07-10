@@ -60,7 +60,6 @@ public class Turret {
         Long now = System.nanoTime();
         if ((now - timeLastShotGun) / 1000000000.0 > difTimeBullet) {
             shoot();
-            System.out.println("11");
             timeLastShotGun = now;
         }
 
@@ -101,8 +100,12 @@ public class Turret {
 
     public void shoot() {
         Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (image.getWidth() / 2), GameState.tankPosition().y + (image.getHeight() / 2), "Tank-Bullet.png", 20);
-        if (isPossible(bullet.getAngel()))
+        if (isPossible(bullet.getAngel())) {
             bullets.add(bullet);
+            Sound sound = new Sound("heavygun.wav", 0);
+            sound.execute();
+
+        }
     }
 
     private boolean isPossible(double angel) {

@@ -4,6 +4,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class EnemyTank extends SuperTank {
     public boolean up = false;
@@ -12,6 +13,7 @@ public class EnemyTank extends SuperTank {
     public boolean right = false;
     private long lastTimeImageChanged = 0;
     private boolean isFirstImage = true;
+    private long timeLastShotGun = 0;
 
 
     public EnemyTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
@@ -30,6 +32,7 @@ public class EnemyTank extends SuperTank {
 
     private void changePosition() {
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
+        shoot();
     }
 
 
@@ -102,7 +105,7 @@ public class EnemyTank extends SuperTank {
                 lastTimeImageChanged = now;
             }
         }
-
+    shoot();
     }
 
 
@@ -222,6 +225,28 @@ public class EnemyTank extends SuperTank {
         g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
     }
 
+    public void drawBullet(Graphics2D g2d , GameState state , AffineTransform oldTrans){
+        for (Bullet bullet : bullets) {
+            AffineTransform atBullet = g2d.getTransform();
+            atBullet.translate(bullet.getPositionX(), bullet.getPositionY());
+            atBullet.rotate(bullet.getAngel(), 5, 2);
+            g2d.setTransform(atBullet);
+            g2d.drawImage(bullet.getImage(), 0, 0, null);
+            g2d.setTransform(oldTrans);
+        }
+
+        updateBullet();
+
+    }
+    private void updateBullet() {
+
+        Iterator it = bullets.iterator();
+        while (it.hasNext()) {
+            Bullet bullet = (Bullet) it.next();
+            bullet.updateLocation();
+        }
+    }
+
     public double getAngelBody() {
         return angelBody;
     }
@@ -237,4 +262,15 @@ public class EnemyTank extends SuperTank {
     public int getY() {
         return positionY;
     }
+
+    public void shoot(){
+        Long now = System.nanoTime();
+        if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
+            Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (image.getWidth() / 2), GameState.tankPosition().y + (image.getHeight() / 2), "Tank-Bullet.png", 20);
+            bullets.add(bullet);
+            Sound sound = new Sound("heavygun.wav", 0);
+            sound.execute();
+            timeLastShotGun = now;
+        }
+   }
 }

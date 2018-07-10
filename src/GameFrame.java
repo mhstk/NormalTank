@@ -152,10 +152,12 @@ public class GameFrame extends JFrame {
         state.getPlayerTank().drawTankBody(g2d, state, oldTrans);
         state.getEnemyTank().drawTankBody(g2d, state, oldTrans);
         state.getTurret().drawBody(g2d, state, oldTrans);
+        state.getIdiotEnemy().drawBody(g2d, state,oldTrans);
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
         state.getTurret().drawBullets(g2d,state,oldTrans);
+        state.getEnemyTank().drawBullet(g2d,state,oldTrans);
 
         // Draw Tank Gun
         state.getPlayerTank().drawTankGun(g2d,state,oldTrans);

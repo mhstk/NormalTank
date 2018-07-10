@@ -23,6 +23,7 @@ public class GameState {
     private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private Turret turret = new Turret(700,100,"UP","Tank-under.png", "Tank-top.png");
+    private IdiotEnemy idiotEnemy = new IdiotEnemy(700,700);
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public ArrayList<Plant> plants = new ArrayList<>() ;
@@ -128,26 +129,32 @@ public class GameState {
         playerTank.move();
         enemyTank.isInArea();
         turret.isInArea();
+        idiotEnemy.isInArea();
+        idiotEnemy.move();
         if (keyUP) {
             originY += 4;
             //enemy tank should'nt move
             enemyTank.positionY += 4;
             turret.positionY += 4;
+            idiotEnemy.positionY+=4;
         }
         if (keyDOWN) {
             originY -= 4;
             enemyTank.positionY -= 4;
             turret.positionY -= 4;
+            idiotEnemy.positionY -= 4;
         }
         if (keyLEFT) {
             originX -= 4;
             enemyTank.positionX += 4;
             turret.positionX += 4;
+            idiotEnemy.positionX += 4;
         }
         if (keyRIGHT) {
             originX += 4;
             enemyTank.positionX -= 4;
             turret.positionX -= 4;
+            idiotEnemy.positionX -= 4;
         }
 
         if (mouseY <= 200 && playerTank.positionY < 700) {
@@ -182,24 +189,28 @@ public class GameState {
             playerTank.positionY+=5;
             turret.positionY += 5;
             enemyTank.positionY+=5;
+            idiotEnemy.positionY += 5;
             originY += 5;
         }
         if (mouseDOWN) {
             playerTank.positionY-=5;
             enemyTank.positionY-=5;
             turret.positionY -= 5;
+            idiotEnemy.positionY -= 5;
             originY -= 5;
         }
         if (mouseLEFT) {
             playerTank.positionX+=5;
             turret.positionX += 5;
             enemyTank.positionX+=5;
+            idiotEnemy.positionX += 5;
             originX -= 5;
         }
         if (mouseRIGHT) {
             playerTank.positionX-=5;
             enemyTank.positionX-=5;
             turret.positionX -= 5;
+            idiotEnemy.positionX -=5 ;
             originX += 5;
         }
 
@@ -209,10 +220,12 @@ public class GameState {
                 playerTank.positionX+=5;
                 enemyTank.positionX+=5;
                 turret.positionX+=5;
+                idiotEnemy.positionX+= 5;
             }
             if (mouseLEFT){
                 playerTank.positionX-=5;
                 enemyTank.positionX-=5;
+                idiotEnemy.positionX -= 5;
                 turret.positionX-=5;
             }
 
@@ -226,11 +239,13 @@ public class GameState {
                 playerTank.positionY-=5;
                 enemyTank.positionY-=5;
                 turret.positionY-=5;
+                idiotEnemy.positionY -= 5;
             }
             if (mouseDOWN){
                 playerTank.positionY+=5;
                 enemyTank.positionY+=5;
                 turret.positionY+=5;
+                idiotEnemy.positionY += 5;
             }
 
             originY = 0;
@@ -282,6 +297,10 @@ public class GameState {
 
     public Turret getTurret() {
         return turret;
+    }
+
+    public IdiotEnemy getIdiotEnemy() {
+    return idiotEnemy;
     }
 
 
