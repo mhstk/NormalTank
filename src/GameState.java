@@ -32,6 +32,7 @@ public class GameState {
     private static int count = 1;
     private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
+    public  boolean collision = false;
     private MouseHandler mouseHandler;
     int[][] maps = new int[30][30];
     int originX = 0;
@@ -106,6 +107,10 @@ public class GameState {
      */
     public void update() {
 
+        int lastPosiniotTankX = playerTank.getX();
+        int lastPositionTankY = playerTank.getY();
+
+
         playerTank.move();
         enemyTank.isInArea();
         turret.isInArea();
@@ -131,32 +136,32 @@ public class GameState {
             turret.positionX -= 4;
         }
 
-        if (mouseY <= 200 && playerTank.positionY<700){
+        if (mouseY <= 200 && playerTank.positionY < 700) {
             mouseUP = true;
             mouseDOWN = false;
         }
-        if (1080 - mouseY <=200 && playerTank.positionY>200){
+        if (1080 - mouseY <= 200 && playerTank.positionY > 200) {
             mouseDOWN = true;
             mouseUP = false;
         }
-        if (mouseX <= 200 && playerTank.positionX<1400){
+        if (mouseX <= 200 && playerTank.positionX < 1400) {
             mouseLEFT = true;
             mouseRIGHT = false;
         }
-        if (1920 - mouseX <=200 && playerTank.positionX>200){
+        if (1920 - mouseX <= 200 && playerTank.positionX > 200) {
             mouseRIGHT = true;
             mouseLEFT = false;
         }
-        if (!(playerTank.positionY<700)){
+        if (!(playerTank.positionY < 700)) {
             mouseUP = false;
         }
-        if (!(playerTank.positionY>200)){
+        if (!(playerTank.positionY > 200)) {
             mouseDOWN = false;
         }
-        if (!(playerTank.positionX<1400)){
+        if (!(playerTank.positionX < 1400)) {
             mouseLEFT = false;
         }
-        if (!(playerTank.positionX>200)){
+        if (!(playerTank.positionX > 200)) {
             mouseRIGHT = false;
         }
         if (mouseUP) {
@@ -231,6 +236,22 @@ public class GameState {
 
             }
         }
+
+        int difX = playerTank.getX() - lastPosiniotTankX;
+        int difY = playerTank.getY() - lastPositionTankY;
+
+
+//        while (Collision.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
+//            playerTank.positionX -= difX;
+//            playerTank.positionY -= difY;
+//            System.out.println("HERDBERB");
+//        }
+//        if (playerTank.getBounds().intersects(enemyTank.getBounds().getBounds())){
+//            collision = true;
+//        }else {
+//            collision = false;
+//        }
+
     }
 
 
@@ -404,6 +425,9 @@ public class GameState {
     public PlayerTank getPlayerTank() {
         return playerTank;
     }
-    public EnemyTank getEnemyTank(){ return enemyTank;}
+
+    public EnemyTank getEnemyTank() {
+        return enemyTank;
+    }
 }
 

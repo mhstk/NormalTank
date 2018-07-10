@@ -50,7 +50,7 @@ public class GameFrame extends JFrame {
 
         try {
             area = ImageIO.read(new File("Area.jpg"));
-            plant = ImageIO.read(new File("plant2.png"));
+            plant = ImageIO.read(new File("plant.png"));
             softWall = ImageIO.read(new File("softWall.png"));
             hardWall = ImageIO.read(new File("hardWall.png"));
             sim = ImageIO.read(new File("sim.png"));
@@ -113,16 +113,16 @@ public class GameFrame extends JFrame {
         g2d.fillOval(0, 0, 10, 10);
         // Draw background
         AffineTransform atMap = g2d.getTransform();
-        atMap.translate(-225, 1080 + 225);
-        atMap.translate(-((state.originX % 225) - 1), ((state.originY % 225) - 1));
+        atMap.translate(-150,1080+150);
+        atMap.translate(-((state.originX%150) - 1),((state.originY%150)-1));
         g2d.setTransform(atMap);
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 11; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                g2d.drawImage(area, 0, -225, null);
-                atMap.translate(225, 0);
+                g2d.drawImage(area, 0 ,  -150, null);
+                atMap.translate(150,0);
             }
-            atMap.translate(-11 * 225, -225);
+            atMap.translate(-15*150,-150);
         }
         g2d.setTransform(oldTrans);
         g2d.fillOval(0, 0, 10, 10);
@@ -131,28 +131,20 @@ public class GameFrame extends JFrame {
 
 
         // Draw softWalls
-
-        //Draw Hard wall
         g2d.setTransform(oldTrans);
         atMap = g2d.getTransform();
-        atMap.translate(0, 1080);
-        atMap.translate(-(state.originX % 150), (state.originY % 225));
+        atMap.translate(0,1080);
+        atMap.translate(-(state.originX%150),(state.originY%150));
         g2d.setTransform(atMap);
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 11; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (state.maps[j + (int) (state.originX / 225)][i + (int) (state.originY / 225)] == 1) {
-                    g2d.drawImage(hardWall, 0, -225, null);
-                } else if (state.maps[j + (int) (state.originX / 225)][i + (int) (state.originY / 225)] == 2) {
-                    g2d.drawImage(plant, 0, -225, null);
-                } else if (state.maps[j + (int) (state.originX / 225)][i + (int) (state.originY / 225)] == 4) {
-                    g2d.drawImage(sim, 0, -225, null);
-                } else if (state.maps[j + (int) (state.originX / 225)][i + (int) (state.originY / 225)] == 3) {
-                    g2d.drawImage(softWall, 0, -225, null);
-                } else g2d.drawImage(area, 0, -225, null);
-                atMap.translate(225, 0);
+                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 2){
+                    g2d.drawImage(softWall, 0, -150, null);
+                }
+                atMap.translate(150,0);
             }
-            atMap.translate(-11 * 225, -225);
+            atMap.translate(-15*150,-150);
         }
 
 
@@ -164,19 +156,59 @@ public class GameFrame extends JFrame {
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
 
-        // Draw Tank Gun
-        state.getPlayerTank().drawTankGun(g2d, state, oldTrans);
-        state.getEnemyTank().drawTankGun(g2d, state, oldTrans);
-        state.getTurret().drawGun(g2d, state, oldTrans);
 
-        //Draw the plant
+        // Draw Tank Gun
+        state.getPlayerTank().drawTankGun(g2d,state,oldTrans);
+        state.getEnemyTank().drawTankGun(g2d,state,oldTrans);
+        state.getTurret().drawGun(g2d,state,oldTrans);
+        // Draw trees
+        g2d.setTransform(oldTrans);
+        atMap = g2d.getTransform();
+        atMap.translate(0,1080);
+        atMap.translate(-(state.originX%150),(state.originY%150));
+        g2d.setTransform(atMap);
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 15; j++) {
+                g2d.setTransform(atMap);
+                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 1){
+                    g2d.drawImage(plant, 0, -150, null);
+                }
+                atMap.translate(150,0);
+            }
+            atMap.translate(-15*150,-150);
+        }
+
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
         g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
-        g2d.drawLine(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, state.mouseX, state.mouseY);
+        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
+        if (Collision.intersect(state.getPlayerTank().getBounds() , state.getEnemyTank().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d) ){
+            g2d.setColor(Color.GREEN);
+            g2d.fillOval(200, 200, 100, 100);
+            g2d.setColor(Color.BLACK);
+        }
+
+        g2d.setTransform(oldTrans);
         g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
+//        if (state.collision){
+//            g2d.setColor(Color.GREEN);
+//            g2d.fillOval(200, 200, 100, 100);
+//            g2d.setColor(Color.BLACK);
+//        }
+        for (Bullet bullet : state.getPlayerTank().getBullets()){
+            if (Collision.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d)){
+                g2d.setColor(Color.RED);
+                g2d.fillOval(500, 200, 100, 100);
+                g2d.setColor(Color.BLACK);
+            }
+        }
+
+
+
+
+
         // Print FPS info
         long currentRender = System.currentTimeMillis();
         if (lastRender > 0) {

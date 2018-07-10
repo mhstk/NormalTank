@@ -1,4 +1,8 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +33,10 @@ public class Bullet {
     public void updateLocation(){
         positionX += Math.cos(angel)*speed;
         positionY += Math.sin(angel)*speed;
+    }
+
+    public Rectangle getBounds(){
+        return new Rectangle(positionX , positionY , image.getWidth(),image.getHeight()) ;
     }
 
     public int getPositionX() {
