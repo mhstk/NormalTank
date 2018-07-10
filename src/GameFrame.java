@@ -155,7 +155,7 @@ public class GameFrame extends JFrame {
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
-
+        state.getTurret().drawBullets(g2d,state,oldTrans);
 
         // Draw Tank Gun
         state.getPlayerTank().drawTankGun(g2d,state,oldTrans);

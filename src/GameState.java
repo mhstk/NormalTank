@@ -22,7 +22,7 @@ public class GameState {
     public boolean camerafixedX, camerafixedY;
     private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private Turret turret = new Turret(700,100,270,"Tank-under.png", "Tank-top.png");
+    private Turret turret = new Turret(700,100,"UP","Tank-under.png", "Tank-top.png");
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public ArrayList<Plant> plants = new ArrayList<>() ;
@@ -250,9 +250,8 @@ public class GameState {
 
             }
         }
-
-        int difX = playerTank.getX() - lastPosiniotTankX;
-        int difY = playerTank.getY() - lastPositionTankY;
+//        int difX = playerTank.getX() - lastPosiniotTankX;
+//        int difY = playerTank.getY() - lastPositionTankY;
 
 
 //        while (Collision.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
