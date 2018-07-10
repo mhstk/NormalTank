@@ -18,9 +18,9 @@ public class GameState {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean camerafixedX, camerafixedY;
-    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png", "Tank-Bullet.png");
-    private EnemyTank enemyTank = new EnemyTank(500, 500, "Tank-under.png", "Tank-top.png", "Tank-Bullet.png");
-
+    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
+    private Turret turret = new Turret(100,100,0.0,"Tank-under.png", "Tank-top.png");
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public double rad = 0;
@@ -69,7 +69,7 @@ public class GameState {
             }
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i=0 ; i<10 ; i++){
             maps[i][0] = 1;
         }
         maps[1][1] = 2;
@@ -97,7 +97,7 @@ public class GameState {
 
         playerTank.move();
         enemyTank.isInArea();
-
+turret.act();
         if (keyUP) {
             originY += 4;
             //enemy tank should'nt move
@@ -237,6 +237,10 @@ public class GameState {
 
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
+    }
+
+    public Turret getTurret() {
+        return turret;
     }
 
 

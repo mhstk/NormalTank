@@ -143,13 +143,11 @@ public class GameFrame extends JFrame {
             atMap.translate(-15*150,-150);
         }
 
-        // Draw Tank Body
 
+        // Draw Tank Body
        state.getPlayerTank().drawTankBody(g2d,state,oldTrans);
-        // Draw Tank Body
-
         state.getEnemyTank().drawTankBody(g2d,state,oldTrans);
-       state.getPlayerTank().drawTankBody(g2d,state,oldTrans);
+        state.getTurret().drawBody(g2d,state,oldTrans);
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d,state,oldTrans);
@@ -158,6 +156,7 @@ public class GameFrame extends JFrame {
         // Draw Tank Gun
         state.getPlayerTank().drawTankGun(g2d,state,oldTrans);
         state.getEnemyTank().drawTankGun(g2d,state,oldTrans);
+        state.getTurret().drawGun(g2d,state,oldTrans);
         // Draw trees
         g2d.setTransform(oldTrans);
         atMap = g2d.getTransform();
