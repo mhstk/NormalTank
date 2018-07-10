@@ -10,7 +10,7 @@ public class EnemyTank extends SuperTank {
     public boolean down = false;
     public boolean left = false;
     public boolean right = false;
-    private long lastTimeImageChanged=0;
+    private long lastTimeImageChanged = 0;
     private boolean isFirstImage = true;
 
 
@@ -24,26 +24,20 @@ public class EnemyTank extends SuperTank {
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        System.out.println("Distance " + Math.sqrt(distance));
         if (Math.sqrt(distance) > 400 && Math.sqrt(distance) < 1000) move();
         else if (Math.sqrt(distance) <= 400) changePosition();
     }
 
     private void changePosition() {
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
-        System.out.println("Angel body" + angelBody);
-        System.out.println("up: " + up + "***" +"down: " + down + "***"+"left: " + left + "***"+"right: " + right + "***" );
-        //angelBody = Math.toRadians(GameState.getTank().angelBody);
-
     }
 
 
     public void move() {
-        System.out.println("Move");
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
         if (GameState.tankPosition().x > positionX) {
             positionX += 4;
-            if (GameLoop.state.camerafixedX){
+            if (GameLoop.state.camerafixedX) {
                 positionX += 4;
             }
             if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
@@ -52,20 +46,20 @@ public class EnemyTank extends SuperTank {
             moveRight();
         } else if (GameState.tankPosition().x < positionX) {
             positionX -= 4;
-            if (GameLoop.state.camerafixedX){
+            if (GameLoop.state.camerafixedX) {
                 positionX -= 4;
             }
             if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
             left = true;
             right = false;
             moveLeft();
-        }else {
+        } else {
             right = false;
             left = false;
         }
         if (GameState.tankPosition().y > positionY) {
             positionY += 4;
-            if (GameLoop.state.camerafixedY){
+            if (GameLoop.state.camerafixedY) {
                 positionY += 4;
             }
             if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
@@ -75,29 +69,29 @@ public class EnemyTank extends SuperTank {
 
         } else if (GameState.tankPosition().y < positionY) {
             positionY -= 4;
-            if (GameLoop.state.camerafixedY){
+            if (GameLoop.state.camerafixedY) {
                 positionY -= 4;
             }
             if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
             up = true;
             down = false;
             moveUp();
-        }else {
+        } else {
             up = false;
             down = false;
         }
 
-        if (up || down || left || right){
+        if (up || down || left || right) {
             long now = System.nanoTime();
-            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08 ){
-                if (isFirstImage){
+            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+                if (isFirstImage) {
                     try {
                         image = ImageIO.read(new File("Tank-under2.png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     isFirstImage = false;
-                }else {
+                } else {
                     try {
                         image = ImageIO.read(new File("Tank-under.png"));
                     } catch (IOException e) {
@@ -112,12 +106,10 @@ public class EnemyTank extends SuperTank {
     }
 
 
-
     public void moveUp() {
         if (right) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody -= 10;
-                System.out.println("Enemy tank angel body : " + angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody += 10;
@@ -127,11 +119,9 @@ public class EnemyTank extends SuperTank {
         } else if (left) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody += 10;
-
             }
 
         } else if (!(angelInRange(angelBody) == 90)) {
@@ -139,7 +129,6 @@ public class EnemyTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody += 10;

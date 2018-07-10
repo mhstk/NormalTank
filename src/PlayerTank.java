@@ -8,11 +8,11 @@ import java.util.Iterator;
 
 public class PlayerTank extends SuperTank {
     public int mouseX, mouseY;
+    boolean camerafixedX, camerafixedY;
     private BufferedImage gunImage;
     private BufferedImage firstBodyImage;
     private BufferedImage secondeBodyImage;
     private boolean isFirstImage = true;
-
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mousePress;
     private boolean mouseMoved;
@@ -20,7 +20,6 @@ public class PlayerTank extends SuperTank {
     private double difTimeBullet;
     private String shootString;
     private long lastTimeImageChanged;
-    boolean camerafixedX, camerafixedY;
 
 
     public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
@@ -46,8 +45,7 @@ public class PlayerTank extends SuperTank {
         angelGun = 0;
         bulletSpeed = 20;
         difTimeBullet = 0.7;
-     }
-
+    }
 
 
     @Override
@@ -90,17 +88,17 @@ public class PlayerTank extends SuperTank {
             moveRight();
         }
 
-        if (keyUP || keyDOWN || keyLEFT || keyRIGHT){
+        if (keyUP || keyDOWN || keyLEFT || keyRIGHT) {
             long now = System.nanoTime();
-            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08 ){
-                if (isFirstImage){
+            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+                if (isFirstImage) {
                     try {
                         image = ImageIO.read(new File("Tank-under2.png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     isFirstImage = false;
-                }else {
+                } else {
                     try {
                         image = ImageIO.read(new File("Tank-under.png"));
                     } catch (IOException e) {
@@ -124,7 +122,6 @@ public class PlayerTank extends SuperTank {
         if (keyRIGHT) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody += 10;
@@ -134,7 +131,6 @@ public class PlayerTank extends SuperTank {
         } else if (keyLEFT) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody += 10;
@@ -146,13 +142,11 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody += 10;
 
             }
-
         }
     }
 
@@ -160,7 +154,6 @@ public class PlayerTank extends SuperTank {
         if (keyLEFT) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {
                 angelBody += 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 135 && angelInRange(angelBody) < 315) {
                 angelBody -= 10;
@@ -170,7 +163,6 @@ public class PlayerTank extends SuperTank {
         } else if (keyRIGHT) {
             if ((angelInRange(angelBody) > 225 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 45)) {
                 angelBody += 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 45 && angelInRange(angelBody) < 225) {
                 angelBody -= 10;
@@ -181,7 +173,6 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 90) || (angelInRange(angelBody) > 270 && angelInRange(angelBody) < 360)) {
                 angelBody += 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 90 && angelInRange(angelBody) < 270) {
                 angelBody -= 10;
@@ -196,7 +187,6 @@ public class PlayerTank extends SuperTank {
         if (!(angelInRange(angelBody) == 0) && !(keyDOWN) && !(keyUP)) {
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody += 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody -= 10;
@@ -210,7 +200,6 @@ public class PlayerTank extends SuperTank {
 
             if ((angelInRange(angelBody) > 0 && angelInRange(angelBody) < 180)) {
                 angelBody -= 10;
-                System.out.println(angelBody);
             }
             if (angelInRange(angelBody) > 180 && angelInRange(angelBody) < 360) {
                 angelBody += 10;
@@ -221,7 +210,7 @@ public class PlayerTank extends SuperTank {
 
     @Override
     public void shoot(int originX, int originY, int destX, int destY) {
-        Sound sound = new Sound(shootString,0);
+        Sound sound = new Sound(shootString, 0);
         sound.execute();
         super.shoot(originX, originY, destX, destY);
         Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
@@ -282,6 +271,10 @@ public class PlayerTank extends SuperTank {
         return gunImage;
     }
 
+    public void setGunImage(BufferedImage gunImage) {
+        this.gunImage = gunImage;
+    }
+
     public int getGunNumber() {
         if (difTimeBullet == 0.7) {
             return 1;
@@ -320,10 +313,6 @@ public class PlayerTank extends SuperTank {
         }
 
         state.getPlayerTank().updateBullet();
-    }
-
-    public void setGunImage(BufferedImage gunImage) {
-        this.gunImage = gunImage;
     }
 
     public double getAngelBody() {

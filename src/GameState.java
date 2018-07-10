@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.*;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -20,7 +21,7 @@ public class GameState {
     public boolean camerafixedX, camerafixedY;
     private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private Turret turret = new Turret(100,100,0.0,"Tank-under.png", "Tank-top.png");
+    private Turret turret = new Turret(700,100,270,"Tank-under.png", "Tank-top.png");
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public double rad = 0;
@@ -32,7 +33,7 @@ public class GameState {
     private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
-    int[][] maps = new int[100][100];
+    int[][] maps = new int[30][30];
     int originX = 0;
     int originY = 0;
 
@@ -62,19 +63,34 @@ public class GameState {
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
-                maps[i][j] = 0;
+        try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
+            int i = 0;
+            while (f.ready()){
+                String line = f.readLine();
+                String[] lines = line.split(" ");
+                for (int j = 0; j < 25; j++) {
+                    maps[i][j]=Integer.parseInt(lines[j]);
+                    System.out.print(maps[i][j]+" ");
+                }
+                maps[i][25]= 0;
+                maps[i][26] = 0;
+                maps[i] [27] = 0;
+                maps[i][28] = 0;
+                maps[i][29] = 0;
+                i++;
+                System.out.println(" ");
             }
+            for (int j = 0; j < 30; j++) {
+                maps[25][j] = 0;
+                maps[26][j] = 0;
+                maps[27][j] = 0;
+                maps[28][j] = 0;
+                maps[29][j] = 0;
+                maps[29][j] = 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        for (int i=0 ; i<10 ; i++){
-            maps[i][0] = 1;
-        }
-        maps[1][1] = 2;
-        maps[1][2] = 2;
-        maps[1][3] = 2;
-        maps[1][4] = 2;
     }
 
     public static Point tankPosition(){
@@ -92,23 +108,27 @@ public class GameState {
 
         playerTank.move();
         enemyTank.isInArea();
-turret.act();
+        turret.isInArea();
         if (keyUP) {
             originY += 4;
             //enemy tank should'nt move
             enemyTank.positionY += 4;
+            turret.positionY += 4;
         }
         if (keyDOWN) {
             originY -= 4;
             enemyTank.positionY -= 4;
+            turret.positionY -= 4;
         }
         if (keyLEFT) {
             originX -= 4;
             enemyTank.positionX += 4;
+            turret.positionX += 4;
         }
         if (keyRIGHT) {
             originX += 4;
             enemyTank.positionX -= 4;
+            turret.positionX -= 4;
         }
 
         if (mouseY <= 200 && playerTank.positionY<700){
@@ -141,22 +161,26 @@ turret.act();
         }
         if (mouseUP) {
             playerTank.positionY+=5;
+            turret.positionY += 5;
             enemyTank.positionY+=5;
             originY += 5;
         }
         if (mouseDOWN) {
             playerTank.positionY-=5;
             enemyTank.positionY-=5;
+            turret.positionY -= 5;
             originY -= 5;
         }
         if (mouseLEFT) {
             playerTank.positionX+=5;
+            turret.positionX += 5;
             enemyTank.positionX+=5;
             originX -= 5;
         }
         if (mouseRIGHT) {
             playerTank.positionX-=5;
             enemyTank.positionX-=5;
+            turret.positionX -= 5;
             originX += 5;
         }
 
@@ -165,10 +189,12 @@ turret.act();
             if (mouseRIGHT){
                 playerTank.positionX+=5;
                 enemyTank.positionX+=5;
+                turret.positionX+=5;
             }
             if (mouseLEFT){
                 playerTank.positionX-=5;
                 enemyTank.positionX-=5;
+                turret.positionX-=5;
             }
 
             originX = 0;
@@ -180,10 +206,12 @@ turret.act();
             if (mouseUP){
                 playerTank.positionY-=5;
                 enemyTank.positionY-=5;
+                turret.positionY-=5;
             }
             if (mouseDOWN){
                 playerTank.positionY+=5;
                 enemyTank.positionY+=5;
+                turret.positionY+=5;
             }
 
             originY = 0;
