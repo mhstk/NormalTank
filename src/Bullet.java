@@ -27,8 +27,10 @@ public class Bullet {
             e.printStackTrace();
         }
         angel = Math.atan2(destY - (positionY ), destX - (positionX ));
+
         this.speed = speed;
     }
+
 
     public void updateLocation(){
         positionX += Math.cos(angel)*speed;
