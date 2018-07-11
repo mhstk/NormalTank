@@ -8,7 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,7 @@ public class GameState {
     public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
     public SoftWall softWall = new SoftWall(300,300);
 
+public int[][] maps = new int[30][30];
 
     public double rad = 0;
     public double rad2 = 0;
@@ -42,7 +45,7 @@ public class GameState {
     private KeyHandler keyHandler;
     public  boolean collision = false;
     private MouseHandler mouseHandler;
-    int[][] maps = new int[30][30];
+//    public Map map;
     int originX = 0;
     int originY = 0;
 
@@ -72,6 +75,7 @@ public class GameState {
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
+
         try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
             int i = 0;
             while (f.ready()){
@@ -79,36 +83,24 @@ public class GameState {
                 String[] lines = line.split(" ");
                 for (int j = 0; j < 25; j++) {
                     maps[i][j]=Integer.parseInt(lines[j]);
-                    System.out.print(maps[i][j]+" ");
+                    if (maps[i][j] == 1){
+                        hardWalls.add(new HardWall(i*150,j*150));
+                    }
+                    else if (maps[i][j] == 2){
+                        plants.add(new Plant(i*150,j*150));
+                    }
+                    else if (maps[i][j] == 3){
+                        softWalls.add(new SoftWall(i*150,j*150));
+                    } else if (maps[i][j] == 4){
+//                        teazels.add(new Teazel(i*150,j*150));
+                    }
                 }
-                maps[i][25]= 0;
-                maps[i][26] = 0;
-                maps[i] [27] = 0;
-                maps[i][28] = 0;
-                maps[i][29] = 0;
                 i++;
-                System.out.println(" ");
-            }
-            for (int j = 0; j < 30; j++) {
-                maps[25][j] = 0;
-                maps[26][j] = 0;
-                maps[27][j] = 0;
-                maps[28][j] = 0;
-                maps[29][j] = 0;
-                maps[29][j] = 0;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (int i=0 ; i<30 ; i++){
-            for(int j=0 ; j<30 ; j++){
-                if (maps[i][j] == 3){
-                    softWalls.add(new SoftWall(j*150,i*150));
-
-                }
-            }
-        }
     }
 
     public static Point tankPosition(){
