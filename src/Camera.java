@@ -9,6 +9,7 @@ public class Camera {
     static EnemyTank enemyTank = state.getEnemyTank();
     static Turret turret = state.getTurret();
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
+    static ArrayList<HardWall> hardWalls = state.hardWalls ;
     static ArrayList<SoftWall> softWalls = state.softWalls;
     static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
@@ -117,7 +118,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionY += cameraSpeed;
             }
-            state.softWall.positionY += cameraSpeed;
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionY += cameraSpeed;
+            }
         }
         if (keyDOWN && !camerafixedY) {
             playerTank.positionY -= cameraSpeed;
@@ -127,7 +130,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionY -= cameraSpeed;
             }
-            state.softWall.positionY -= cameraSpeed;
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionY -= cameraSpeed;
+            }
         }
         if (keyLEFT && !camerafixedX) {
             playerTank.positionX += cameraSpeed;
@@ -137,7 +142,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionX += cameraSpeed;
             }
-            state.softWall.positionX += cameraSpeed;
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionX += cameraSpeed;
+            }
         }
         if (keyRIGHT && !camerafixedX) {
             playerTank.positionX -= cameraSpeed;
@@ -146,8 +153,11 @@ public class Camera {
             idiotEnemy.positionX -= cameraSpeed;
             for (SoftWall softWall : softWalls) {
                 softWall.positionX -= cameraSpeed;
+
             }
-            state.softWall.positionX -= cameraSpeed;
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionX -= cameraSpeed;
+            }
         }
         if (mouseUP && !camerafixedY) {
             playerTank.positionY += (1.25 * cameraSpeed);
@@ -157,7 +167,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionY += (1.25 * cameraSpeed);
             }
-            state.softWall.positionY += (1.25 * cameraSpeed);
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionY += (1.25 * cameraSpeed);
+            }
         }
         if (mouseDOWN && !camerafixedY) {
             playerTank.positionY -= (1.25 * cameraSpeed);
@@ -167,7 +179,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionY -= (1.25 * cameraSpeed);
             }
-            state.softWall.positionY -= (1.25 * cameraSpeed);
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionY -= (1.25 * cameraSpeed);
+            }
         }
         if (mouseLEFT && !camerafixedX) {
             playerTank.positionX += (1.25 * cameraSpeed);
@@ -177,7 +191,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionX += (1.25 * cameraSpeed);
             }
-            state.softWall.positionX += (1.25 * cameraSpeed);
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionX += (1.25 * cameraSpeed);
+            }
         }
         if (mouseRIGHT && !camerafixedX) {
             playerTank.positionX -= (1.25 * cameraSpeed);
@@ -187,7 +203,9 @@ public class Camera {
             for (SoftWall softWall : softWalls) {
                 softWall.positionX -= (1.25 * cameraSpeed);
             }
-            state.softWall.positionX -= (1.25 * cameraSpeed);
+            for (HardWall hardWall : hardWalls) {
+                hardWall.positionX -= (1.25 * cameraSpeed);
+            }
         }
     }
 }

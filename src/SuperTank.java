@@ -31,7 +31,7 @@ public abstract class SuperTank extends Moving {
     }
 
     public Rectangle getBounds(){
-        return  new Rectangle(positionX , positionY , 175,134) ;
+        return  new Rectangle(positionX , positionY , 150,134) ;
     }
 
 }
