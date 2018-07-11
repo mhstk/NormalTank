@@ -16,7 +16,7 @@ public class IdiotEnemy extends Moving {
     public IdiotEnemy(int positionX, int positionY) {
         super(null);
         try {
-            image = ImageIO.read(new File("idiotEnemy.png"));
+            image = ImageIO.read(new File("idiotEnemy1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class IdiotEnemy extends Moving {
                 isFirstImage = false;
             } else {
                 try {
-                    image = ImageIO.read(new File("idiotEnemy.png"));
+                    image = ImageIO.read(new File("idiotEnemy1.png"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
