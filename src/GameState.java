@@ -25,15 +25,13 @@ public class GameState {
     private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private Turret turret = new Turret(700,100,"UP","Tank-under.png", "Tank-top.png");
-    private IdiotEnemy idiotEnemy = new IdiotEnemy(700,700);
+    private IdiotEnemy idiotEnemy = new IdiotEnemy(00,00);
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public ArrayList<Plant> plants = new ArrayList<>() ;
     public ArrayList<SoftWall> softWalls = new ArrayList<>() ;
     public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
     public SoftWall softWall = new SoftWall(300,300);
-
-public int[][] maps = new int[30][30];
 
     public double rad = 0;
     public double rad2 = 0;
@@ -45,7 +43,7 @@ public int[][] maps = new int[30][30];
     private KeyHandler keyHandler;
     public  boolean collision = false;
     private MouseHandler mouseHandler;
-//    public Map map;
+    public Map map;
     int originX = 0;
     int originY = 0;
 
@@ -75,33 +73,10 @@ public int[][] maps = new int[30][30];
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
+        map = new Map();
+        map.createMAp("Map.txt");
 
-        try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
-            int i = 0;
-            while (f.ready()){
-                String line = f.readLine();
-                String[] lines = line.split(" ");
-                for (int j = 0; j < 25; j++) {
-                    maps[i][j]=Integer.parseInt(lines[j]);
-                    if (maps[i][j] == 1){
-                        hardWalls.add(new HardWall(i*150,j*150));
-                    }
-                    else if (maps[i][j] == 2){
-                        plants.add(new Plant(i*150,j*150));
-                    }
-                    else if (maps[i][j] == 3){
-                        softWalls.add(new SoftWall(i*150,j*150));
-                    } else if (maps[i][j] == 4){
-//                        teazels.add(new Teazel(i*150,j*150));
-                    }
-                }
-                i++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+}
 
     public static Point tankPosition(){
         return new Point(playerTank.getX(),playerTank.getY());

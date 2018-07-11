@@ -27,14 +27,65 @@ public class IdiotEnemy extends Moving {
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        if (Math.sqrt(distance) < 1500){
+        if (Math.sqrt(distance) < 1000){
             seed = true;
         }
     }
 
     @Override
     public void move() {
-        System.out.println("Seed" + seed);
+                if (seed) {
+            changeImage();
+            if (GameState.tankPosition().x > positionX) {
+                positionX += 9;
+                if (GameLoop.state.camerafixedX) {
+                    positionX += 4;
+                }
+                if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                right = true;
+                left = false;
+                moveRight();
+            } else if (GameState.tankPosition().x < positionX) {
+                positionX -= 9;
+                if (GameLoop.state.camerafixedX) {
+                    positionX -= 4;
+                }
+                if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                left = true;
+                right = false;
+                moveLeft();
+            } else {
+                right = false;
+                left = false;
+            }
+            if (GameState.tankPosition().y > positionY) {
+                positionY += 9;
+                if (GameLoop.state.camerafixedY) {
+                    positionY += 4;
+                }
+                if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+                down = true;
+                up = false;
+                moveDown();
+
+            } else if (GameState.tankPosition().y < positionY) {
+                positionY -= 9;
+                if (GameLoop.state.camerafixedY) {
+                    positionY -= 4;
+                }
+                if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+                up = true;
+                down = false;
+                moveUp();
+            } else {
+                up = false;
+                down = false;
+            }
+        }
+
+    }
+
+    private void changeImage() {
         long now = System.nanoTime();
         if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
             if (isFirstImage) {
@@ -54,78 +105,8 @@ public class IdiotEnemy extends Moving {
             }
             lastTimeImageChanged = now;
         }
-        if (seed) {
-            System.out.println("in move");
-            if (GameState.tankPosition().x > positionX) {
-                positionX += 4;
-                if (GameLoop.state.camerafixedX) {
-                    positionX += 4;
-                }
-                if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
-                right = true;
-                left = false;
-                moveRight();
-            } else if (GameState.tankPosition().x < positionX) {
-                positionX -= 4;
-                if (GameLoop.state.camerafixedX) {
-                    positionX -= 4;
-                }
-                if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
-                left = true;
-                right = false;
-                moveLeft();
-            } else {
-                right = false;
-                left = false;
-            }
-            if (GameState.tankPosition().y > positionY) {
-                positionY += 4;
-                if (GameLoop.state.camerafixedY) {
-                    positionY += 4;
-                }
-                if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-                down = true;
-                up = false;
-                moveDown();
-
-            } else if (GameState.tankPosition().y < positionY) {
-                positionY -= 4;
-                if (GameLoop.state.camerafixedY) {
-                    positionY -= 4;
-                }
-                if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-                up = true;
-                down = false;
-                moveUp();
-            } else {
-                up = false;
-                down = false;
-            }
-
-//        if (up || down || left || right) {
-//            long now = System.nanoTime();
-//            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-//                if (isFirstImage) {
-//                    try {
-//                        image = ImageIO.read(new File("Tank-under2.png"));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    isFirstImage = false;
-//                } else {
-//                    try {
-//                        image = ImageIO.read(new File("Tank-under.png"));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    isFirstImage = true;
-//                }
-//                lastTimeImageChanged = now;
-//            }
-//        }
-        }
-
     }
+
     public void moveUp() {
         if (right) {
             if ((angelInRange(angelBody) > 315 && angelInRange(angelBody) < 360) || (angelInRange(angelBody) >= 0 && angelInRange(angelBody) < 135)) {

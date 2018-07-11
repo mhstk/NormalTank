@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class SoftWall {
@@ -17,4 +18,5 @@ public class SoftWall {
     public Rectangle getBounds() {
         return new Rectangle(positionX, positionY, 150, 150);
     }
+
 }

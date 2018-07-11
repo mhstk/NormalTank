@@ -2,18 +2,18 @@ import java.util.ArrayList;
 
 public class Camera {
     public static boolean camerafixedX = false, camerafixedY = false;
-    private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
-    private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
+    public static int originX = 0;
+    public static int originY = 0;
     static GameState state = GameLoop.state;
     static PlayerTank playerTank = state.getPlayerTank();
     static EnemyTank enemyTank = state.getEnemyTank();
     static Turret turret = state.getTurret();
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
     static ArrayList<SoftWall> softWalls = state.softWalls;
-    public static int originX = 0;
-    public static int originY = 0;
-    private static int cameraSpeed = 4;
     static int mouseX, mouseY;
+    private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
+    private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
+    private static int cameraSpeed = 4;
 
     public static void updateInfo() {
         keyUP = state.keyUP;
@@ -189,8 +189,5 @@ public class Camera {
             }
             state.softWall.positionX -= (1.25 * cameraSpeed);
         }
-//        System.out.println("originY  : " + originY);
-//        System.out.println("originX  : " + originX);
-
     }
 }

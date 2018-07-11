@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class Plant {
@@ -9,10 +10,6 @@ public class Plant {
     public Plant(int positionX , int positionY){
         this.positionX = positionX;
         this.positionY = positionY;
-    }
-
-    public void draw(Graphics2D g2d){
-
     }
 
     public Rectangle getBounds(){
