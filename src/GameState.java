@@ -24,11 +24,12 @@ public class GameState {
     private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
     private Turret turret = new Turret(700,100,"UP","Tank-under.png", "Tank-top.png");
     private IdiotEnemy idiotEnemy = new IdiotEnemy(700,700);
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
-    private boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
+    public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
+    public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     public ArrayList<Plant> plants = new ArrayList<>() ;
     public ArrayList<SoftWall> softWalls = new ArrayList<>() ;
     public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
+    public SoftWall softWall = new SoftWall(300,300);
 
 
     public double rad = 0;
@@ -103,7 +104,8 @@ public class GameState {
         for (int i=0 ; i<30 ; i++){
             for(int j=0 ; j<30 ; j++){
                 if (maps[i][j] == 3){
-                    hardWalls.add(new HardWall(i*150,j*150));
+                    softWalls.add(new SoftWall(j*150,i*150));
+
                 }
             }
         }
@@ -131,127 +133,12 @@ public class GameState {
         turret.isInArea();
         idiotEnemy.isInArea();
         idiotEnemy.move();
-        if (keyUP) {
-            originY += 4;
-            //enemy tank should'nt move
-            enemyTank.positionY += 4;
-            turret.positionY += 4;
-            idiotEnemy.positionY+=4;
-        }
-        if (keyDOWN) {
-            originY -= 4;
-            enemyTank.positionY -= 4;
-            turret.positionY -= 4;
-            idiotEnemy.positionY -= 4;
-        }
-        if (keyLEFT) {
-            originX -= 4;
-            enemyTank.positionX += 4;
-            turret.positionX += 4;
-            idiotEnemy.positionX += 4;
-        }
-        if (keyRIGHT) {
-            originX += 4;
-            enemyTank.positionX -= 4;
-            turret.positionX -= 4;
-            idiotEnemy.positionX -= 4;
+
+        Camera.updateInfo();
+        if (!Collision.CollisionPlayerTank()) {
+            Camera.cameraMove();
         }
 
-        if (mouseY <= 200 && playerTank.positionY < 700) {
-            mouseUP = true;
-            mouseDOWN = false;
-        }
-        if (1080 - mouseY <= 200 && playerTank.positionY > 200) {
-            mouseDOWN = true;
-            mouseUP = false;
-        }
-        if (mouseX <= 200 && playerTank.positionX < 1400) {
-            mouseLEFT = true;
-            mouseRIGHT = false;
-        }
-        if (1920 - mouseX <= 200 && playerTank.positionX > 200) {
-            mouseRIGHT = true;
-            mouseLEFT = false;
-        }
-        if (!(playerTank.positionY < 700)) {
-            mouseUP = false;
-        }
-        if (!(playerTank.positionY > 200)) {
-            mouseDOWN = false;
-        }
-        if (!(playerTank.positionX < 1400)) {
-            mouseLEFT = false;
-        }
-        if (!(playerTank.positionX > 200)) {
-            mouseRIGHT = false;
-        }
-        if (mouseUP) {
-            playerTank.positionY+=5;
-            turret.positionY += 5;
-            enemyTank.positionY+=5;
-            idiotEnemy.positionY += 5;
-            originY += 5;
-        }
-        if (mouseDOWN) {
-            playerTank.positionY-=5;
-            enemyTank.positionY-=5;
-            turret.positionY -= 5;
-            idiotEnemy.positionY -= 5;
-            originY -= 5;
-        }
-        if (mouseLEFT) {
-            playerTank.positionX+=5;
-            turret.positionX += 5;
-            enemyTank.positionX+=5;
-            idiotEnemy.positionX += 5;
-            originX -= 5;
-        }
-        if (mouseRIGHT) {
-            playerTank.positionX-=5;
-            enemyTank.positionX-=5;
-            turret.positionX -= 5;
-            idiotEnemy.positionX -=5 ;
-            originX += 5;
-        }
-
-        if (originX < 0) {
-            camerafixedX = true;
-            if (mouseRIGHT){
-                playerTank.positionX+=5;
-                enemyTank.positionX+=5;
-                turret.positionX+=5;
-                idiotEnemy.positionX+= 5;
-            }
-            if (mouseLEFT){
-                playerTank.positionX-=5;
-                enemyTank.positionX-=5;
-                idiotEnemy.positionX -= 5;
-                turret.positionX-=5;
-            }
-
-            originX = 0;
-        }else {
-            camerafixedX = false;
-        }
-        if (originY < 0) {
-            camerafixedY = true;
-            if (mouseUP){
-                playerTank.positionY-=5;
-                enemyTank.positionY-=5;
-                turret.positionY-=5;
-                idiotEnemy.positionY -= 5;
-            }
-            if (mouseDOWN){
-                playerTank.positionY+=5;
-                enemyTank.positionY+=5;
-                turret.positionY+=5;
-                idiotEnemy.positionY += 5;
-            }
-
-            originY = 0;
-        }else {
-            camerafixedY = false;
-        }
 
 
         if (mousePress && playerTank.checkMouseLoc()) {
@@ -269,7 +156,7 @@ public class GameState {
 //        int difY = playerTank.getY() - lastPositionTankY;
 
 
-//        while (Collision.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
+//        while (CollisionDetection.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
 //            playerTank.positionX -= difX;
 //            playerTank.positionY -= difY;
 //            System.out.println("HERDBERB");

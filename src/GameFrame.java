@@ -114,7 +114,7 @@ public class GameFrame extends JFrame {
         // Draw background
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(-150,1080+150);
-        atMap.translate(-((state.originX%150) - 1),((state.originY%150)-1));
+        atMap.translate(-((Camera.originX%150) - 1),((Camera.originY%150)-1));
         g2d.setTransform(atMap);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
@@ -134,18 +134,20 @@ public class GameFrame extends JFrame {
         g2d.setTransform(oldTrans);
         atMap = g2d.getTransform();
         atMap.translate(0,1080);
-        atMap.translate(-(state.originX%150),(state.originY%150));
+        atMap.translate(-(Camera.originX%150),(Camera.originY%150));
         g2d.setTransform(atMap);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 2){
+                if (state.maps[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 2){
                     g2d.drawImage(softWall, 0, -150, null);
                 }
                 atMap.translate(150,0);
             }
             atMap.translate(-15*150,-150);
         }
+
+
 
 
         // Draw Tank Body
@@ -167,12 +169,12 @@ public class GameFrame extends JFrame {
         g2d.setTransform(oldTrans);
         atMap = g2d.getTransform();
         atMap.translate(0,1080);
-        atMap.translate(-(state.originX%150),(state.originY%150));
+        atMap.translate(-(Camera.originX%150),(Camera.originY%150));
         g2d.setTransform(atMap);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 1){
+                if (state.maps[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 1){
                     g2d.drawImage(plant, 0, -150, null);
                 }
                 atMap.translate(150,0);
@@ -186,23 +188,23 @@ public class GameFrame extends JFrame {
         g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
         g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
-        if (Collision.intersect(state.getPlayerTank().getBounds() , state.getEnemyTank().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d) ){
+        if (CollisionDetection.intersect(state.getPlayerTank().getBounds() , state.getEnemyTank().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getEnemyTank().getAngelBody())) ){
             g2d.setColor(Color.GREEN);
             g2d.fillOval(200, 200, 100, 100);
+            g2d.setColor(Color.BLACK);
+        }
+        if (CollisionDetection.intersect(state.getPlayerTank().getBounds() , state.getIdiotEnemy().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getIdiotEnemy().getAngelBody())) ){
+            g2d.setColor(Color.MAGENTA);
+            g2d.fillOval(200, 400, 100, 100);
             g2d.setColor(Color.BLACK);
         }
 
         g2d.setTransform(oldTrans);
         g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
-//        if (state.collision){
-//            g2d.setColor(Color.GREEN);
-//            g2d.fillOval(200, 200, 100, 100);
-//            g2d.setColor(Color.BLACK);
-//        }
 
 
 //        for (HardWall hardWall : state.hardWalls){
-//            if (Collision.intersect(hardWall.getBounds(),state.getPlayerTank().getBounds(),0,Math.toRadians(state.getPlayerTank().getAngelBody()),g2d)){
+//            if (CollisionDetection.intersect(hardWall.getBounds(),state.getPlayerTank().getBounds(),0,Math.toRadians(state.getPlayerTank().getAngelBody()),g2d)){
 //                g2d.setColor(Color.CYAN);
 //                g2d.fillOval(700, 200, 100, 100);
 //                g2d.setColor(Color.BLACK);
@@ -210,14 +212,21 @@ public class GameFrame extends JFrame {
 //        }
 
 
-//        for (Bullet bullet : state.getPlayerTank().getBullets()){
-//            if (Collision.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()),g2d)){
-//                g2d.setColor(Color.RED);
-//                g2d.fillOval(500, 200, 100, 100);
-//                g2d.setColor(Color.BLACK);
-//            }
-//        }
+        for (Bullet bullet : state.getPlayerTank().getBullets()){
+            if (CollisionDetection.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()))){
+                g2d.setColor(Color.RED);
+                g2d.fillOval(500, 200, 100, 100);
+                g2d.setColor(Color.BLACK);
+            }
+            if (CollisionDetection.intersect(bullet.getBounds(),state.getIdiotEnemy().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()))){
+                g2d.setColor(Color.RED);
+                g2d.fillOval(500, 200, 100, 100);
+                g2d.setColor(Color.BLACK);
+            }
 
+        }
+
+        g2d.fill(state.softWall.getBounds());
 
 
 

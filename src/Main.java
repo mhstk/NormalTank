@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 public class Main {
 
     public static final Sound SOUND = new Sound(".\\game.wav",105000);
+    public static GameFrame frame;
     public static void main(String[] args) {
         // Initialize the global thread-pool
         ThreadPool.init();
@@ -25,7 +26,7 @@ public class Main {
             @Override
             public void run() {
                 SOUND.execute();
-                GameFrame frame = new GameFrame("Simple Ball !");
+                frame = new GameFrame("Simple Ball !");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
                 Image image = toolkit.getImage(".\\pointer.png");

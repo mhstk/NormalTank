@@ -29,7 +29,7 @@ public class PlayerTank extends SuperTank {
         speed = 808;
         positionX = 800;
         positionY = 400;
-        speed = 2;
+        speed = 7;
         shootString = "heavygun.wav";
         camerafixedX = false;
         camerafixedY = false;
@@ -54,39 +54,37 @@ public class PlayerTank extends SuperTank {
             angelGun = Math.atan2(mouseY - (positionY + 67), mouseX - (positionX + 87));
         }
 
-        if (keyUP) {
+        if (keyUP  ) {
             positionY -= speed;
-            if (GameLoop.state.camerafixedY) {
-                positionY -= 4;
-            }
-
             moveUp();
+            if (Collision.CollisionPlayerTank()){
+                positionY += speed;
+            }
         }
 
-        if (keyDOWN) {
+        if (keyDOWN ) {
             positionY += speed;
-            if (GameLoop.state.camerafixedY) {
-                positionY += 4;
-            }
-
             moveDown();
+            if (Collision.CollisionPlayerTank()){
+                positionY -= speed;
+            }
         }
-        if (keyLEFT) {
+        if (keyLEFT ) {
             positionX -= speed;
-            if (GameLoop.state.camerafixedX) {
-                positionX -= 4;
-            }
-
             moveLeft();
-        }
-        if (keyRIGHT) {
-            positionX += speed;
-            if (GameLoop.state.camerafixedX) {
-                positionX += 4;
+            if (Collision.CollisionPlayerTank()){
+                positionX += speed;
             }
-
-            moveRight();
         }
+        if (keyRIGHT ) {
+            positionX += speed;
+            moveRight();
+            if (Collision.CollisionPlayerTank()){
+                positionX -= speed;
+            }
+        }
+
+
 
         if (keyUP || keyDOWN || keyLEFT || keyRIGHT) {
             long now = System.nanoTime();

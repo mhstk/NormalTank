@@ -9,6 +9,9 @@ public class IdiotEnemy extends Moving {
     private boolean seed = false;
     private double angelBody;
     private boolean down,up,left,right;
+    private boolean isFirstImage = true;
+    private long lastTimeImageChanged = 0;
+
 
     public IdiotEnemy(int positionX, int positionY) {
         super(null);
@@ -32,6 +35,25 @@ public class IdiotEnemy extends Moving {
     @Override
     public void move() {
         System.out.println("Seed" + seed);
+        long now = System.nanoTime();
+        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+            if (isFirstImage) {
+                try {
+                    image = ImageIO.read(new File("idiotEnemy2.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isFirstImage = false;
+            } else {
+                try {
+                    image = ImageIO.read(new File("idiotEnemy.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isFirstImage = true;
+            }
+            lastTimeImageChanged = now;
+        }
         if (seed) {
             System.out.println("in move");
             if (GameState.tankPosition().x > positionX) {
@@ -208,5 +230,13 @@ public class IdiotEnemy extends Moving {
         g2d.setTransform(atBody);
         g2d.drawImage(image, positionX, positionY, null);
         g2d.setTransform(oldTrans);
+    }
+
+    public Rectangle getBounds(){
+        return  new Rectangle(positionX , positionY , image.getWidth(),image.getHeight()) ;
+    }
+
+    public double getAngelBody() {
+        return angelBody;
     }
 }
