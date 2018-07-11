@@ -228,7 +228,6 @@ public class GameFrame extends JFrame {
 
         }
 
-        g2d.fill(state.softWall.getBounds());
 
 
 

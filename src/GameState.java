@@ -31,7 +31,6 @@ public class GameState {
     public ArrayList<Plant> plants = new ArrayList<>() ;
     public ArrayList<SoftWall> softWalls = new ArrayList<>() ;
     public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
-    public SoftWall softWall = new SoftWall(300,300);
 
 public int[][] maps = new int[30][30];
 
@@ -77,28 +76,38 @@ public int[][] maps = new int[30][30];
 
 
         try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
-            int i = 0;
+            int j = 24;
             while (f.ready()){
                 String line = f.readLine();
                 String[] lines = line.split(" ");
-                for (int j = 0; j < 25; j++) {
-                    maps[i][j]=Integer.parseInt(lines[j]);
+                for (int i = 0; i < 25; i++) {
+
+                    maps[i][j]=Integer.parseInt(lines[i]);
                     if (maps[i][j] == 1){
-                        hardWalls.add(new HardWall(i*150,j*150));
+                        hardWalls.add(new HardWall((i)*150,1080 - (3750-(150*(24-j))) ));
                     }
                     else if (maps[i][j] == 2){
-                        plants.add(new Plant(i*150,j*150));
+                        plants.add(new Plant((i)*150,1080 - (3750-(150*(24-j))) ));
                     }
                     else if (maps[i][j] == 3){
-                        softWalls.add(new SoftWall(i*150,j*150));
+                        softWalls.add(new SoftWall((i)*150,1080 - (3750-(150*(24-j))) ));
                     } else if (maps[i][j] == 4){
-//                        teazels.add(new Teazel(i*150,j*150));
+//                        teazels.add(new Teazel((i)*150,1080 - (3750-(150*(24-j))) ));
+                    }else {
+                        maps[i][j] = 0 ;
                     }
                 }
-                i++;
+                j--;
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        for (int i = 24; i >= 0; i--) {
+            for (int j = 0; j < 25; j++) {
+                System.out.print(maps[j][i] + " ");
+            }
+            System.out.println();
         }
 
     }
