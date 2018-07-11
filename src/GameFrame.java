@@ -139,9 +139,9 @@ public class GameFrame extends JFrame {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 3){
+                if (state.maps[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 3){
                     g2d.drawImage(softWall, 0, -150, null);
-                } else if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 1) {
+                } else if (state.maps[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 1) {
                     g2d.drawImage(hardWall, 0, -150, null);
                 }
                 atMap.translate(150,0);
@@ -176,7 +176,7 @@ public class GameFrame extends JFrame {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (state.maps[j+(int)(state.originX/150)][i+(int)(state.originY/150)] == 2){
+                if (state.maps[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 2){
                     g2d.drawImage(plant, 0, -150, null);
                 }
                 atMap.translate(150,0);
