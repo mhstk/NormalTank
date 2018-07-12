@@ -21,9 +21,7 @@ public class Map {
     public ArrayList<Teazel> teazel;
 
     public Map(){
-        map = new int[35][35];
-        hardWalls = new ArrayList<>();
-
+        map = new int[30][30];
         try {
             area = ImageIO.read(new File("Area.jpg"));
             plant = ImageIO.read(new File("plant.png"));
@@ -34,12 +32,10 @@ public class Map {
         } catch (IOException e) {
             System.out.println(e);
         }
-
         plants = new ArrayList<>();
         hardWalls = new ArrayList<>();
         softWalls = new ArrayList<>();
         teazel = new ArrayList<>();
-
     }
 
     public void createMap(String fileAddress){

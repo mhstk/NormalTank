@@ -11,6 +11,7 @@ public class Camera {
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
     static ArrayList<HardWall> hardWalls = state.map.hardWalls ;
     static ArrayList<SoftWall> softWalls = state.map.softWalls;
+    static ArrayList<Teazel> teazels= state.map.teazel;
     static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
@@ -121,6 +122,8 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY += cameraSpeed;
             }
+            for (Teazel teazel : teazels)
+                teazel.positionY += cameraSpeed;
         }
         if (keyDOWN && !camerafixedY) {
             playerTank.positionY -= cameraSpeed;
@@ -133,6 +136,8 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY -= cameraSpeed;
             }
+            for (Teazel teazel : teazels)
+                teazel.positionY -= cameraSpeed;
         }
         if (keyLEFT && !camerafixedX) {
             playerTank.positionX += cameraSpeed;
@@ -145,6 +150,9 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX += cameraSpeed;
             }
+
+            for (Teazel teazel : teazels)
+                teazel.positionX += cameraSpeed;
         }
         if (keyRIGHT && !camerafixedX) {
             playerTank.positionX -= cameraSpeed;
@@ -158,6 +166,8 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX -= cameraSpeed;
             }
+            for (Teazel teazel : teazels)
+                teazel.positionX -= cameraSpeed;
         }
         if (mouseUP && !camerafixedY) {
             playerTank.positionY += (1.25 * cameraSpeed);
@@ -170,6 +180,9 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY += (1.25 * cameraSpeed);
             }
+
+            for (Teazel teazel : teazels)
+                teazel.positionY += 1.25*cameraSpeed;
         }
         if (mouseDOWN && !camerafixedY) {
             playerTank.positionY -= (1.25 * cameraSpeed);
@@ -181,7 +194,10 @@ public class Camera {
             }
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY -= (1.25 * cameraSpeed);
-            }
+                }
+            for (Teazel teazel : teazels)
+                teazel.positionY -= 1.25*cameraSpeed;
+
         }
         if (mouseLEFT && !camerafixedX) {
             playerTank.positionX += (1.25 * cameraSpeed);
@@ -194,6 +210,9 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX += (1.25 * cameraSpeed);
             }
+            for (Teazel teazel : teazels)
+                teazel.positionX += 1.25*cameraSpeed;
+
         }
         if (mouseRIGHT && !camerafixedX) {
             playerTank.positionX -= (1.25 * cameraSpeed);
@@ -206,6 +225,8 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX -= (1.25 * cameraSpeed);
             }
+            for (Teazel teazel : teazels)
+                teazel.positionX -= 1.25*cameraSpeed;
         }
     }
 }

@@ -3,8 +3,8 @@ import java.awt.image.BufferedImage;
 
 public class Teazel {
     private BufferedImage image;
-    private int positionX;
-    private int positionY;
+    public int positionX;
+    public int positionY;
 
     public Teazel(int positionX, int positionY) {
         this.positionX = positionX;
@@ -12,6 +12,6 @@ public class Teazel {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(positionX, positionY, image.getWidth(), image.getHeight());
+        return new Rectangle(positionX, positionY, 150, 150);
     }
 }
