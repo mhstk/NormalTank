@@ -44,25 +44,26 @@ public class Map {
 
     public void createMAp(String fileAddress){
         try (BufferedReader f = new BufferedReader((new FileReader(fileAddress)))){
-            int i = 0;
-            while (f.ready()){
+            int j = 24;
+            while (f.ready()) {
                 String line = f.readLine();
                 String[] lines = line.split(" ");
-                for (int j = 0; j < 25; j++) {
-                    map[i][j]=Integer.parseInt(lines[j]);
-                    if (map[i][j] == 1){
-                        hardWalls.add(new HardWall(i*150,j*150));
-                    }
-                    else if (map[i][j] == 2){
-                        plants.add(new Plant(i*150,j*150));
-                    }
-                    else if (map[i][j] == 3){
-                        softWalls.add(new SoftWall(i*150,j*150));
-                    } else if (map[i][j] == 4){
-                        teazel.add(new Teazel(i*150,j*150));
+                for (int i = 0; i < 25; i++) {
+
+                    map[i][j] = Integer.parseInt(lines[i]);
+                    if (map[i][j] == 1) {
+                        hardWalls.add(new HardWall((i) * 150, 1080 - (3750 - (150 * (24 - j)))));
+                    } else if (map[i][j] == 2) {
+                        plants.add(new Plant((i) * 150, 1080 - (3750 - (150 * (24 - j)))));
+                    } else if (map[i][j] == 3) {
+                        softWalls.add(new SoftWall((i) * 150, 1080 - (3750 - (150 * (24 - j)))));
+                    } else if (map[i][j] == 4) {
+//                        teazels.add(new Teazel((i)*150,1080 - (3750-(150*(24-j))) ));
+                    } else {
+                        map[i][j] = 0;
                     }
                 }
-                i++;
+                j--;
             }
         } catch (IOException e) {
             e.printStackTrace();

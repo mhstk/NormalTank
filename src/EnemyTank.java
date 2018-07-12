@@ -230,7 +230,7 @@ public class EnemyTank extends SuperTank {
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(getX(), getY());
-        atGun.rotate(angelGun, 87, 67);
+        atGun.rotate(angelGun, 100, 80);
         g2d.setTransform(atGun);
         g2d.drawImage(state.getEnemyTank().getGunImage(), 0, 0, null);
     }

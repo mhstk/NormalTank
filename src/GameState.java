@@ -72,34 +72,34 @@ public class GameState {
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
-
-        try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
-            int j = 24;
-            while (f.ready()){
-                String line = f.readLine();
-                String[] lines = line.split(" ");
-                for (int i = 0; i < 25; i++) {
-
-                    maps[i][j]=Integer.parseInt(lines[i]);
-                    if (maps[i][j] == 1){
-                        hardWalls.add(new HardWall((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }
-                    else if (maps[i][j] == 2){
-                        plants.add(new Plant((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }
-                    else if (maps[i][j] == 3){
-                        softWalls.add(new SoftWall((i)*150,1080 - (3750-(150*(24-j))) ));
-                    } else if (maps[i][j] == 4){
-//                        teazels.add(new Teazel((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }else {
-                        maps[i][j] = 0 ;
-                    }
-                }
-                j--;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//
+//        try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
+//            int j = 24;
+//            while (f.ready()){
+//                String line = f.readLine();
+//                String[] lines = line.split(" ");
+//                for (int i = 0; i < 25; i++) {
+//
+//                    maps[i][j]=Integer.parseInt(lines[i]);
+//                    if (maps[i][j] == 1){
+//                        hardWalls.add(new HardWall((i)*150,1080 - (3750-(150*(24-j))) ));
+//                    }
+//                    else if (maps[i][j] == 2){
+//                        plants.add(new Plant((i)*150,1080 - (3750-(150*(24-j))) ));
+//                    }
+//                    else if (maps[i][j] == 3){
+//                        softWalls.add(new SoftWall((i)*150,1080 - (3750-(150*(24-j))) ));
+//                    } else if (maps[i][j] == 4){
+////                        teazels.add(new Teazel((i)*150,1080 - (3750-(150*(24-j))) ));
+//                    }else {
+//                        maps[i][j] = 0 ;
+//                    }
+//                }
+//                j--;
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         map = new Map();
         map.createMAp("Map.txt");
 

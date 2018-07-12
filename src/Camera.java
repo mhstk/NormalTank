@@ -9,8 +9,8 @@ public class Camera {
     static EnemyTank enemyTank = state.getEnemyTank();
     static Turret turret = state.getTurret();
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
-    static ArrayList<HardWall> hardWalls = state.hardWalls ;
-    static ArrayList<SoftWall> softWalls = state.softWalls;
+    static ArrayList<HardWall> hardWalls = state.map.hardWalls ;
+    static ArrayList<SoftWall> softWalls = state.map.softWalls;
     static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
