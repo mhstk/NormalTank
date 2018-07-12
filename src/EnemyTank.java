@@ -30,7 +30,7 @@ public class EnemyTank extends SuperTank {
             positionX += speed;
             right = true;
             left = false;
-            if (Collision.CollisionEnemyTank()) {
+            if (Collision.CollisionEnemyTank(this)) {
                 right = false;
                 left = true;
                 positionX -= speed;
@@ -41,7 +41,7 @@ public class EnemyTank extends SuperTank {
             positionX -= speed;
             left = true;
             right = false;
-            if (Collision.CollisionEnemyTank()) {
+            if (Collision.CollisionEnemyTank(this)) {
                 right = true;
                 left = false;
                 positionX += speed;
@@ -56,7 +56,7 @@ public class EnemyTank extends SuperTank {
             positionY += speed;
             down = true;
             up = false;
-            if (Collision.CollisionEnemyTank()) {
+            if (Collision.CollisionEnemyTank(this)) {
                 down = false;
                 up = true;
                 positionY -= speed;
@@ -66,7 +66,7 @@ public class EnemyTank extends SuperTank {
 
         } else if (GameState.tankPosition().y < positionY) {
             positionY -= speed;
-            if (Collision.CollisionEnemyTank()) {
+            if (Collision.CollisionEnemyTank(this)) {
                 down = true;
                 up = false;
                 positionY += speed;
@@ -93,4 +93,6 @@ public class EnemyTank extends SuperTank {
             timeLastShotGun = now;
         }
     }
+
+
 }

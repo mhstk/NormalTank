@@ -65,7 +65,8 @@ public class Bullet {
         this.image = image;
     }
 
-    public double getAngel() {
+    public double getAngelBody() {
         return angel;
     }
+
 }

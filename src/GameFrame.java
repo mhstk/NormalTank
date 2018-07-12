@@ -4,11 +4,7 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
@@ -21,13 +17,8 @@ import javax.swing.JFrame;
  */
 public class GameFrame extends JFrame {
 
-    public static final int GAME_HEIGHT = 1080;                  // 720p game resolution
+    public static final int GAME_HEIGHT = 1080;  // 720p game resolution
     public static final int GAME_WIDTH = 1920;  // wide aspect ratio
-
-
-    //uncomment all /*...*/ in the class for using PlayerTank icon instead of a simple circle
-
-
 
     private long lastRender;
     private ArrayList<Float> fpsHistory;
@@ -95,65 +86,42 @@ public class GameFrame extends JFrame {
     private void doRendering(Graphics2D g2d, GameState state) {
         AffineTransform oldTrans = g2d.getTransform();
 
-        g2d.fillOval(0, 0, 10, 10);
         // Draw background
-        state.map.drawArea(g2d,state,oldTrans);
-        // Draw softWalls
-        state.map.drawWalls(g2d,state,oldTrans);
+        state.map.drawArea(g2d, state, oldTrans);
 
-        // Draw Tank Body
+        // Draw Objects in map
+        state.map.drawWalls(g2d, state, oldTrans);
+
+        // Draw Body
         state.getPlayerTank().drawBody(g2d, state, oldTrans);
-        state.getEnemyTank().drawBody(g2d, state, oldTrans);
-        state.getTurret().drawBody(g2d, state, oldTrans);
-        state.getIdiotEnemy().drawBody(g2d, state,oldTrans);
+        for (Turret turret : state.map.turrets)
+            turret.drawBody(g2d,state,oldTrans);
+        for (EnemyTank enemyTank : state.map.enemyTanks)
+            enemyTank.drawBody(g2d, state, oldTrans);
+        for (IdiotEnemy idiotEnemy : state.map.idiotEnemies) {
+            if (idiotEnemy.isAlive()&&idiotEnemy.isVisible())
+            idiotEnemy.drawBody(g2d, state, oldTrans);
+        }
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
-        state.getTurret().drawBullets(g2d,state,oldTrans);
-        state.getEnemyTank().drawBullets(g2d,state,oldTrans);
+        for (Turret turret : state.map.turrets)
+            turret.drawBullets(g2d,state,oldTrans);
+        for (EnemyTank enemyTank : state.map.enemyTanks)
+            enemyTank.drawBullets(g2d, state, oldTrans);
 
-        // Draw Tank Gun
-        state.getPlayerTank().drawGun(g2d,state,oldTrans);
-        state.getEnemyTank().drawGun(g2d,state,oldTrans);
-        state.getTurret().drawGun(g2d,state,oldTrans);
+        // Draw Gun
+        state.getPlayerTank().drawGun(g2d, state, oldTrans);
+        for (EnemyTank enemyTank : state.map.enemyTanks)
+            enemyTank.drawGun(g2d, state, oldTrans);
+        for (Turret turret : state.map.turrets)
+            turret.drawGun(g2d, state, oldTrans);
+
         // Draw trees
-        state.map.drawPlants(g2d,state,oldTrans);
-
+        state.map.drawPlants(g2d, state, oldTrans);
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
-
-        if (CollisionDetection.intersect(state.getPlayerTank().getBounds() , state.getEnemyTank().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getEnemyTank().getAngelBody())) ){
-            g2d.setColor(Color.GREEN);
-            g2d.fillOval(200, 200, 100, 100);
-            g2d.setColor(Color.BLACK);
-        }
-        if (CollisionDetection.intersect(state.getPlayerTank().getBounds() , state.getIdiotEnemy().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getIdiotEnemy().getAngelBody())) ){
-            g2d.setColor(Color.MAGENTA);
-            g2d.fillOval(200, 400, 100, 100);
-            g2d.setColor(Color.BLACK);
-        }
-
-        g2d.setTransform(oldTrans);
-
-
-        for (Bullet bullet : state.getPlayerTank().getBullets()){
-            if (CollisionDetection.intersect(bullet.getBounds(),state.getEnemyTank().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()))){
-                g2d.setColor(Color.RED);
-                g2d.fillOval(500, 200, 100, 100);
-                g2d.setColor(Color.BLACK);
-            }
-            if (CollisionDetection.intersect(bullet.getBounds(),state.getIdiotEnemy().getBounds(),bullet.getAngel(),Math.toRadians(state.getEnemyTank().getAngelBody()))){
-                g2d.setColor(Color.RED);
-                g2d.fillOval(500, 200, 100, 100);
-                g2d.setColor(Color.BLACK);
-            }
-
-        }
-
-
-
-
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();
@@ -180,8 +148,10 @@ public class GameFrame extends JFrame {
         String userGuide
                 = "Use ARROW KEYS to move the PlayerTank. "
                 + "Press ESCAPE to end the game.";
+
         g2d.setFont(g2d.getFont().deriveFont(18.0f));
         g2d.drawString(userGuide, 10, GAME_HEIGHT - 10);
+
         // Draw GAME OVER
         if (state.gameOver) {
             String str = "GAME OVER";

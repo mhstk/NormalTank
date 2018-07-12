@@ -11,8 +11,9 @@ public class CollisionDetection {
         float numerator2 = ((a.y - c.y) * (b.x - a.x)) - ((a.x - c.x) * (b.y - a.y));
 
         // Detect coincident lines (has a problem, read below)
-//        System.out.println("1 : "+numerator1 +"     2 : "+ numerator2 + "   ");
-        if (denominator == 0) return ((numerator1 == 0) && (numerator2 == 0) && false);
+        if (denominator == 0) {
+            return (false);
+        }
 
         float r = numerator1 / denominator;
         float s = numerator2 / denominator;

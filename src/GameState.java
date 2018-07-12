@@ -19,9 +19,6 @@ public class GameState {
     public boolean gameOver;
     public boolean cameraFixedX, cameraFixedY;
     private static PlayerTank playerTank = new PlayerTank(160,1600);
-    private EnemyTank enemyTank = new EnemyTank(160,-300);
-    private Turret turret;
-    private IdiotEnemy idiotEnemy = new IdiotEnemy(2080,0);
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     private boolean mousePress;
@@ -39,7 +36,6 @@ public class GameState {
         locY = 100;
         diam = 32;
         gameOver = false;
-        this.turret  = new Turret(700,100,"UP");
         //
         keyUP = false;
         keyDOWN = false;
@@ -76,13 +72,16 @@ public class GameState {
      */
     public void update() {
         playerTank.move();
-        enemyTank.isInArea();
-        turret.isInArea();
-        idiotEnemy.isInArea();
-        idiotEnemy.move();
+        for (EnemyTank enemyTank : map.enemyTanks) enemyTank.isInArea();
+        for (Turret turret : map.turrets )turret.isInArea();
+        for (IdiotEnemy idiotEnemy : map.idiotEnemies){
+            idiotEnemy.isInArea();
+            idiotEnemy.move();
+        }
 
         Camera.updateInfo();
-        if (!Collision.CollisionPlayerTank()) {
+
+        if (!Collision.collisionPlayerTank()) {
             Camera.cameraMove();
         }
         if (mousePress && playerTank.checkMouseLoc()) {
@@ -108,14 +107,6 @@ public class GameState {
 
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
-    }
-
-    public Turret getTurret() {
-        return turret;
-    }
-
-    public IdiotEnemy getIdiotEnemy() {
-    return idiotEnemy;
     }
 
 
@@ -271,10 +262,6 @@ public class GameState {
 
     public PlayerTank getPlayerTank() {
         return playerTank;
-    }
-
-    public EnemyTank getEnemyTank() {
-        return enemyTank;
     }
 }
 

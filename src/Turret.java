@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 public class Turret extends SuperTank {
 
@@ -55,14 +54,14 @@ public class Turret extends SuperTank {
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        if (Math.sqrt(distance) < 100000000) {
+        if (Math.sqrt(distance) < 500) {
             act();
         }
     }
 
     public void shoot() {
         Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (GameState.getTank().image.getWidth() / 2), GameState.tankPosition().y + (GameState.getTank().image.getHeight() / 2), bulletImageAddress, 20);
-        if (isPossible(bullet.getAngel())) {
+        if (isPossible(bullet.getAngelBody())) {
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
             sound.execute();

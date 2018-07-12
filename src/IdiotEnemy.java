@@ -1,14 +1,13 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class IdiotEnemy extends Moving {
-    private boolean seed = false;
+    private boolean visible = false;
+    private boolean alive;
 
- public IdiotEnemy(int positionX, int positionY) {
+    public IdiotEnemy(int positionX, int positionY) {
         super("idiotEnemy1.png","idiotEnemy1.png","",positionX,positionY);
     speed = 4;
+    alive = true;
  }
 
     public void isInArea() {
@@ -16,19 +15,19 @@ public class IdiotEnemy extends Moving {
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
         if (Math.sqrt(distance) < 1000){
-            seed = true;
+            visible = true;
         }
     }
 
     @Override
     public void move() {
-                if (seed) {
-            //changeBodyImage();
+                if (visible &&alive) {
+            changeBodyImage();
             if (GameState.tankPosition().x > positionX) {
                 positionX += speed;
                 right = true;
                 left = false;
-                if (Collision.CollisionIdiotEnemyTank()==1){
+                if (Collision.CollisionIdiotEnemyTank(this)==1){
                     right = false;
                     left = true;
                     positionX -= speed;
@@ -39,7 +38,7 @@ public class IdiotEnemy extends Moving {
                 positionX -= speed;
                 left = true;
                 right = false;
-                if (Collision.CollisionIdiotEnemyTank()==1){
+                if (Collision.CollisionIdiotEnemyTank(this)==1){
                     right = true;
                     left = false;
                     positionX += speed;
@@ -54,7 +53,7 @@ public class IdiotEnemy extends Moving {
                 positionY += speed;
                 down = true;
                 up = false;
-                if (Collision.CollisionIdiotEnemyTank()==1){
+                if (Collision.CollisionIdiotEnemyTank(this)==1){
                     down = false;
                     up = true;
                     positionY -= speed;
@@ -64,7 +63,7 @@ public class IdiotEnemy extends Moving {
 
             } else if (GameState.tankPosition().y < positionY) {
                 positionY -= speed;
-                if (Collision.CollisionIdiotEnemyTank()==1){
+                if (Collision.CollisionIdiotEnemyTank(this)==1){
                     down = true;
                     up = false;
                     positionY += speed;
@@ -77,7 +76,7 @@ public class IdiotEnemy extends Moving {
                 up = false;
                 down = false;
             }
-            if (Collision.CollisionIdiotEnemyTank()==2){
+            if (Collision.CollisionIdiotEnemyTank(this)==2){
                 strike();
             }
 
@@ -86,7 +85,7 @@ public class IdiotEnemy extends Moving {
     }
 
     public void strike(){
-
+        this.alive = false;
     }
 
     public Rectangle getBounds(){
@@ -95,5 +94,13 @@ public class IdiotEnemy extends Moving {
 
     public double getAngelBody() {
         return angelBody;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }

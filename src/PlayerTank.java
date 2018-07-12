@@ -35,7 +35,7 @@ public class PlayerTank extends SuperTank {
         if (up) {
             positionY -= speed;
             moveUp();
-            if (Collision.CollisionPlayerTank()) {
+            if (Collision.collisionPlayerTank()) {
                 positionY += speed;
             }
         }
@@ -43,21 +43,21 @@ public class PlayerTank extends SuperTank {
         if (down) {
             positionY += speed;
             moveDown();
-            if (Collision.CollisionPlayerTank()) {
+            if (Collision.collisionPlayerTank()) {
                 positionY -= speed;
             }
         }
         if (left) {
             positionX -= speed;
             moveLeft();
-            if (Collision.CollisionPlayerTank()) {
+            if (Collision.collisionPlayerTank()) {
                 positionX += speed;
             }
         }
         if (right) {
             positionX += speed;
             moveRight();
-            if (Collision.CollisionPlayerTank()) {
+            if (Collision.collisionPlayerTank()) {
                 positionX -= speed;
             }
         }

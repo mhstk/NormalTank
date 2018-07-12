@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,32 +11,33 @@ import java.util.ArrayList;
 
 public class Map {
     private int[][] map;
-    private BufferedImage area;
-    private BufferedImage plant;
-    private BufferedImage softWall;
-    private BufferedImage hardWall;
-    private BufferedImage sim;
     public ArrayList<HardWall> hardWalls;
     public ArrayList<SoftWall> softWalls;
     public ArrayList<Plant> plants;
     public ArrayList<Teazel> teazel;
+    public ArrayList<IdiotEnemy> idiotEnemies ;
+    public ArrayList<EnemyTank> enemyTanks;
+//    public ArrayList<Mine> mines;
+    public ArrayList<Turret> turrets;
+    private BufferedImage area;
+    private int wall = 0;
 
     public Map(){
         map = new int[30][30];
-        try {
-            area = ImageIO.read(new File("Area.jpg"));
-            plant = ImageIO.read(new File("plant.png"));
-            softWall = ImageIO.read(new File("softWall.png"));
-            hardWall = ImageIO.read(new File("hardWall.png"));
-            sim = ImageIO.read(new File("sim.png"));
 
+        try {
+            area = ImageIO.read(new File("area.png"));
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         plants = new ArrayList<>();
         hardWalls = new ArrayList<>();
         softWalls = new ArrayList<>();
         teazel = new ArrayList<>();
+
+        turrets = new ArrayList<>();
+        enemyTanks = new ArrayList<>();
+        idiotEnemies = new ArrayList<>();
     }
 
     public void createMap(String fileAddress){
@@ -53,9 +55,15 @@ public class Map {
                         plants.add(new Plant(i*150,1080 - (3750-(150*(24-j)))));
                     }
                     else if (map[i][j] == 3){
-                        softWalls.add(new SoftWall(i*150,1080 - (3750-(150*(24-j)))));
+                        softWalls.add(new SoftWall(i*150,1080 - (3750-(150*(24-j))),i,j));
                     } else if (map[i][j] == 4){
                         teazel.add(new Teazel(i*150,1080 - (3750-(150*(24-j)))));
+                    } else if (map[i][j] == 5){
+                        idiotEnemies.add(new IdiotEnemy(i*150,1080 - (3750-(150*(24-j)))));
+                    } else if (map[i][j] == 6){
+                        turrets.add(new Turret(i*150,1080 - (3750-(150*(24-j))),"UP"));
+                    } else if (map[i][j] == 7){
+                        enemyTanks.add(new EnemyTank(i*150,1080 - (3750-(150*(24-j)))));
                     }
                 }
                 i--;
@@ -76,7 +84,7 @@ public class Map {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
                 if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 2){
-                    g2d.drawImage(plant, 0, -150, null);
+                    g2d.drawImage(Plant.getImage(), 0, -150, null);
                 }
                 atMap.translate(150,0);
             }
@@ -93,12 +101,16 @@ public class Map {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 15; j++) {
                 g2d.setTransform(atMap);
-                if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 3){
-                    g2d.drawImage(softWall, 0, -150, null);
-                } else if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 1) {
-                    g2d.drawImage(hardWall, 0, -150, null);
+                if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 1) {
+                    g2d.drawImage(HardWall.getImage(), 0, -150, null);
                 } else if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] ==4){
-                    g2d.drawImage(sim, 0, -150, null);
+                    g2d.drawImage(Teazel.getImage(), 0, -150, null);
+                } else if (map[j+(int)(Camera.originX/150)][i+(int)(Camera.originY/150)] == 3){
+                    for (SoftWall s : softWalls) {
+                        if (s.i == i+(int)(Camera.originY/150)&& s.j == j+(int)(Camera.originX/150)){
+                            g2d.drawImage(s.getImage(), 0, -150, null);
+                        }
+                    }
                 }
                 atMap.translate(150,0);
             }

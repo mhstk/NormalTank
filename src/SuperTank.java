@@ -1,20 +1,17 @@
-import javafx.scene.shape.Line;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class SuperTank extends Moving {
     protected double angelGun;
     protected BufferedImage gunImage;
-    protected ArrayList<Bullet> bullets ;
+    protected CopyOnWriteArrayList<Bullet> bullets ;
 
     public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY){
         super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY);
@@ -25,13 +22,13 @@ public abstract class SuperTank extends Moving {
         }
         angelBody = 0;
         angelGun = 0;
-        bullets = new ArrayList<>();
+        bullets = new CopyOnWriteArrayList<>();
     }
 
     @Override
     public void move() {
-
     }
+
 
     public void drawGun(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
@@ -47,7 +44,7 @@ public abstract class SuperTank extends Moving {
         for (Bullet bullet : bullets) {
             AffineTransform atBullet = g2d.getTransform();
             atBullet.translate(bullet.getPositionX(), bullet.getPositionY());
-            atBullet.rotate(bullet.getAngel(), 5, 2);
+            atBullet.rotate(bullet.getAngelBody(), 5, 2);
             g2d.setTransform(atBullet);
             g2d.drawImage(bullet.getImage(), 0, 0, null);
             g2d.setTransform(oldTrans);
@@ -60,10 +57,9 @@ public abstract class SuperTank extends Moving {
         while (it.hasNext()) {
             Bullet bullet = (Bullet) it.next();
             bullet.updateLocation();
+            if (Collision.collisionBullet(bullet)){
+               bullets.remove(bullet);
+            }
         }
-    }
-
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
     }
 }

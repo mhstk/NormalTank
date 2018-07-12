@@ -148,7 +148,6 @@ public abstract class Moving extends Runner {
             if (isFirstImage) {
                 try {
                     image = ImageIO.read(new File(secondBodyImage));
-                    System.out.printf("s "+ secondBodyImage+"\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
