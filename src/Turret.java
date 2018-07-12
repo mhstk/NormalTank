@@ -1,38 +1,16 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
-public class Turret {
+public class Turret extends SuperTank {
 
-    public static final String[] statuses = {"UP", "DOWN", "LEFT", "RIGHT"};
-    protected BufferedImage image;
-    protected BufferedImage gunImage;
-    protected double angelGun;
-    protected double angelBody;
-    protected int positionX;
-    protected int positionY;
-    private boolean isAlive = true;
+    public static final String[] STATUTS = {"UP", "DOWN", "LEFT", "RIGHT"};
     private String status;
-    private double difTimeBullet = 2.7;
-    private ArrayList<Bullet> bullets = new ArrayList<>();
     private long timeLastShotGun = 0;
 
-    public Turret(int positionX, int positionY, String status, String imageFileBody, String imageFileGun) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+    public Turret(int positionX, int positionY, String status) {
+        super("Tank-under.png","Tank-under.png","Tank-top.png","Tank-Bullet.png",positionX,positionY);
         this.status = status;
-        try {
-            image = ImageIO.read(new File(imageFileBody));
-            gunImage = ImageIO.read(new File(imageFileGun));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         setFirstAngel();
     }
 
@@ -55,14 +33,13 @@ public class Turret {
     public void act() {
         double firstAngel = angelGun;
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
-        if (!isPossible(angelGun))       angelGun = firstAngel;
-
+        if (!isPossible(angelGun))
+            angelGun = firstAngel;
         Long now = System.nanoTime();
-        if ((now - timeLastShotGun) / 1000000000.0 > difTimeBullet) {
+        if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
             shoot();
             timeLastShotGun = now;
         }
-
     }
 
     public void drawGun(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
@@ -71,40 +48,24 @@ public class Turret {
         atGun.translate(positionX, positionY);
         atGun.rotate(angelGun, 87, 67);
         g2d.setTransform(atGun);
-        g2d.drawImage(state.getTurret().getGunImage(), 0, 0, null);
-    }
-
-    public void drawBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
-        AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
-        g2d.setTransform(atBody);
-        g2d.drawImage(image, positionX, positionY, null);
-        g2d.setTransform(oldTrans);
-
+        g2d.drawImage(gunImage, 0, 0, null);
     }
 
     public void isInArea() {
-        System.out.println("In area ");
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        if (Math.sqrt(distance) < 1000) {
-            System.out.println("In if");
+        if (Math.sqrt(distance) < 100000000) {
             act();
         }
     }
 
-    public BufferedImage getGunImage() {
-        return gunImage;
-    }
-
     public void shoot() {
-        Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (image.getWidth() / 2), GameState.tankPosition().y + (image.getHeight() / 2), "Tank-Bullet.png", 20);
+        Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (GameState.getTank().image.getWidth() / 2), GameState.tankPosition().y + (GameState.getTank().image.getHeight() / 2), bulletImageAddress, 20);
         if (isPossible(bullet.getAngel())) {
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
             sound.execute();
-
         }
     }
 
@@ -122,27 +83,4 @@ public class Turret {
         return true;
     }
 
-
-    public void drawBullets(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
-        for (Bullet bullet : bullets) {
-            AffineTransform atBullet = g2d.getTransform();
-            atBullet.translate(bullet.getPositionX(), bullet.getPositionY());
-            atBullet.rotate(bullet.getAngel(), 5, 2);
-            g2d.setTransform(atBullet);
-            g2d.drawImage(bullet.getImage(), 0, 0, null);
-            g2d.setTransform(oldTrans);
-        }
-
-        updateBullet();
-        System.out.println("Shelik");
-    }
-
-    private void updateBullet() {
-
-        Iterator it = bullets.iterator();
-        while (it.hasNext()) {
-            Bullet bullet = (Bullet) it.next();
-            bullet.updateLocation();
-        }
-    }
 }

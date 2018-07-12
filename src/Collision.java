@@ -7,12 +7,11 @@ public class Collision {
     static EnemyTank enemyTank = state.getEnemyTank();
     static Turret turret = state.getTurret();
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
-    static ArrayList<SoftWall> softWalls = state.softWalls;
-    static ArrayList<HardWall> hardWalls = state.hardWalls ;
+    static ArrayList<SoftWall> softWalls = Map.softWalls;
+    static ArrayList<HardWall> hardWalls = Map.hardWalls ;
     static GameFrame gameFrame = Main.frame ;
 
     public static boolean CollisionPlayerTank(){
-
 
         for (SoftWall softWall : softWalls){
             if (CollisionDetection.intersect(playerTank.getBounds(),softWall.getBounds(),playerTank.getAngelBody(),0)){
@@ -20,14 +19,11 @@ public class Collision {
             }
         }
         for (HardWall hardWall : hardWalls){
-//            Graphics2D g2d = (Graphics2D) gameFrame.getGraphics();
-//            g2d.fill(hardWall.getBounds());
             if (CollisionDetection.intersect(playerTank.getBounds(),hardWall.getBounds(),playerTank.getAngelBody(),0)){
                 return true;
             }
         }
         if (CollisionDetection.intersect(playerTank.getBounds(),enemyTank.getBounds(),playerTank.getAngelBody(),enemyTank.getAngelBody())){
-
             return true ;
         }
         return false ;

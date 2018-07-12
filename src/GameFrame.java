@@ -98,31 +98,23 @@ public class GameFrame extends JFrame {
         g2d.fillOval(0, 0, 10, 10);
         // Draw background
         state.map.drawArea(g2d,state,oldTrans);
-        g2d.fillOval(0, 0, 10, 10);
-        g2d.setColor(Color.BLACK);
-        g2d.fillOval(state.getPlayerTank().getX(), state.getPlayerTank().getY(), 10, 10);
-
-
         // Draw softWalls
         state.map.drawWalls(g2d,state,oldTrans);
 
-
-
-
         // Draw Tank Body
-        state.getPlayerTank().drawTankBody(g2d, state, oldTrans);
-        state.getEnemyTank().drawTankBody(g2d, state, oldTrans);
+        state.getPlayerTank().drawBody(g2d, state, oldTrans);
+        state.getEnemyTank().drawBody(g2d, state, oldTrans);
         state.getTurret().drawBody(g2d, state, oldTrans);
         state.getIdiotEnemy().drawBody(g2d, state,oldTrans);
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
         state.getTurret().drawBullets(g2d,state,oldTrans);
-        state.getEnemyTank().drawBullet(g2d,state,oldTrans);
+        state.getEnemyTank().drawBullets(g2d,state,oldTrans);
 
         // Draw Tank Gun
-        state.getPlayerTank().drawTankGun(g2d,state,oldTrans);
-        state.getEnemyTank().drawTankGun(g2d,state,oldTrans);
+        state.getPlayerTank().drawGun(g2d,state,oldTrans);
+        state.getEnemyTank().drawGun(g2d,state,oldTrans);
         state.getTurret().drawGun(g2d,state,oldTrans);
         // Draw trees
         state.map.drawPlants(g2d,state,oldTrans);
@@ -130,8 +122,6 @@ public class GameFrame extends JFrame {
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
-        g2d.fillOval(state.getPlayerTank().getX() + 87, state.getPlayerTank().getY() + 67, 5, 5);
-        g2d.drawLine(state.getPlayerTank().getX()+87,state.getPlayerTank().getY()+67,state.mouseX,state.mouseY);
 
         if (CollisionDetection.intersect(state.getPlayerTank().getBounds() , state.getEnemyTank().getBounds(),Math.toRadians(state.getPlayerTank().getAngelBody()),Math.toRadians(state.getEnemyTank().getAngelBody())) ){
             g2d.setColor(Color.GREEN);
@@ -145,16 +135,6 @@ public class GameFrame extends JFrame {
         }
 
         g2d.setTransform(oldTrans);
-        g2d.fillOval(state.getPlayerTank().getGunX(), state.getPlayerTank().getGunY(), 5, 5);
-
-
-//        for (HardWall hardWall : state.hardWalls){
-//            if (CollisionDetection.intersect(hardWall.getBounds(),state.getPlayerTank().getBounds(),0,Math.toRadians(state.getPlayerTank().getAngelBody()),g2d)){
-//                g2d.setColor(Color.CYAN);
-//                g2d.fillOval(700, 200, 100, 100);
-//                g2d.setColor(Color.BLACK);
-//            }
-//        }
 
 
         for (Bullet bullet : state.getPlayerTank().getBullets()){

@@ -8,10 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -21,39 +17,30 @@ public class GameState {
 
     public int locX, locY, diam;
     public boolean gameOver;
-    public boolean camerafixedX, camerafixedY;
-    private static PlayerTank playerTank = new PlayerTank("Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private EnemyTank enemyTank = new EnemyTank(500,500,"Tank-under.png", "Tank-top.png","Tank-Bullet.png");
-    private Turret turret = new Turret(700,100,"UP","Tank-under.png", "Tank-top.png");
-    private IdiotEnemy idiotEnemy = new IdiotEnemy(00,00);
+    public boolean cameraFixedX, cameraFixedY;
+    private static PlayerTank playerTank = new PlayerTank(160,1600);
+    private EnemyTank enemyTank = new EnemyTank(160,-300);
+    private Turret turret;
+    private IdiotEnemy idiotEnemy = new IdiotEnemy(2080,0);
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
-    public ArrayList<Plant> plants = new ArrayList<>() ;
-    public ArrayList<SoftWall> softWalls = new ArrayList<>() ;
-    public ArrayList<HardWall> hardWalls = new ArrayList<>() ;
-
-    public double rad = 0;
-    public double rad2 = 0;
     private boolean mousePress;
-    private boolean mouseMoved;
     public int mouseX, mouseY;
     private static int count = 1;
     private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
-    public  boolean collision = false;
     private MouseHandler mouseHandler;
     public Map map;
-    int originX = 0;
-    int originY = 0;
 
     public GameState() {
-
-        camerafixedX = false;
-        camerafixedY = false;
+        cameraFixedX = false;
+        cameraFixedY = false;
         locX = 100;
         locY = 100;
         diam = 32;
         gameOver = false;
+        System.out.printf("Turret");
+        this.turret  = new Turret(700,100,"UP");
         //
         keyUP = false;
         keyDOWN = false;
@@ -72,41 +59,13 @@ public class GameState {
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
-
-        try (BufferedReader f = new BufferedReader((new FileReader("Map.txt")))){
-            int j = 24;
-            while (f.ready()){
-                String line = f.readLine();
-                String[] lines = line.split(" ");
-                for (int i = 0; i < 25; i++) {
-
-                    maps[i][j]=Integer.parseInt(lines[i]);
-                    if (maps[i][j] == 1){
-                        hardWalls.add(new HardWall((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }
-                    else if (maps[i][j] == 2){
-                        plants.add(new Plant((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }
-                    else if (maps[i][j] == 3){
-                        softWalls.add(new SoftWall((i)*150,1080 - (3750-(150*(24-j))) ));
-                    } else if (maps[i][j] == 4){
-//                        teazels.add(new Teazel((i)*150,1080 - (3750-(150*(24-j))) ));
-                    }else {
-                        maps[i][j] = 0 ;
-                    }
-                }
-                j--;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         map = new Map();
-        map.createMAp("Map.txt");
+        map.createMap("Map.txt");
 
     }
 
     public static Point tankPosition(){
-        return new Point(playerTank.getX(),playerTank.getY());
+        return new Point(playerTank.positionX,playerTank.positionY);
     }
 
     public static PlayerTank getTank() {
@@ -117,11 +76,6 @@ public class GameState {
      * The method which updates the game state.
      */
     public void update() {
-
-        int lastPosiniotTankX = playerTank.getX();
-        int lastPositionTankY = playerTank.getY();
-
-
         playerTank.move();
         enemyTank.isInArea();
         turret.isInArea();
@@ -132,12 +86,9 @@ public class GameState {
         if (!Collision.CollisionPlayerTank()) {
             Camera.cameraMove();
         }
-
-
-
         if (mousePress && playerTank.checkMouseLoc()) {
             Long now = System.nanoTime();
-            if ((now - timeLastShotGun) / 1000000000.0 > playerTank.getDifTimeBullet()) {
+            if ((now - timeLastShotGun) / 1000000000.0 > playerTank.difTimeBullet) {
                 playerTank.shoot(playerTank.getGunX(), playerTank.getGunY(), mouseX, mouseY);
                 timeLastShotGun = now;
                 if (playerTank.getGunNumber() == 1){
@@ -146,23 +97,7 @@ public class GameState {
 
             }
         }
-//        int difX = playerTank.getX() - lastPosiniotTankX;
-//        int difY = playerTank.getY() - lastPositionTankY;
-
-
-//        while (CollisionDetection.intersect(playerTank.getBounds() , enemyTank.getBounds() , playerTank.getAngelBody() , enemyTank.getAngelBody())) {
-//            playerTank.positionX -= difX;
-//            playerTank.positionY -= difY;
-//            System.out.println("HERDBERB");
-//        }
-//        if (playerTank.getBounds().intersects(enemyTank.getBounds().getBounds())){
-//            collision = true;
-//        }else {
-//            collision = false;
-//        }
-
     }
-
 
     public KeyListener getKeyListener() {
         return keyHandler;

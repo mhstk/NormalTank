@@ -7,13 +7,12 @@ public abstract class Runner {
     protected int positionX;
     protected int positionY;
     protected BufferedImage image;
-    protected ArrayList<Bullet> bullets ;
     protected String bulletImageAddress;
 
-    public Runner(String bulletImageAddress) {
+    public Runner(String bulletImageAddress, int positionX, int positionY) {
         this.bulletImageAddress = bulletImageAddress;
-
-        bullets = new ArrayList<>();
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
     public void setBulletImageAddress(String bulletImageAddress){
@@ -24,7 +23,11 @@ public abstract class Runner {
 
     }
 
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
+    public int getX() {
+        return positionX;
+    }
+
+    public int getY() {
+        return positionY;
     }
 }
