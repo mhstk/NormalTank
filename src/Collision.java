@@ -24,7 +24,6 @@ public class Collision {
                 return true;
             }
         }
-
         for (Teazel teazel : teazels){
             if (CollisionDetection.intersect(playerTank.getBounds(),teazel.getBounds(),playerTank.getAngelBody(),0))
                 return true;
