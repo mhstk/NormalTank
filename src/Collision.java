@@ -7,8 +7,8 @@ public class Collision {
     static EnemyTank enemyTank = state.getEnemyTank();
     static Turret turret = state.getTurret();
     static IdiotEnemy idiotEnemy = state.getIdiotEnemy();
-    static ArrayList<SoftWall> softWalls = Map.softWalls;
-    static ArrayList<HardWall> hardWalls = Map.hardWalls ;
+    static ArrayList<SoftWall> softWalls = state.map.softWalls;
+    static ArrayList<HardWall> hardWalls = state.map.hardWalls ;
     static GameFrame gameFrame = Main.frame ;
 
     public static boolean CollisionPlayerTank(){

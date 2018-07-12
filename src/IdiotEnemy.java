@@ -23,7 +23,7 @@ public class IdiotEnemy extends Moving {
     @Override
     public void move() {
                 if (seed) {
-            changeBodyImage();
+            //changeBodyImage();
             if (GameState.tankPosition().x > positionX) {
                 positionX += speed;
                 right = true;

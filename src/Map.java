@@ -15,10 +15,10 @@ public class Map {
     private BufferedImage softWall;
     private BufferedImage hardWall;
     private BufferedImage sim;
-    public static ArrayList<HardWall> hardWalls;
-    public static ArrayList<SoftWall> softWalls;
-    public static ArrayList<Plant> plants;
-    public static ArrayList<Teazel> teazel;
+    public ArrayList<HardWall> hardWalls;
+    public ArrayList<SoftWall> softWalls;
+    public ArrayList<Plant> plants;
+    public ArrayList<Teazel> teazel;
 
     public Map(){
         map = new int[35][35];

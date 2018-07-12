@@ -39,7 +39,6 @@ public class GameState {
         locY = 100;
         diam = 32;
         gameOver = false;
-        System.out.printf("Turret");
         this.turret  = new Turret(700,100,"UP");
         //
         keyUP = false;
