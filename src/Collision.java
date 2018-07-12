@@ -54,4 +54,26 @@ public class Collision {
         }
         return false ;
     }
+
+
+    public static int CollisionIdiotEnemyTank(){
+
+
+        for (SoftWall softWall : softWalls){
+            if (CollisionDetection.intersect(idiotEnemy.getBounds(),softWall.getBounds(),idiotEnemy.getAngelBody(),0)){
+                return 1;
+            }
+        }
+        for (HardWall hardWall : hardWalls){
+//            Graphics2D g2d = (Graphics2D) gameFrame.getGraphics();
+//            g2d.fill(hardWall.getBounds());
+            if (CollisionDetection.intersect(idiotEnemy.getBounds(),hardWall.getBounds(),idiotEnemy.getAngelBody(),0)){
+                return 1;
+            }
+        }
+        if (CollisionDetection.intersect(playerTank.getBounds(),idiotEnemy.getBounds(),playerTank.getAngelBody(),idiotEnemy.getAngelBody())){
+            return 2 ;
+        }
+        return 0 ;
+    }
 }

@@ -23,6 +23,7 @@ public class IdiotEnemy extends Moving {
             e.printStackTrace();
         }
         angelBody = 0;
+        speed = 4;
     }
 
     public void isInArea() {
@@ -37,43 +38,51 @@ public class IdiotEnemy extends Moving {
     @Override
     public void move() {
                 if (seed) {
-            changeImage();
+            changeBodyImage();
             if (GameState.tankPosition().x > positionX) {
-                positionX += 9;
-                if (GameLoop.state.camerafixedX) {
-                    positionX += 4;
-                }
-                if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                positionX += speed;
                 right = true;
                 left = false;
+                if (Collision.CollisionIdiotEnemyTank()==1){
+                    right = false;
+                    left = true;
+                    positionX -= speed;
+                }
+                if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
                 moveRight();
             } else if (GameState.tankPosition().x < positionX) {
-                positionX -= 9;
-                if (GameLoop.state.camerafixedX) {
-                    positionX -= 4;
-                }
-                if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                positionX -= speed;
                 left = true;
                 right = false;
+                if (Collision.CollisionIdiotEnemyTank()==1){
+                    right = true;
+                    left = false;
+                    positionX += speed;
+                }
+                if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
                 moveLeft();
             } else {
                 right = false;
                 left = false;
             }
             if (GameState.tankPosition().y > positionY) {
-                positionY += 9;
-                if (GameLoop.state.camerafixedY) {
-                    positionY += 4;
-                }
-                if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+                positionY += speed;
                 down = true;
                 up = false;
+                if (Collision.CollisionIdiotEnemyTank()==1){
+                    down = false;
+                    up = true;
+                    positionY -= speed;
+                }
+                if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
                 moveDown();
 
             } else if (GameState.tankPosition().y < positionY) {
-                positionY -= 9;
-                if (GameLoop.state.camerafixedY) {
-                    positionY -= 4;
+                positionY -= speed;
+                if (Collision.CollisionIdiotEnemyTank()==1){
+                    down = true;
+                    up = false;
+                    positionY += speed;
                 }
                 if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
                 up = true;
@@ -83,30 +92,16 @@ public class IdiotEnemy extends Moving {
                 up = false;
                 down = false;
             }
-        }
+            if (Collision.CollisionIdiotEnemyTank()==2){
+                strike();
+            }
 
     }
 
-    private void changeImage() {
-        long now = System.nanoTime();
-        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-            if (isFirstImage) {
-                try {
-                    image = ImageIO.read(new File("idiotEnemy2.png"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = false;
-            } else {
-                try {
-                    image = ImageIO.read(new File("idiotEnemy1.png"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = true;
-            }
-            lastTimeImageChanged = now;
-        }
+    }
+
+    public void strike(){
+
     }
 
     public void moveUp() {
