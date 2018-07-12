@@ -15,6 +15,8 @@ public class IdiotEnemy extends Moving {
 
     public IdiotEnemy(int positionX, int positionY) {
         super(null);
+        this.positionY = positionY;
+        this.positionX = positionX;
         try {
             image = ImageIO.read(new File("idiotEnemy1.png"));
         } catch (IOException e) {

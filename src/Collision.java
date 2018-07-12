@@ -20,12 +20,36 @@ public class Collision {
             }
         }
         for (HardWall hardWall : hardWalls){
+//            Graphics2D g2d = (Graphics2D) gameFrame.getGraphics();
+//            g2d.fill(hardWall.getBounds());
             if (CollisionDetection.intersect(playerTank.getBounds(),hardWall.getBounds(),playerTank.getAngelBody(),0)){
                 return true;
             }
         }
         if (CollisionDetection.intersect(playerTank.getBounds(),enemyTank.getBounds(),playerTank.getAngelBody(),enemyTank.getAngelBody())){
 
+            return true ;
+        }
+        return false ;
+    }
+
+
+    public static boolean CollisionEnemyTank(){
+
+
+        for (SoftWall softWall : softWalls){
+            if (CollisionDetection.intersect(enemyTank.getBounds(),softWall.getBounds(),enemyTank.getAngelBody(),0)){
+                return true;
+            }
+        }
+        for (HardWall hardWall : hardWalls){
+//            Graphics2D g2d = (Graphics2D) gameFrame.getGraphics();
+//            g2d.fill(hardWall.getBounds());
+            if (CollisionDetection.intersect(enemyTank.getBounds(),hardWall.getBounds(),enemyTank.getAngelBody(),0)){
+                return true;
+            }
+        }
+        if (CollisionDetection.intersect(playerTank.getBounds(),enemyTank.getBounds(),playerTank.getAngelBody(),enemyTank.getAngelBody())){
             return true ;
         }
         return false ;
