@@ -10,9 +10,9 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class SuperTank extends Moving {
-    protected BufferedImage gunImage;
     protected double angelGun;
     protected double angelBody;
+    public BufferedImage gunImage;
 
     public SuperTank(String imageFileBody , String imageFileGun , String bulletImageAddress){
         super(bulletImageAddress);
@@ -31,7 +31,11 @@ public abstract class SuperTank extends Moving {
     }
 
     public Rectangle getBounds(){
-        return  new Rectangle(positionX , positionY, 150,120) ;
+        return  new Rectangle(positionX , positionY, 180,140) ;
+    }
+
+    public BufferedImage getGunImage() {
+        return gunImage;
     }
 
 }

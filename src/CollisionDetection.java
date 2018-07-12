@@ -72,10 +72,10 @@ public class CollisionDetection {
         Point d = new Point(a.x , a.y + shape1.getBounds().height  );
         Point c = new Point(a.x + shape1.getBounds().width  , a.y + shape1.getBounds().height );
 
-        b = rotatePoint(b,angel1,new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        c = rotatePoint(c,angel1,new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        d = rotatePoint(d,angel1,new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        a = rotatePoint(a,angel1,new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
+        b = rotatePoint(b,angel1,new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        c = rotatePoint(c,angel1,new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        d = rotatePoint(d,angel1,new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        a = rotatePoint(a,angel1,new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
 
 
         Point l = new Point(shape2.getBounds().x  , shape2.getBounds().y);
@@ -83,10 +83,10 @@ public class CollisionDetection {
         Point n = new Point(l.x , l.y + shape2.getBounds().height );
         Point o = new Point(l.x + shape2.getBounds().width  , l.y + shape2.getBounds().height );
 
-        m = rotatePoint(m,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        n = rotatePoint(n,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        o = rotatePoint(o,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        l = rotatePoint(l,angel2,new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
+        m = rotatePoint(m,angel2,new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        n = rotatePoint(n,angel2,new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        o = rotatePoint(o,angel2,new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        l = rotatePoint(l,angel2,new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
 
 //        g2d.fillOval(a.x,a.y,5,5);
 //        g2d.fillOval(b.x,b.y,5,5);
@@ -121,10 +121,10 @@ public class CollisionDetection {
         g2d.fillOval(d.x,d.y,10,10);
         g2d.setColor(Color.GREEN);
 
-        b = rotatePoint(b,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        c = rotatePoint(c,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        d = rotatePoint(d,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
-        a = rotatePoint(a,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width/2 , a.y+shape1.getBounds().height/2)) ;
+        b = rotatePoint(b,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        c = rotatePoint(c,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        d = rotatePoint(d,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
+        a = rotatePoint(a,Math.toRadians(angel1),new Point(a.x+shape1.getBounds().width*55/100 , a.y+shape1.getBounds().height*55/100)) ;
 
 
         Point l = new Point(shape2.getBounds().x  , shape2.getBounds().y);
@@ -132,10 +132,10 @@ public class CollisionDetection {
         Point n = new Point(l.x , l.y + shape2.getBounds().height );
         Point o = new Point(l.x + shape2.getBounds().width  , l.y + shape2.getBounds().height );
 
-        m = rotatePoint(m,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        n = rotatePoint(n,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        o = rotatePoint(o,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
-        l = rotatePoint(l,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width/2 , l.y+shape2.getBounds().height/2)) ;
+        m = rotatePoint(m,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        n = rotatePoint(n,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        o = rotatePoint(o,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
+        l = rotatePoint(l,Math.toRadians(angel2),new Point(l.x+shape2.getBounds().width*55/100 , l.y+shape2.getBounds().height*55/100)) ;
 
         g2d.fillOval(a.x,a.y,10,10);
         g2d.fillOval(b.x,b.y,10,10);

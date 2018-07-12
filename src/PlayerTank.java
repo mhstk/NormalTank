@@ -9,7 +9,6 @@ import java.util.Iterator;
 public class PlayerTank extends SuperTank {
     public int mouseX, mouseY;
     boolean camerafixedX, camerafixedY;
-    private BufferedImage gunImage;
     private BufferedImage firstBodyImage;
     private BufferedImage secondeBodyImage;
     private boolean isFirstImage = true;
@@ -20,6 +19,8 @@ public class PlayerTank extends SuperTank {
     private double difTimeBullet;
     private String shootString;
     private long lastTimeImageChanged;
+
+
 
 
     public PlayerTank(String imageFileBody, String imageFileGun, String bulletImageAddress) {
@@ -33,15 +34,6 @@ public class PlayerTank extends SuperTank {
         shootString = "heavygun.wav";
         camerafixedX = false;
         camerafixedY = false;
-        try {
-            image = ImageIO.read(new File(imageFileBody));
-            firstBodyImage = image;
-            gunImage = ImageIO.read(new File(imageFileGun));
-            secondeBodyImage = ImageIO.read(new File("Tank-under2.png"));
-            image = secondeBodyImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         angelGun = 0;
         bulletSpeed = 20;
         difTimeBullet = 0.7;
@@ -233,7 +225,6 @@ public class PlayerTank extends SuperTank {
 
 
     public void changeGunTow() {
-        setBulletImageAddress("Tank-Bullet3.png");
         shootString = "lightgun.wav";
         bulletSpeed = 25;
         difTimeBullet = 0.2;
@@ -246,7 +237,6 @@ public class PlayerTank extends SuperTank {
 
     public void changeGunOne() {
         shootString = "heavygun.wav";
-        setBulletImageAddress("Tank-Bullet.png");
         bulletSpeed = 20;
         difTimeBullet = 0.7;
         try {
@@ -263,10 +253,6 @@ public class PlayerTank extends SuperTank {
         } else {
             return angel % 360;
         }
-    }
-
-    public BufferedImage getGunImage() {
-        return gunImage;
     }
 
     public void setGunImage(BufferedImage gunImage) {
@@ -294,7 +280,7 @@ public class PlayerTank extends SuperTank {
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(state.getPlayerTank().getX(), state.getPlayerTank().getY());
-        atGun.rotate(state.getPlayerTank().getAngelGun(), 87, 67);
+        atGun.rotate(state.getPlayerTank().getAngelGun(), 100, 80);
         g2d.setTransform(atGun);
         g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
         g2d.setTransform(oldTrans);
@@ -398,11 +384,11 @@ public class PlayerTank extends SuperTank {
     }
 
     public int getGunX() {
-        return positionX + 87 + (int) (Math.cos(angelGun) * 90.0);
+        return positionX + 100 + (int) (Math.cos(angelGun) * 90.0);
     }
 
     public int getGunY() {
-        return positionY + 67 + (int) (Math.cos(angelGun) * (-10)) + (int) (Math.sin(angelGun) * 90.0);
+        return positionY + 80 + (int) (Math.cos(angelGun) * (-10)) + (int) (Math.sin(angelGun) * 90.0);
     }
 
     public double getDifTimeBullet() {

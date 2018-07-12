@@ -16,9 +16,11 @@ public class EnemyTank extends SuperTank {
     private long timeLastShotGun = 0;
 
 
-    public EnemyTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
+
+    public EnemyTank(int positionX, int positionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         this.positionX = positionX;
+        this.positionY = positionY;
         speed = 5;
     }
 
@@ -230,7 +232,7 @@ public class EnemyTank extends SuperTank {
         atGun.translate(getX(), getY());
         atGun.rotate(angelGun, 87, 67);
         g2d.setTransform(atGun);
-        g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
+        g2d.drawImage(state.getEnemyTank().getGunImage(), 0, 0, null);
     }
 
     public void drawBullet(Graphics2D g2d , GameState state , AffineTransform oldTrans){
