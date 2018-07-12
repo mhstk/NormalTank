@@ -25,16 +25,28 @@ public abstract class SuperTank extends Moving {
         bullets = new CopyOnWriteArrayList<>();
     }
 
+    public int getGunX() {
+        return positionX + 100 + (int) (Math.cos(angelGun) * 90.0);
+    }
+
+    public int getGunY() {
+        return positionY + 80 + (int) (Math.cos(angelGun) * (-10)) + (int) (Math.sin(angelGun) * 90.0);
+    }
+
     @Override
     public void move() {
     }
 
 
+    public Rectangle getBounds(){
+        return  new Rectangle(positionX , positionY, 150,120) ;
+    }
+
     public void drawGun(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(positionX, positionY);
-        atGun.rotate(angelGun, 87, 67);
+        atGun.rotate(angelGun, 100, 80);
         g2d.setTransform(atGun);
         g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
     }

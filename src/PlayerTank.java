@@ -29,7 +29,7 @@ public class PlayerTank extends SuperTank {
     @Override
     public void move() {
         if (mouseMoved) {
-            angelGun = Math.atan2(mouseY - (positionY + 67), mouseX - (positionX + 87));
+            angelGun = Math.atan2(mouseY - (positionY + 80), mouseX - (positionX + 100));
         }
 
         if (up) {
@@ -61,13 +61,14 @@ public class PlayerTank extends SuperTank {
                 positionX -= speed;
             }
         }
-
-        changeBodyImage();
+        if (up || down || right || left) {
+            changeBodyImage();
+        }
 
         positionX = Math.max(positionX, 0);
-        positionX = Math.min(positionX, GameFrame.GAME_WIDTH - 177);
+        positionX = Math.min(positionX, GameFrame.GAME_WIDTH - 205);
         positionY = Math.max(positionY, 0);
-        positionY = Math.min(positionY, GameFrame.GAME_HEIGHT - 134);
+        positionY = Math.min(positionY, GameFrame.GAME_HEIGHT - 160);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class PlayerTank extends SuperTank {
     }
 
     public boolean checkMouseLoc() {
-        if (mouseX - positionX > -5 && mouseX - positionX < 200 && mouseY - positionY > -10 && mouseY - positionY < 154) {
+        if (mouseX - positionX > -5 && mouseX - positionX < 200 && mouseY - positionY > -15 && mouseY - positionY < 180) {
             return false;
         } else {
             return true;
@@ -156,13 +157,7 @@ public class PlayerTank extends SuperTank {
         this.mouseY = mouseY;
     }
 
-    public int getGunX() {
-        return positionX + 100 + (int) (Math.cos(angelGun) * 90.0);
-    }
 
-    public int getGunY() {
-        return positionY + 80 + (int) (Math.cos(angelGun) * (-10)) + (int) (Math.sin(angelGun) * 90.0);
-    }
 
 
     public void drawBody(Graphics2D g2d , GameState state , AffineTransform oldTrans){
@@ -174,8 +169,6 @@ public class PlayerTank extends SuperTank {
         g2d.setTransform(oldTrans);
     }
 
-    public Rectangle getBounds(){
-        return  new Rectangle(positionX , positionY, 150,120) ;
-    }
+
 
 }
