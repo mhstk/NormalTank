@@ -19,7 +19,7 @@ public class EnemyTank extends SuperTank {
     public EnemyTank(int positionX, int PositionY, String imageFileBody, String imageFileGun, String bulletImageAddress) {
         super(imageFileBody, imageFileGun, bulletImageAddress);
         this.positionX = positionX;
-        speed = 8;
+        speed = 5;
     }
 
     public void isInArea() {
@@ -39,41 +39,49 @@ public class EnemyTank extends SuperTank {
     public void move() {
         angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
         if (GameState.tankPosition().x > positionX) {
-            positionX += 4;
-            if (GameLoop.state.camerafixedX) {
-                positionX += 4;
-            }
-            if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+            positionX += speed;
             right = true;
             left = false;
+            if (Collision.CollisionEnemyTank()){
+                right = false;
+                left = true;
+                positionX -= speed;
+            }
+            if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
             moveRight();
         } else if (GameState.tankPosition().x < positionX) {
-            positionX -= 4;
-            if (GameLoop.state.camerafixedX) {
-                positionX -= 4;
-            }
-            if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+            positionX -= speed;
             left = true;
             right = false;
+            if (Collision.CollisionEnemyTank()){
+                right = true;
+                left = false;
+                positionX += speed;
+            }
+            if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
             moveLeft();
         } else {
             right = false;
             left = false;
         }
         if (GameState.tankPosition().y > positionY) {
-            positionY += 4;
-            if (GameLoop.state.camerafixedY) {
-                positionY += 4;
-            }
-            if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+            positionY += speed;
             down = true;
             up = false;
+            if (Collision.CollisionEnemyTank()){
+                down = false;
+                up = true;
+                positionY -= speed;
+            }
+            if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
             moveDown();
 
         } else if (GameState.tankPosition().y < positionY) {
-            positionY -= 4;
-            if (GameLoop.state.camerafixedY) {
-                positionY -= 4;
+            positionY -= speed;
+            if (Collision.CollisionEnemyTank()){
+                down = true;
+                up = false;
+                positionY += speed;
             }
             if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
             up = true;

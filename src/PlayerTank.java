@@ -284,7 +284,7 @@ public class PlayerTank extends SuperTank {
     public void drawTankBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBodyImage().getWidth() / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBodyImage().getHeight() / 2);
+        atBody.rotate(Math.toRadians(state.getPlayerTank().getAngelBody()), state.getPlayerTank().getX() + state.getPlayerTank().getBounds().width / 2, state.getPlayerTank().getY() + state.getPlayerTank().getBounds().height/2);
         g2d.setTransform(atBody);
         g2d.drawImage(state.getPlayerTank().getBodyImage(), state.getPlayerTank().getX(), state.getPlayerTank().getY(), null);
         g2d.setTransform(oldTrans);

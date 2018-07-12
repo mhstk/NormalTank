@@ -15,6 +15,8 @@ public class IdiotEnemy extends Moving {
 
     public IdiotEnemy(int positionX, int positionY) {
         super(null);
+        this.positionY = positionY;
+        this.positionX = positionX;
         try {
             image = ImageIO.read(new File("idiotEnemy1.png"));
         } catch (IOException e) {
@@ -55,7 +57,6 @@ public class IdiotEnemy extends Moving {
             lastTimeImageChanged = now;
         }
         if (seed) {
-            System.out.println("in move");
             if (GameState.tankPosition().x > positionX) {
                 positionX += 4;
                 if (GameLoop.state.camerafixedX) {
