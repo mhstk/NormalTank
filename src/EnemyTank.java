@@ -6,7 +6,7 @@ public class EnemyTank extends SuperTank {
     private long timeLastShotGun = 0;
 
     public EnemyTank(int positionX, int positionY) {
-        super("Tank-under.png","Tank-under2.png", "Tank-top3.png", "Tank-Bullet.png",positionX,positionY);
+        super("Tank-under.png","Tank-under2.png", "Tank-top.png", "Tank-Bullet.png",positionX,positionY);
         speed = 5;
     }
 
@@ -86,7 +86,7 @@ public class EnemyTank extends SuperTank {
     public void shoot() {
         Long now = System.nanoTime();
         if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
-            Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (image.getWidth() / 2), GameState.tankPosition().y + (image.getHeight() / 2), bulletImageAddress, 20);
+            Bullet bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (image.getWidth() / 2), GameState.tankPosition().y + (image.getHeight() / 2), bulletImageAddress, 20);
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
             sound.execute();

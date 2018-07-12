@@ -8,12 +8,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
 /**
  * This class holds the state of game and all of its elements.
  * This class also handles user inputs, which affect the game state.
  */
-public class GameState {
+public class GameState implements Serializable {
 
     public int locX, locY, diam;
     public boolean gameOver;
