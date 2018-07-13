@@ -48,7 +48,7 @@ public abstract class SuperTank extends Moving {
         atGun.translate(positionX, positionY);
         atGun.rotate(angelGun, 100, 80);
         g2d.setTransform(atGun);
-        g2d.drawImage(state.getPlayerTank().getGunImage(), 0, 0, null);
+        g2d.drawImage(gunImage, 0, 0, null);
     }
 
 
@@ -61,7 +61,6 @@ public abstract class SuperTank extends Moving {
             g2d.drawImage(bullet.getImage(), 0, 0, null);
             g2d.setTransform(oldTrans);
         }
-        updateBullet();
     }
 
     public void updateBullet() {
@@ -69,7 +68,7 @@ public abstract class SuperTank extends Moving {
         while (it.hasNext()) {
             Bullet bullet = (Bullet) it.next();
             bullet.updateLocation();
-            if (Collision.collisionBullet(bullet)){
+            if (Collision.collisionEnemyBullet(bullet)){
                bullets.remove(bullet);
             }
         }

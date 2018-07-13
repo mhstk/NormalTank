@@ -102,13 +102,23 @@ public class GameFrame extends JFrame {
             if (idiotEnemy.isAlive()&&idiotEnemy.isVisible())
             idiotEnemy.drawBody(g2d, state, oldTrans);
         }
+        for (Mine mine : state.map.mines){
+            if (mine.isAlive()&& mine.isVisible()){
+                mine.drawBody(g2d,state,oldTrans);
+            }
+        }
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(g2d, state, oldTrans);
-        for (Turret turret : state.map.turrets)
-            turret.drawBullets(g2d,state,oldTrans);
-        for (EnemyTank enemyTank : state.map.enemyTanks)
+        state.getPlayerTank().updateBullet();
+        for (Turret turret : state.map.turrets) {
+            turret.drawBullets(g2d, state, oldTrans);
+            turret.updateBullet();
+        }
+        for (EnemyTank enemyTank : state.map.enemyTanks) {
             enemyTank.drawBullets(g2d, state, oldTrans);
+            enemyTank.updateBullet();
+        }
 
         // Draw Gun
         state.getPlayerTank().drawGun(g2d, state, oldTrans);

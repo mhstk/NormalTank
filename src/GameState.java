@@ -19,7 +19,7 @@ public class GameState implements Serializable {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean cameraFixedX, cameraFixedY;
-    private static PlayerTank playerTank = new PlayerTank(160,1600);
+    private static PlayerTank playerTank = new PlayerTank(160,800);
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     private boolean mousePress;
@@ -78,6 +78,10 @@ public class GameState implements Serializable {
         for (IdiotEnemy idiotEnemy : map.idiotEnemies){
             idiotEnemy.isInArea();
             idiotEnemy.move();
+        }
+        for (Mine mine : map.mines){
+            mine.inArea();
+            mine.act();
         }
 
         Camera.updateInfo();

@@ -5,20 +5,23 @@ public class Camera {
     public static int originX = 0;
     public static int originY = 0;
     static GameState state = GameLoop.state;
-    static PlayerTank playerTank = state.getPlayerTank();
+    private static PlayerTank playerTank = state.getPlayerTank();
 
-    static ArrayList<EnemyTank> enemyTanks = state.map.enemyTanks;
-    static ArrayList<Turret> turrets = state.map.turrets;
-    static ArrayList<IdiotEnemy> idiotEnemys = state.map.idiotEnemies;
+    private static ArrayList<EnemyTank> enemyTanks = state.map.enemyTanks;
+    private static ArrayList<Turret> turrets = state.map.turrets;
+    private static ArrayList<IdiotEnemy> idiotEnemies = state.map.idiotEnemies;
+    private static ArrayList<Mine> mines = state.map.mines;
 
-    static ArrayList<HardWall> hardWalls = state.map.hardWalls;
-    static ArrayList<SoftWall> softWalls = state.map.softWalls;
-    static ArrayList<Teazel> teazels = state.map.teazel;
+    private static ArrayList<HardWall> hardWalls = state.map.hardWalls;
+    private static ArrayList<SoftWall> softWalls = state.map.softWalls;
+    private static ArrayList<Teazel> teazels = state.map.teazel;
+    private static ArrayList<MashinGun> mashinGuns = state.map.mashinGuns;
+    private static ArrayList<TankGun> tankGuns = state.map.tankGuns;
+    private static ArrayList<Repair> rapaires = state.map.repaires;
 
     static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
-    private static int cameraSpeed = 4;
 
     public static void updateInfo() {
         keyUP = state.keyUP;
@@ -38,7 +41,7 @@ public class Camera {
 
     public static void cameraMove() {
 
-
+        int cameraSpeed = 4;
         if (keyUP) {
             originY += cameraSpeed;
         }
@@ -122,7 +125,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionY += cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY += cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -133,6 +136,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY += cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY += cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY += cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY += cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionY += cameraSpeed;
         }
 
         if (keyDOWN && !camerafixedY) {
@@ -144,7 +155,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionY -= cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY -= cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -155,6 +166,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY -= cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY -= cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY -= cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY -= cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionY -= cameraSpeed;
         }
 
         if (keyLEFT && !camerafixedX) {
@@ -166,7 +185,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionX += cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX += cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -175,9 +194,16 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX += cameraSpeed;
             }
-
             for (Teazel teazel : teazels)
                 teazel.positionX += cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX += cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX += cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX += cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionX += cameraSpeed;
         }
 
         if (keyRIGHT && !camerafixedX) {
@@ -189,7 +215,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionX -= cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX -= cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -200,6 +226,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX -= cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX -= cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX -= cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX -= cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionX -= cameraSpeed;
         }
 
         if (mouseUP && !camerafixedY) {
@@ -211,7 +245,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionY += 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY += 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -220,9 +254,16 @@ public class Camera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY += (1.25 * cameraSpeed);
             }
-
             for (Teazel teazel : teazels)
                 teazel.positionY += 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY += 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY += 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY += 1.25 * cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionY += 1.25 * cameraSpeed;
         }
 
         if (mouseDOWN && !camerafixedY) {
@@ -234,7 +275,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionY -= 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY -= 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -245,6 +286,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY -= 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY -= 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY -= 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY -= 1.25 * cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionY -= 1.25 * cameraSpeed;
         }
 
         if (mouseLEFT && !camerafixedX) {
@@ -256,7 +305,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionX += 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX += 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -267,6 +316,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX += 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX += 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX += 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX += 1.25 * cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionX += 1.25 * cameraSpeed;
         }
 
         if (mouseRIGHT && !camerafixedX) {
@@ -279,7 +336,7 @@ public class Camera {
             for (Turret turret : turrets) {
                 turret.positionX -= 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX -= 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -290,6 +347,14 @@ public class Camera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX -= 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX -= 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX -= 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX -= 1.25 * cameraSpeed;
+            for (Repair repair : rapaires)
+                repair.positionX -= 1.25 * cameraSpeed;
         }
     }
 }

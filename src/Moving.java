@@ -6,27 +6,20 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class Moving extends Runner {
-    private long lastTimeImageChanged;
-    private boolean isFirstImage = true;
     protected int speed;
     protected double angelBody;
-    private String firstBodyImage;
-    private String secondBodyImage;
     protected boolean up = false;
     protected boolean down = false;
     protected boolean left = false;
     protected boolean right = false;
 
     public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY){
-        super(bulletImageAddress,positionX,positionY);
+        super(firstBodyImage,secondBodyImage,bulletImageAddress,positionX,positionY);
         try {
             image = ImageIO.read(new File(firstBodyImage));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.firstBodyImage = firstBodyImage;
-        this.secondBodyImage = secondBodyImage;
-
     }
 
     public Rectangle getBounds(){
@@ -142,27 +135,6 @@ public abstract class Moving extends Runner {
         }
     }
 
-    public void changeBodyImage(){
-        long now = System.nanoTime();
-        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-            if (isFirstImage) {
-                try {
-                    image = ImageIO.read(new File(secondBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = false;
-            } else {
-                try {
-                    image = ImageIO.read(new File(firstBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = true;
-            }
-            lastTimeImageChanged = now;
-        }
-    }
 
     public double getAngelBody() {
         return angelBody;

@@ -5,7 +5,7 @@ public class IdiotEnemy extends Moving {
     private boolean alive;
 
     public IdiotEnemy(int positionX, int positionY) {
-        super("idiotEnemy1.png","idiotEnemy1.png","",positionX,positionY);
+        super("idiotEnemy1.png","idiotEnemy2.png","",positionX,positionY);
     speed = 4;
     alive = true;
  }
