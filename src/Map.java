@@ -93,6 +93,7 @@ public class Map implements Serializable {
                 }
                 j--;
             }
+            System.out.println(softWalls.size());
         } catch (IOException e) {
             e.printStackTrace();
         }

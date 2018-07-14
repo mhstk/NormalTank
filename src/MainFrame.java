@@ -13,6 +13,7 @@ public class MainFrame extends JFrame {
     private JPanel startPanel;
     private JPanel singlePlayer;
     private JPanel twoPlayer;
+    private JPanel mapEditor;
     private SpringLayout layout;
     private JPanel exit;
 
@@ -80,9 +81,9 @@ public class MainFrame extends JFrame {
         if (res == JOptionPane.OK_OPTION) {
             this.dispose();
             if (server.isSelected())
-                Main.startGame(0);
+                Main.startGame(0,"Map.txt");
             else if (client.isSelected())
-                Main.startGame(1);
+                Main.startGame(1,"Map.txt");
         }
 
     }
@@ -105,11 +106,11 @@ public class MainFrame extends JFrame {
         if (res == JOptionPane.OK_OPTION) {
             this.dispose();
             if (easy.isSelected())
-                Main.startGame(0);
+                Main.startGame(0,"Map.txt");
             else if (normal.isSelected())
-                Main.startGame(1);
+                Main.startGame(1,"Map.txt");
             else if (hard.isSelected())
-                Main.startGame(2);
+                Main.startGame(2,"Map.txt");
         }
     }
 
@@ -179,7 +180,43 @@ public class MainFrame extends JFrame {
         this.add(startPanel);
         setSinglePlayer();
         setTwoPlayer();
+        setMapEditor();
         setExit();
+    }
+
+    private void setMapEditor() {
+        mapEditor = new JPanel(new BorderLayout());
+        JLabel jLabel = new JLabel("Map Editor");
+        mapEditor.setBackground(Color.BLACK);
+        jLabel.setBackground(Color.BLACK);
+        jLabel.setForeground(Color.WHITE);
+        jLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        mapEditor.add(jLabel, BorderLayout.CENTER);
+
+        mapEditor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new MapEditor();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                jLabel.setForeground(Color.GREEN);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                jLabel.setForeground(Color.WHITE);
+            }
+        });
+
+        startPanel.add(mapEditor);
+        layout.putConstraint(SpringLayout.SOUTH, mapEditor, 700, SpringLayout.NORTH, startPanel);
+        layout.putConstraint(SpringLayout.WEST, mapEditor, 500, SpringLayout.WEST, startPanel);
+
     }
 
     private void setExit() {
@@ -212,7 +249,7 @@ public class MainFrame extends JFrame {
         });
 
         startPanel.add(exit);
-        layout.putConstraint(SpringLayout.SOUTH, exit, 700, SpringLayout.NORTH, startPanel);
+        layout.putConstraint(SpringLayout.SOUTH, exit, 800, SpringLayout.NORTH, startPanel);
         layout.putConstraint(SpringLayout.WEST, exit, 500, SpringLayout.WEST, startPanel);
     }
 }

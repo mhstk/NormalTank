@@ -35,7 +35,7 @@ public class GameState implements Serializable {
     private int level;
     private CheatCode cheatCode;
 
-    public GameState(int mode , int level) {
+    public GameState(int mode , int level,String map) {
         this.level = level;
         playerTank = new PlayerTank(160, 800, level);
         cheatCode = new CheatCode(playerTank);
@@ -68,15 +68,15 @@ public class GameState implements Serializable {
 
 
         if (mode != 2) {
-            map = new Map(level);
-            map.createMap("Map.txt");
+            this.map = new Map(level);
+            this.map.createMap(map);
 
         }
         if (mode == 1) {
             coPlayer = new CoPlayerTank(60,900 , 0);
             Server.getInstance().start();
 
-            Data data = new Data(playerTank,coPlayer,map);
+            Data data = new Data(playerTank,coPlayer,this.map);
 
 
             Server.getInstance().sendData(data);

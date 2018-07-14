@@ -10,14 +10,14 @@ import javax.swing.JFrame;
 
 /**
  * Program start.
- *
  */
 public class Main {
 
-    public static final Sound SOUND = new Sound(".\\game.wav",105000);
+    public static final Sound SOUND = new Sound(".\\game.wav", 105000);
     public static GameFrame frame;
-    public static int level ;
-    public static MainFrame mainFrame ;
+    public static int level;
+    public static MainFrame mainFrame;
+
     public static void main(String[] args) {
         // Initialize the global thread-pool
         ThreadPool.init();
@@ -34,7 +34,7 @@ public class Main {
         });
     }
 
-    public static void startGame(int level){
+    public static void startGame(int level, String map) {
         SOUND.execute();
         frame = new GameFrame("Simple Ball", level);
         frame.setLocationRelativeTo(null); // put frame at center of screen
@@ -55,7 +55,7 @@ public class Main {
         frame.setVisible(true);
         frame.initBufferStrategy();
         // Create and execute the game-loop
-        GameLoop game = new GameLoop(frame ,0, level);
+        GameLoop game = new GameLoop(frame, 0, level, map);
         game.init();
         ThreadPool.execute(game);
 

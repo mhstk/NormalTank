@@ -25,18 +25,20 @@ public class GameLoop implements Runnable {
     private GameFrame canvas;
     public static GameState state;
     private int mode ;
+    private String map;
 
-    public GameLoop(GameFrame frame, int mode , int level) {
+    public GameLoop(GameFrame frame, int mode , int level,String map) {
         canvas = frame;
         this.mode = mode;
         this.level = level ;
+        this.map = map ;
     }
 
     /**
      * This must be called before the game loop starts.
      */
     public void init() {
-        state = new GameState(mode , level);
+        state = new GameState(mode , level,map);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());
@@ -44,7 +46,7 @@ public class GameLoop implements Runnable {
 
     public void initServer() {
 
-        state = new GameState(mode , level);
+        state = new GameState(mode , level,map);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());

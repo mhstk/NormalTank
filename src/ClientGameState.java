@@ -12,7 +12,7 @@ public class ClientGameState extends GameState {
 
 
     public ClientGameState(int mode , int level) {
-        super(mode , level);
+        super(mode , level,"Map.txt");
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
