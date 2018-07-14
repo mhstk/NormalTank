@@ -12,16 +12,26 @@ public class PlayerTank extends SuperTank implements Serializable {
     protected boolean mouseMoved;
     protected int bulletSpeed;
     protected String shootString;
+    private int tankGun;
+    private int mashinGun;
+    private int firstHealth;
+    private int moreSpeed = 0;
+    private int moreDamage = 0;
 
 
-    public PlayerTank(int positionX, int positionY) {
-        super("Tank-under.png", "Tank-under2.png", "Tank-top.png", "Tank-Bullet.png", positionX, positionY);
-        speed = 7;
+    public PlayerTank(int positionX, int positionY , int level) {
+        super("Tank-under.png","Tank-under2.png", "Tank-top.png", "Tank-Bullet.png",positionX,positionY,level);
+        speed = 7 + moreSpeed;
         shootString = "heavygun.wav";
+        damage = 4 + moreDamage;
         camerafixedX = false;
         camerafixedY = false;
-        bulletSpeed = 20;
+        bulletSpeed = 20 + moreSpeed;
         difTimeBullet = 0.7;
+        health = 5 * 4 - level * 4;
+        firstHealth = health;
+        tankGun = 25;
+        mashinGun = 100;
     }
 
     @Override
@@ -77,16 +87,30 @@ public class PlayerTank extends SuperTank implements Serializable {
         positionY = Math.min(positionY, GameFrame.GAME_HEIGHT - 160);
     }
 
-    @Override
     public void shoot(int originX, int originY, int destX, int destY) {
+        if (getGunNumber() == 1) {
+            if (tankGun == 0) {
+                Sound sound = new Sound("emptyGun.wav", 0);
+                sound.execute();
+                return;
+            } else {
+                changeNumberOfTankGun(-1);
+            }
+        } else {
+            if (mashinGun == 0) {
+                Sound sound = new Sound("emptyGun.wav", 0);
+                sound.execute();
+                return;
+            } else changeNumberOfMashinGun(-1);
+        }
         Sound sound = new Sound(shootString, 0);
         sound.execute();
         super.shoot(originX, originY, destX, destY);
         Bullet bullet;
         if (isFirstImage) {
-            bullet = new Bullet(originX, originY, destX, destY, 0, bulletSpeed);
+            bullet = new Bullet(originX, originY, destX, destY, 0, bulletSpeed , damage);
         } else {
-            bullet = new Bullet(originX, originY, destX, destY, 1, bulletSpeed);
+            bullet = new Bullet(originX, originY, destX, destY, 1, bulletSpeed , damage);
         }
 
         bullets.add(bullet);
@@ -100,21 +124,42 @@ public class PlayerTank extends SuperTank implements Serializable {
         }
     }
 
+    public void updateBullet() {
+        Iterator it = bullets.iterator();
+        while (it.hasNext()) {
+            Bullet bullet = (Bullet) it.next();
+            bullet.updateLocation();
+            if (Collision.collisionPlayerBullet(bullet)) {
+                bullets.remove(bullet);
+            }
+        }
+    }
+
 
     public void changeGunTow() {
         bulletImageAddress = "Tank-Bullet3.png";
+        damage = 1 + moreDamage;
         shootString = "lightgun.wav";
-        bulletSpeed = 25;
+        bulletSpeed = 25 + moreSpeed;
         difTimeBullet = 0.2;
-
+        try {
+            gunImage = ImageIO.read(new File("Tank-top2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeGunOne() {
         shootString = "heavygun.wav";
         bulletImageAddress = "Tank-Bullet.png";
-        bulletSpeed = 20;
+        damage = 4 + moreDamage;
+        bulletSpeed = 20 + moreSpeed;
         difTimeBullet = 0.7;
-
+        try {
+            gunImage = ImageIO.read(new File("Tank-top.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -124,6 +169,14 @@ public class PlayerTank extends SuperTank implements Serializable {
         } else {
             return 2;
         }
+    }
+
+    public void changeNumberOfTankGun(int number) {
+        tankGun += number;
+    }
+
+    public void changeNumberOfMashinGun(int number) {
+        mashinGun += number;
     }
 
     public void setKeyUP(boolean keyUP) {
@@ -168,5 +221,23 @@ public class PlayerTank extends SuperTank implements Serializable {
 //        g2d.setTransform(oldTrans);
 //    }
 
+    public int getHealth() {
+        return health;
+    }
 
+    public void refactor() {
+        health = firstHealth;
+    }
+
+    public int getFirstHealth() {
+        return firstHealth;
+    }
+
+    public void power() {
+        moreSpeed += 2;
+        moreDamage += 1;
+        damage += moreDamage;
+        bulletSpeed += moreSpeed;
+        speed += moreSpeed;
+    }
 }

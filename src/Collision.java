@@ -1,16 +1,20 @@
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Collision {
     static GameState state = GameLoop.state;
-    static PlayerTank playerTank = state.getPlayerTank();
-    static ArrayList<EnemyTank> enemyTanks = state.map.enemyTanks;
-    static ArrayList<Turret> turrets = state.map.turrets;
-    static ArrayList<IdiotEnemy> idiotEnemies= state.map.idiotEnemies;
-    static ArrayList<Teazel> teazels = state.map.teazel;
-    static ArrayList<SoftWall> softWalls = state.map.softWalls;
-    static ArrayList<HardWall> hardWalls = state.map.hardWalls;
-    static GameFrame gameFrame = Main.frame;
+    private static PlayerTank playerTank = state.getPlayerTank();
+    private static ArrayList<EnemyTank> enemyTanks = state.map.enemyTanks;
+    private static ArrayList<Turret> turrets = state.map.turrets;
+    private static ArrayList<IdiotEnemy> idiotEnemies = state.map.idiotEnemies;
+    private static ArrayList<Teazel> teazels = state.map.teazel;
+    private static ArrayList<Mine> mines = state.map.mines;
+
+    private static ArrayList<SoftWall> softWalls = state.map.softWalls;
+    private static ArrayList<HardWall> hardWalls = state.map.hardWalls;
+    private static ArrayList<MashinGun> mashinGuns = state.map.mashinGuns;
+    private static ArrayList<TankGun> tankGuns = state.map.tankGuns;
+    private static ArrayList<Repair> repaires = state.map.repairs;
+    private static ArrayList<Star> stars = state.map.stars;
 
     public static boolean collisionBullet(Bullet bullet) {
         for (HardWall hardWall : hardWalls) {
@@ -24,36 +28,14 @@ public class Collision {
                 {
                     Sound sound = new Sound("softWall.wav", 0);
                     sound.execute();
-                    if (softWall.destroy() == 4) {
+                    if (softWall.destroy(bullet.getDamage()) == 4) {
                         softWalls.remove(softWall);
                     }
                     return true;
                 }
             }
         }
-
-        for (EnemyTank enemyTank : enemyTanks){
-            if (CollisionDetection.intersect(bullet.getBounds() , enemyTank.getBounds(),bullet.getAngelBody(),enemyTank.angelBody)) {
-                enemyTank.toBeInjured();
-                return true;
-            }
-        }
-
-//        for (IdiotEnemy idiotEnemy : idiotEnemies) {
-//            if (idiotEnemy.isAlive()) {
-//                if (CollisionDetection.intersect(bullet.getBounds(), idiotEnemy.getBounds(), bullet.getAngelBody(), idiotEnemy.getAngelBody())) {
-//                    idiotEnemy.toBeInjured();
-//                }
-//                return true;
-//            }
-//        }
-
-        if (CollisionDetection.intersect(bullet.getBounds() , playerTank.getBounds(),bullet.getAngelBody(),playerTank.angelBody)) {
-            playerTank.toBeInjured();
-            System.out.println("klek");
-            return true;
-        }
-            return false;
+        return false;
     }
 
 
@@ -76,12 +58,104 @@ public class Collision {
                 return true;
         }
 
-        for (EnemyTank enemyTank : enemyTanks){
+        for (EnemyTank enemyTank : enemyTanks) {
             if (CollisionDetection.intersect(playerTank.getBounds(), enemyTank.getBounds(), playerTank.getAngelBody(), enemyTank.getAngelBody())) {
                 return true;
             }
         }
 
+        for (MashinGun mashinGun : mashinGuns) {
+            if (CollisionDetection.intersect(playerTank.getBounds(), mashinGun.getBounds(), playerTank.angelBody, 0)) {
+                if (!mashinGun.used()) {
+                    mashinGun.changeImage();
+                    playerTank.changeNumberOfMashinGun(25);
+                }
+                return false;
+            }
+        }
+
+        for (TankGun tankGun : tankGuns) {
+            if (CollisionDetection.intersect(playerTank.getBounds(), tankGun.getBounds(), playerTank.angelBody, 0)) {
+                if (!tankGun.used()) {
+                    tankGun.changeImage();
+                    playerTank.changeNumberOfTankGun(10);
+                }
+                return false;
+            }
+        }
+
+        for (Repair repair : repaires) {
+            if (CollisionDetection.intersect(playerTank.getBounds(), repair.getBounds(), playerTank.angelBody, 0)) {
+                if (!repair.used()) {
+                    if (playerTank.getHealth() != playerTank.getFirstHealth()) {
+                        playerTank.refactor();
+                        repair.changeImage();
+                    }
+                    return false;
+                }
+            }
+        }
+
+        for (Star star : stars) {
+            if (CollisionDetection.intersect(playerTank.getBounds(), star.getBounds(), playerTank.angelBody, 0)) {
+                if (!star.used()) {
+                        playerTank.power();
+                        star.changeImage();
+                    return false;
+                }
+            }
+        }
+
+        for (Mine mine : mines) {
+            if (mine.isAlive()) {
+                if (CollisionDetection.intersect(playerTank.getBounds(), mine.getBounds(), playerTank.getAngelBody(), 0)) {
+                    mine.destroy();
+                    playerTank.toBeInjured(mine.damage);
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean collisionPlayerBullet(Bullet bullet) {
+        if (collisionBullet(bullet)) return true;
+        else {
+            for (IdiotEnemy idiotEnemy : idiotEnemies)
+                if (idiotEnemy.isAlive())
+                    if (CollisionDetection.intersect(bullet.getBounds(), idiotEnemy.getBounds(), bullet.getAngelBody(), idiotEnemy.getAngelBody())) {
+                        idiotEnemy.toBeInjured(bullet.getDamage());
+                        if (idiotEnemy.getHealth() <= 0)
+                            idiotEnemies.remove(idiotEnemy);
+                        return true;
+                    }
+
+            for (EnemyTank enemyTank : enemyTanks) {
+                if (CollisionDetection.intersect(bullet.getBounds(), enemyTank.getBounds(), bullet.getAngelBody(), enemyTank.angelBody)) {
+                    enemyTank.toBeInjured(bullet.getDamage());
+                    if (enemyTank.getHealth() <= 0)
+                        enemyTanks.remove(enemyTank);
+                    return true;
+                }
+            }
+
+            for (Turret turret : turrets) {
+                if (CollisionDetection.intersect(bullet.getBounds(), turret.getBounds(), bullet.getAngelBody(), turret.getAngelBody())) {
+                    turret.toBeInjured(bullet.getDamage());
+                    if (turret.getHealth() <= 0)
+                        turrets.remove(turret);
+                    return true;
+                }
+            }
+
+            for (Mine mine : mines) {
+                if (mine.isAlive() && mine.isVisible()) {
+                    if (CollisionDetection.intersect(bullet.getBounds(), mine.getBounds(), bullet.getAngelBody(), 0)) {
+                        mine.destroy();
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -103,6 +177,7 @@ public class Collision {
             if (CollisionDetection.intersect(enemyTank.getBounds(), teazel.getBounds(), enemyTank.getAngelBody(), 0))
                 return true;
         }
+
 
         if (CollisionDetection.intersect(playerTank.getBounds(), enemyTank.getBounds(), playerTank.getAngelBody(), enemyTank.getAngelBody())) {
             return true;
@@ -130,7 +205,15 @@ public class Collision {
         if (CollisionDetection.intersect(playerTank.getBounds(), idiotEnemy.getBounds(), playerTank.getAngelBody(), idiotEnemy.getAngelBody())) {
             return 2;
         }
-
         return 0;
+    }
+
+    public static boolean collisionEnemyBullet(Bullet bullet) {
+        if (collisionBullet(bullet)) return true;
+        else if (CollisionDetection.intersect(bullet.getBounds(), playerTank.getBounds(), bullet.getAngelBody(), playerTank.angelBody)) {
+            playerTank.toBeInjured(bullet.getDamage());
+            return true;
+        }
+        return false;
     }
 }

@@ -10,6 +10,7 @@ public class SoftWall extends MapPart{
     int i;
     int j;
     public int mood;
+    private int health = 4;
 
     public SoftWall(int positionX, int positionY, int j, int i) {
         super(positionX,positionY);
@@ -20,9 +21,13 @@ public class SoftWall extends MapPart{
     }
 
 
-    public int destroy() {
-        mood++;
-//        if (mood == 1 || mood == 2 || mood == 3) {
+    public int destroy(int damage) {
+        health -= damage;
+        if (health<=0) {
+            mood++;
+            health = 4;
+        }
+//        if (mood == 0 || mood == 1 || mood == 2 || mood == 3) {
 //            try {
 //                image = ImageIO.read(new File("softWall" + mood + ".png"));
 //            } catch (IOException e) {

@@ -9,27 +9,39 @@ public class Map implements Serializable {
     public ArrayList<HardWall> hardWalls;
     public ArrayList<SoftWall> softWalls;
     public ArrayList<Plant> plants;
+    public ArrayList<MashinGun> mashinGuns;
+    public ArrayList<TankGun> tankGuns;
+
     public ArrayList<Teazel> teazel;
     public ArrayList<IdiotEnemy> idiotEnemies;
     public ArrayList<EnemyTank> enemyTanks;
-    //    public ArrayList<Mine> mines;
     public ArrayList<Turret> turrets;
+    public ArrayList<Mine> mines;
+    public ArrayList<Repair> repairs;
+    public ArrayList<Star> stars;
+
+    private int level;
     private int[][] map;
-    private int wall = 0;
+    private BufferedImage area;
 
-
-    public Map() {
+    public Map(int level) {
         map = new int[30][30];
+        this.level = level;
 
 
         plants = new ArrayList<>();
         hardWalls = new ArrayList<>();
         softWalls = new ArrayList<>();
         teazel = new ArrayList<>();
+        mashinGuns = new ArrayList<>();
+        tankGuns = new ArrayList<>();
+        repairs = new ArrayList<>();
+        stars = new ArrayList<>();
 
         turrets = new ArrayList<>();
         enemyTanks = new ArrayList<>();
         idiotEnemies = new ArrayList<>();
+        mines = new ArrayList<>();
     }
 
     public void createMap(String fileAddress) {
@@ -49,11 +61,27 @@ public class Map implements Serializable {
                     } else if (map[i][j] == 4) {
                         teazel.add(new Teazel(i * 150, 1080 - (3750 - (150 * (24 - j)))));
                     } else if (map[i][j] == 5) {
-                        idiotEnemies.add(new IdiotEnemy(i * 150, 1080 - (3750 - (150 * (24 - j)))));
+                        idiotEnemies.add(new IdiotEnemy(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
                     } else if (map[i][j] == 6) {
-                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "UP"));
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "UP", level));
                     } else if (map[i][j] == 7) {
-                        enemyTanks.add(new EnemyTank(i * 150, 1080 - (3750 - (150 * (24 - j)))));
+                        enemyTanks.add(new EnemyTank(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
+                    } else if (map[i][j] == 8) {
+                        mines.add(new Mine(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
+                    } else if (map[i][j] == 9) {
+                        mashinGuns.add(new MashinGun(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 10) {
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "DOWN", level));
+                    } else if (map[i][j] == 11) {
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "LEFT", level));
+                    } else if (map[i][j] == 12) {
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "RIGHT", level));
+                    } else if (map[i][j] == 13) {
+                        tankGuns.add(new TankGun(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 14) {
+                        repairs.add(new Repair(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 15) {
+                        stars.add(new Star(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
                     }
                 }
                 j--;
@@ -132,6 +160,26 @@ public class Map implements Serializable {
                             }
 
                         }
+                    }
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 9) {
+                    for (MashinGun mashinGun : mashinGuns) {
+                        if (mashinGun.i == i + (int) (Camera.originY / 150) && mashinGun.j == j + (int) (Camera.originX / 150))
+                            g2d.drawImage(mashinGun.getImage(), 0, -150, null);
+                    }
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 13) {
+                    for (TankGun tankGun : tankGuns) {
+                        if (tankGun.getI() == i + (int) (Camera.originY / 150) && tankGun.getJ() == j + (int) (Camera.originX / 150))
+                            g2d.drawImage(tankGun.getImage(), 0, -150, null);
+                    }
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 14) {
+                    for (Repair repair : repairs) {
+                        if (repair.getI() == i + (int) (Camera.originY / 150) && repair.getJ() == j + (int) (Camera.originX / 150))
+                            g2d.drawImage(repair.getImage(), 0, -150, null);
+                    }
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 15) {
+                    for (Star star : stars) {
+                        if (star.getI() == i + (int) (Camera.originY / 150) && star.getJ() == j + (int) (Camera.originX / 150))
+                            g2d.drawImage(star.getImage(), 0, -150, null);
                     }
                 }
                 atMap.translate(150, 0);

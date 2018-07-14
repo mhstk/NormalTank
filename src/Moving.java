@@ -11,15 +11,13 @@ public abstract class Moving extends Runner implements Serializable {
     protected boolean isFirstImage = true;
     protected int speed;
     protected double angelBody;
-    private String firstBodyImage;
-    private String secondBodyImage;
     protected boolean up = false;
     protected boolean down = false;
     protected boolean left = false;
     protected boolean right = false;
 
-    public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY){
-        super(bulletImageAddress,positionX,positionY);
+    public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY , int level){
+        super(bulletImageAddress,positionX,positionY, level);
         this.firstBodyImage = firstBodyImage;
         this.secondBodyImage = secondBodyImage;
 

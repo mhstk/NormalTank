@@ -8,9 +8,11 @@ public class Turret extends SuperTank {
     private String status;
     private long timeLastShotGun = 0;
 
-    public Turret(int positionX, int positionY, String status) {
-        super("Tank-under.png","Tank-under.png","Tank-top.png","Tank-Bullet.png",positionX,positionY);
+    public Turret(int positionX, int positionY, String status, int level) {
+        super("Tank-under.png","Tank-under.png","Tank-top.png","Tank-Bullet.png",positionX,positionY,level);
         this.status = status;
+        damage = 4 ;
+        health = 8 + 4 * level;
         setFirstAngel();
     }
 
@@ -55,13 +57,13 @@ public class Turret extends SuperTank {
         int playerTankX = GameState.tankPosition().x;
         int playerTankY = GameState.tankPosition().y;
         double distance = Math.pow(positionX - playerTankX, 2) + Math.pow(positionY - playerTankY, 2);
-        if (Math.sqrt(distance) < 500) {
+        if (Math.sqrt(distance) < 1500) {
             act();
         }
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (205/ 2), GameState.tankPosition().y + (160 / 2), 0, 20);
+        Bullet bullet = new Bullet(positionX + (100), positionY + (80), GameState.tankPosition().x + (205/ 2), GameState.tankPosition().y + (160 / 2), 0, 20 , damage);
         if (isPossible(bullet.getAngelBody())) {
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
@@ -83,4 +85,7 @@ public class Turret extends SuperTank {
         return true;
     }
 
+    public int getHealth() {
+        return health;
+    }
 }

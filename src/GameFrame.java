@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
 
     private BufferStrategy bufferStrategy;
 
-    public GameFrame(String title) {
+    public GameFrame(String title, int level) {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -95,33 +95,41 @@ public class GameFrame extends JFrame {
         AffineTransform oldTrans = g2d.getTransform();
 
         // Draw background
-        state.map.drawArea(LoadImage.area,g2d, state, oldTrans);
+        state.map.drawArea(LoadImage.area, g2d, state, oldTrans);
 
         // Draw Objects in map
 
-        state.map.drawWalls(LoadImage.hardWall,LoadImage.softWall0,LoadImage.softWall1,LoadImage.softWall2,LoadImage.softWall3,LoadImage.teazel,g2d, state, oldTrans);
+        state.map.drawWalls(LoadImage.hardWall, LoadImage.softWall0, LoadImage.softWall1, LoadImage.softWall2, LoadImage.softWall3, LoadImage.teazel, g2d, state, oldTrans);
 
         // Draw Body
-        state.getPlayerTank().drawBody(LoadImage.tankUnder1,g2d, state, oldTrans);
-        if (GameState.mode ==1 && GameState.coPlayer != null){
-            GameState.coPlayer.drawBodyServer(LoadImage.tankUnder3,g2d,state,oldTrans);
+        state.getPlayerTank().drawBody(LoadImage.tankUnder1, g2d, state, oldTrans);
+        if (GameState.mode == 1 && GameState.coPlayer != null) {
+            GameState.coPlayer.drawBodyServer(LoadImage.tankUnder3, g2d, state, oldTrans);
         }
         for (Turret turret : state.map.turrets)
             //turret.drawBody(g2d,state,oldTrans);
-        for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawBody(LoadImage.tankUnder1,g2d, state, oldTrans);
+            for (EnemyTank enemyTank : state.map.enemyTanks)
+                enemyTank.drawBody(LoadImage.tankUnder1, g2d, state, oldTrans);
         for (IdiotEnemy idiotEnemy : state.map.idiotEnemies) {
-            if (idiotEnemy.isAlive()&&idiotEnemy.isVisible())
-            idiotEnemy.drawBody(LoadImage.idiotEnemy1,g2d, state, oldTrans);
+            if (idiotEnemy.isAlive() && idiotEnemy.isVisible())
+                idiotEnemy.drawBody(LoadImage.idiotEnemy1, g2d, state, oldTrans);
+        }
+        for (Mine mine : state.map.mines) {
+            if (mine.isAlive() && mine.isVisible()) {
+                mine.drawBody(g2d, state, oldTrans);
+            }
         }
 
         //Draw Bullet's Gun
-        state.getPlayerTank().drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d, state, oldTrans);
-        for (Turret turret : state.map.turrets)
-            turret.drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d,state,oldTrans);
-        for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d, state, oldTrans);
-
+        state.getPlayerTank().drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
+        for (Turret turret : state.map.turrets) {
+            turret.drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
+            turret.updateBullet();
+        }
+        for (EnemyTank enemyTank : state.map.enemyTanks){
+            enemyTank.drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
+             enemyTank.updateBullet();
+        }
         // Draw Gun
         state.getPlayerTank().drawGun(LoadImage.tankTop1,g2d, state, oldTrans);
         if (GameState.mode ==1 ){
@@ -134,6 +142,7 @@ public class GameFrame extends JFrame {
 
         // Draw trees
         state.map.drawPlants(LoadImage.plant,g2d, state, oldTrans);
+
 
 
 

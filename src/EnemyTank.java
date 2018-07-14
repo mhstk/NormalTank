@@ -1,9 +1,11 @@
 public class EnemyTank extends SuperTank {
     private long timeLastShotGun = 0;
 
-    public EnemyTank(int positionX, int positionY) {
-        super("Tank-under.png", "Tank-under2.png", "Tank-top.png", "Tank-Bullet.png", positionX, positionY);
-        speed = 5;
+    public EnemyTank(int positionX, int positionY, int level) {
+        super("Tank-under.png","Tank-under2.png", "Tank-top.png", "Tank-Bullet.png",positionX,positionY,level);
+        speed = 5 + level;
+        damage = 4;
+        health = 4 + 4 * level;
     }
 
     public void isInArea() {
@@ -92,9 +94,9 @@ public class EnemyTank extends SuperTank {
         if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
             Bullet bullet;
             if (isFirstImage) {
-                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20);
+                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20 , damage);
             } else {
-                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 1, 20);
+                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 1, 20 , damage);
             }
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);

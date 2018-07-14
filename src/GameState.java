@@ -18,6 +18,7 @@ import java.io.Serializable;
 public class GameState implements Serializable {
 
     public int locX, locY, diam;
+    private static int count = 1 ;
     public boolean gameOver;
     public boolean cameraFixedX, cameraFixedY;
     private static PlayerTank playerTank;
@@ -25,15 +26,19 @@ public class GameState implements Serializable {
     public static int mode;
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
-    protected boolean mousePress;
     public int mouseX, mouseY;
-    private static int count = 1;
+    public Map map;
+    protected boolean mousePress;
     private long timeLastShotGun = 0;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
-    public Map map;
+    private int level;
+    private CheatCode cheatCode;
 
-    public GameState(int mode) {
+    public GameState(int mode , int level) {
+        this.level = level;
+        playerTank = new PlayerTank(160, 800, level);
+        cheatCode = new CheatCode(playerTank);
         cameraFixedX = false;
         cameraFixedY = false;
         locX = 100;
@@ -51,7 +56,6 @@ public class GameState implements Serializable {
         mouseLEFT = false;
         //
         mousePress = false;
-        playerTank = new PlayerTank(60, 900);
 
         mouseX = 800;
         mouseY = 400;
@@ -64,7 +68,7 @@ public class GameState implements Serializable {
 
 
         if (mode != 2) {
-            map = new Map();
+            map = new Map(level);
             map.createMap("Map.txt");
 
         }
@@ -94,6 +98,9 @@ public class GameState implements Serializable {
      * The method which updates the game state.
      */
     public void update() {
+        if (playerTank.getHealth() == 0) {
+            gameOver = true;
+        }
         if (mode == 1) {
 
             Server.getInstance().getData();
@@ -112,9 +119,14 @@ public class GameState implements Serializable {
             idiotEnemy.isInArea();
             idiotEnemy.move();
         }
+        for (Mine mine : map.mines) {
+            mine.inArea();
+            mine.act();
+        }
+
+
         ServerCamera serverCamera = new ServerCamera(this);
         serverCamera.updateInfo();
-
         if (!Collision.collisionPlayerTank()) {
             serverCamera.cameraMove();
         }
@@ -151,6 +163,9 @@ public class GameState implements Serializable {
         return mouseHandler;
     }
 
+    public PlayerTank getPlayerTank() {
+        return playerTank;
+    }
 
     /**
      * The keyboard handler.
@@ -161,45 +176,45 @@ public class GameState implements Serializable {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
+
                 case (KeyEvent.VK_UP):
                     playerTank.setKeyUP(true);
                     playerTank.setKeyDOWN(false);
                     keyUP = true;
                     keyDOWN = false;
-
-
                     break;
+
                 case KeyEvent.VK_S:
                 case KeyEvent.VK_DOWN:
                     playerTank.setKeyUP(false);
                     playerTank.setKeyDOWN(true);
                     keyDOWN = true;
                     keyUP = false;
-
-
                     break;
+
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_LEFT:
                     playerTank.setKeyRIGHT(false);
                     playerTank.setKeyLEFT(true);
                     keyLEFT = true;
                     keyRIGHT = false;
-
-
                     break;
+
                 case KeyEvent.VK_D:
                 case KeyEvent.VK_RIGHT:
                     playerTank.setKeyRIGHT(true);
                     playerTank.setKeyLEFT(false);
                     keyRIGHT = true;
                     keyLEFT = false;
-
-
                     break;
+
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
                     Main.SOUND.cancel();
                     break;
+
+                case KeyEvent.VK_Q:
+
             }
         }
 
@@ -207,24 +222,96 @@ public class GameState implements Serializable {
         public void keyReleased(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
+                    cheatCode.addChar("w");
                 case KeyEvent.VK_UP:
                     playerTank.setKeyUP(false);
                     keyUP = false;
                     break;
                 case KeyEvent.VK_S:
+                    cheatCode.addChar("s");
                 case KeyEvent.VK_DOWN:
                     playerTank.setKeyDOWN(false);
                     keyDOWN = false;
                     break;
                 case KeyEvent.VK_A:
+                    cheatCode.addChar("a");
                 case KeyEvent.VK_LEFT:
                     playerTank.setKeyLEFT(false);
                     keyLEFT = false;
                     break;
                 case KeyEvent.VK_D:
+                    cheatCode.addChar("d");
                 case KeyEvent.VK_RIGHT:
                     playerTank.setKeyRIGHT(false);
                     keyRIGHT = false;
+                    break;
+
+
+                case KeyEvent.VK_B:
+                    cheatCode.addChar("b");
+                    break;
+                case KeyEvent.VK_C:
+                    cheatCode.addChar("c");
+                    break;
+                case KeyEvent.VK_E:
+                    cheatCode.addChar("e");
+                    break;
+                case KeyEvent.VK_F:
+                    cheatCode.addChar("f");
+                    break;
+                case KeyEvent.VK_G:
+                    cheatCode.addChar("g");
+                    break;
+                case KeyEvent.VK_H:
+                    cheatCode.addChar("h");
+                    break;
+                case KeyEvent.VK_I:
+                    cheatCode.addChar("i");
+                    break;
+                case KeyEvent.VK_J:
+                    cheatCode.addChar("j");
+                    break;
+                case KeyEvent.VK_K:
+                    cheatCode.addChar("k");
+                    break;
+                case KeyEvent.VK_L:
+                    cheatCode.addChar("l");
+                    break;
+                case KeyEvent.VK_M:
+                    cheatCode.addChar("m");
+                    break;
+                case KeyEvent.VK_N:
+                    cheatCode.addChar("n");
+                    break;
+                case KeyEvent.VK_O:
+                    cheatCode.addChar("o");
+                    break;
+                case KeyEvent.VK_P:
+                    cheatCode.addChar("p");
+                    break;
+                case KeyEvent.VK_Q:
+                    cheatCode.addChar("q");
+                    break;
+                case KeyEvent.VK_R:
+                    cheatCode.addChar("r");
+                    break;
+                case KeyEvent.VK_T:
+                    cheatCode.addChar("t");
+                    break;
+                case KeyEvent.VK_U:
+                    cheatCode.addChar("u");
+                    break;
+                case KeyEvent.VK_V:
+                    cheatCode.addChar("v");
+                    break;
+                case KeyEvent.VK_X:
+                    cheatCode.addChar("x");
+                    break;
+                case KeyEvent.VK_Y:
+                    cheatCode.addChar("y");
+                    break;
+                case KeyEvent.VK_Z:
+                    cheatCode.addChar("z");
                     break;
             }
         }
@@ -300,10 +387,6 @@ public class GameState implements Serializable {
             playerTank.setMouseX(mouseX);
             playerTank.setMouseY(mouseY);
         }
-    }
-
-    public PlayerTank getPlayerTank() {
-        return playerTank;
     }
 }
 

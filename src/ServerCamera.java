@@ -7,16 +7,19 @@ public class ServerCamera {
     static GameState state;
     static PlayerTank playerTank ;
 
-    static ArrayList<EnemyTank> enemyTanks ;
-    static ArrayList<Turret> turrets ;
-    static ArrayList<IdiotEnemy> idiotEnemys;
-    static CoPlayerTank coPlayerTank ;
+   private static ArrayList<EnemyTank> enemyTanks ;
+   private static ArrayList<Turret> turrets ;
+   private static ArrayList<IdiotEnemy> idiotEnemies ;
+   private static CoPlayerTank coPlayerTank;
+   private static ArrayList<HardWall> hardWalls ;
+   private static ArrayList<SoftWall> softWalls ;
+   private static ArrayList<Teazel> teazels;
+   private static ArrayList<MashinGun> mashinGuns;
+   private static ArrayList<TankGun> tankGuns ;
+   private static ArrayList<Repair> rapairs ;
+   private static ArrayList<Star> stars ;
 
-    static ArrayList<HardWall> hardWalls ;
-    static ArrayList<SoftWall> softWalls ;
-    static ArrayList<Teazel> teazels;
-
-    static int mouseX, mouseY;
+    private static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     private static int cameraSpeed = 4;
@@ -26,7 +29,7 @@ public class ServerCamera {
         playerTank = state.getPlayerTank();
         enemyTanks = state.map.enemyTanks;
         turrets = state.map.turrets;
-        idiotEnemys = state.map.idiotEnemies;
+        idiotEnemies = state.map.idiotEnemies;
         hardWalls = state.map.hardWalls;
         softWalls = state.map.softWalls;
         teazels = state.map.teazel;
@@ -140,7 +143,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionY += cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY += cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -151,6 +154,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY += cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY += cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY += cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY += cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionY += cameraSpeed;
+            for (Star star : stars )
+                star.positionY += cameraSpeed;
         }
 
         if (keyDOWN && !camerafixedY) {
@@ -165,7 +178,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionY -= cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY -= cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -176,6 +189,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY -= cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY -= cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY -= cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY -= cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionY -= cameraSpeed;
+            for (Star star : stars )
+                star.positionY -= cameraSpeed;
         }
 
         if (keyLEFT && !camerafixedX) {
@@ -190,7 +213,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionX += cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX += cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -199,9 +222,18 @@ public class ServerCamera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionX += cameraSpeed;
             }
-
             for (Teazel teazel : teazels)
                 teazel.positionX += cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX += cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX += cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX += cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionX += cameraSpeed;
+            for (Star star : stars )
+                star.positionX += cameraSpeed;
         }
 
         if (keyRIGHT && !camerafixedX) {
@@ -216,7 +248,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionX -= cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX -= cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -227,6 +259,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX -= cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX -= cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX -= cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX -= cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionX -= cameraSpeed;
+            for (Star star : stars )
+                star.positionX -= cameraSpeed;
         }
 
         if (mouseUP && !camerafixedY) {
@@ -241,7 +283,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionY += 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY += 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -250,9 +292,18 @@ public class ServerCamera {
             for (HardWall hardWall : hardWalls) {
                 hardWall.positionY += (1.25 * cameraSpeed);
             }
-
             for (Teazel teazel : teazels)
                 teazel.positionY += 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY += 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY += 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY += 1.25 * cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionY += 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionY += 1.25 * cameraSpeed;
         }
 
         if (mouseDOWN && !camerafixedY) {
@@ -267,7 +318,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionY -= 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY -= 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -278,6 +329,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionY -= 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionY -= 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionY -= 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionY -= 1.25 * cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionY -= 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionY -= 1.25 * cameraSpeed;
         }
 
         if (mouseLEFT && !camerafixedX) {
@@ -292,7 +353,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionX += 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX += 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -303,6 +364,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX += 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX += 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX += 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX += 1.25 * cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionX += 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionX += 1.25 * cameraSpeed;
         }
 
         if (mouseRIGHT && !camerafixedX) {
@@ -317,7 +388,7 @@ public class ServerCamera {
             for (Turret turret : turrets) {
                 turret.positionX -= 1.25 * cameraSpeed;
             }
-            for (IdiotEnemy idiotEnemy : idiotEnemys) {
+            for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX -= 1.25 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
@@ -328,6 +399,16 @@ public class ServerCamera {
             }
             for (Teazel teazel : teazels)
                 teazel.positionX -= 1.25 * cameraSpeed;
+            for (Mine mine : mines)
+                mine.positionX -= 1.25 * cameraSpeed;
+            for (MashinGun mashinGun : mashinGuns)
+                mashinGun.positionX -= 1.25 * cameraSpeed;
+            for (TankGun tankGun : tankGuns)
+                tankGun.positionX -= 1.25 * cameraSpeed;
+            for (Repair repair : rapairs)
+                repair.positionX -= 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionX -= 1.25 * cameraSpeed;
         }
     }
 }

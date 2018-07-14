@@ -16,13 +16,16 @@ public class Bullet implements Serializable {
     private int destY;
     public int mode;
     private double angel;
+    private int damage;
 
-    public Bullet(int positionX, int positionY,int destX , int destY , int mode , int speed) {
+    public Bullet(int positionX, int positionY,int destX , int destY , int mode , int speed , int damage) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.destX = destX;
         this.destY = destY;
         this.mode = mode;
+
+        this.damage = damage;
 
         angel = Math.atan2(destY - (positionY ), destX - (positionX ));
 
@@ -65,4 +68,7 @@ public class Bullet implements Serializable {
         return angel;
     }
 
+    public int getDamage(){
+        return damage ;
+    }
 }

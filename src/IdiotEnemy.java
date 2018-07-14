@@ -4,9 +4,11 @@ public class IdiotEnemy extends Moving {
     private boolean visible = false;
     private boolean alive;
 
-    public IdiotEnemy(int positionX, int positionY) {
-        super("idiotEnemy1.png","idiotEnemy1.png","",positionX,positionY);
-    speed = 4;
+    public IdiotEnemy(int positionX, int positionY,int level) {
+        super("idiotEnemy1.png","idiotEnemy2.png","",positionX,positionY,level);
+    speed = 9;
+    damage = 4 ;
+    health = 4 ;
     alive = true;
  }
 
@@ -102,5 +104,9 @@ public class IdiotEnemy extends Moving {
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }

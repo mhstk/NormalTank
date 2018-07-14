@@ -11,9 +11,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class SuperTank extends Moving implements Serializable {
     protected double angelGun;
+    protected BufferedImage gunImage;
     protected CopyOnWriteArrayList<Bullet> bullets ;
 
-    public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY){
+    public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY , int level){
         super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY);
         angelBody = 0;
         angelGun = 0;
@@ -69,7 +70,6 @@ public abstract class SuperTank extends Moving implements Serializable {
             }
             g2d.setTransform(oldTrans);
         }
-        updateBullet();
     }
 
     public void updateBullet() {
@@ -77,7 +77,7 @@ public abstract class SuperTank extends Moving implements Serializable {
         while (it.hasNext()) {
             Bullet bullet = (Bullet) it.next();
             bullet.updateLocation();
-            if (Collision.collisionBullet(bullet)){
+            if (Collision.collisionEnemyBullet(bullet)){
                bullets.remove(bullet);
             }
         }
