@@ -71,12 +71,16 @@ public class MapEditor extends JFrame {
 
     private void saveMap() {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("mapUser.txt"))){
-            for (int i = 0; i < 25; i++) {
+            for (int i = 0; i < 24; i++) {
                 for (int j = 0; j < 25; j++) {
                     bufferedWriter.write(mapInt[i][j]+" ");
                 }
                 bufferedWriter.newLine();
             }
+            for (int i = 0; i < 24; i++) {
+                bufferedWriter.write(mapInt[24][i]+" ");
+            }
+            bufferedWriter.write("17 ");
             this.dispose();
         } catch (IOException e) {
             e.printStackTrace();
