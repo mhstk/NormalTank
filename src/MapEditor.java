@@ -34,9 +34,9 @@ public class MapEditor extends JFrame {
         JButton[][] mapPart = new JButton[2][8];
 
         mapPart[0][0] = new JButton(new ImageIcon("area.png"));
-        mapPart[0][1] = new JButton(new ImageIcon("hardWall0.png"));
+        mapPart[0][1] = new JButton(new ImageIcon("hardWall.png"));
         mapPart[0][2] = new JButton(new ImageIcon("plant.png"));
-        mapPart[0][3] = new JButton(new ImageIcon("softWall.png"));
+        mapPart[0][3] = new JButton(new ImageIcon("softWall0.png"));
         mapPart[0][4] = new JButton(new ImageIcon("sim.png"));
         mapPart[0][5] = new JButton(new ImageIcon("idiotEnemy1.png"));
         mapPart[0][6] = new JButton(new ImageIcon("turret3.png"));
