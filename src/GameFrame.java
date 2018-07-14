@@ -31,8 +31,8 @@ public class GameFrame extends JFrame {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
 
         try {
             LoadImage.LoadImage();

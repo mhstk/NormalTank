@@ -54,7 +54,7 @@ public class Server {
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame,1,0);
+                GameLoop game = new GameLoop(frame,1,0,"Map.txt");
                 game.initServer();
                 ThreadPool.execute(game);
                 // and the game starts ...

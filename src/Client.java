@@ -54,7 +54,7 @@ public class Client {
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame,2,0);
+                GameLoop game = new GameLoop(frame,2,0,"Map.txt");
                 game.initClient();
                 ThreadPool.execute(game);
                 // and the game starts ...
