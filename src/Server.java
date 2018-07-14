@@ -12,7 +12,7 @@ import java.net.Socket;
 /**
  * Created by mahdihs76 on 5/21/18.
  */
-public class Server implements DataListener {
+public class Server {
     public static int SERVER_PORT = 12345 ;
     private static Server instance = new Server(SERVER_PORT);
     private int port;
@@ -117,10 +117,6 @@ public class Server implements DataListener {
         inputStream = new ObjectInputStream(clientSocket.getInputStream());
     }
 
-    private void startThreads() {
-        new Thread(new GetDataRunnable(inputStream, this)).start();
-    }
-
     public void sendData(Data data) {
         try {
             outputStream.writeObject(data);
@@ -129,14 +125,4 @@ public class Server implements DataListener {
         }
     }
 
-
-    @Override
-    public void receive(Data data) {
-
-    }
-
-    @Override
-    public void receive(CoPlayerTank coPlayerTank) {
-        //GameState.coPlayer = coPlayerTank ;
-    }
 }

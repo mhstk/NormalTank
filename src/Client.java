@@ -7,8 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class Client implements DataListener{
-    private static final String SERVER_ADDRESS = "localhost";
+public class Client {
+    private static final String SERVER_ADDRESS = "172.26.5.191";
     private static final int SERVER_PORT = 12345;
     private static Client instance = new Client();
     private Socket clientSocket;
@@ -102,26 +102,11 @@ public class Client implements DataListener{
         }
     }
 
-    private void startTheards() {
-        new Thread(new GetDataRunnable(inputStream, this)).start();
-    }
-
     public void sendData(CoPlayerTank coPlayerTank) {
         try {
             outputStream.writeObject(coPlayerTank);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public void receive(Data data) {
-
-    }
-
-    @Override
-    public void receive(CoPlayerTank coPlayerTank) {
-
     }
 }
