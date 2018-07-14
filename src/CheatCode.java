@@ -38,7 +38,7 @@ public class CheatCode {
             case 3:
                 break;
             case 4:
-                test = "";
+                test = string;
                 break;
         }
     }

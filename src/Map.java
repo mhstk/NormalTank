@@ -22,7 +22,6 @@ public class Map implements Serializable {
 
     private int level;
     private int[][] map;
-    private BufferedImage area;
 
     public Map(int level) {
         map = new int[30][30];
@@ -164,22 +163,22 @@ public class Map implements Serializable {
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 9) {
                     for (MashinGun mashinGun : mashinGuns) {
                         if (mashinGun.i == i + (int) (ServerCamera.originY / 150) && mashinGun.j == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(mashinGun.getImage(), 0, -150, null);
+                            g2d.drawImage(LoadImage.area, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 13) {
                     for (TankGun tankGun : tankGuns) {
                         if (tankGun.getI() == i + (int) (ServerCamera.originY / 150) && tankGun.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(tankGun.getImage(), 0, -150, null);
+                            g2d.drawImage(LoadImage.area, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 14) {
                     for (Repair repair : repairs) {
                         if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(repair.getImage(), 0, -150, null);
+                            g2d.drawImage(LoadImage.area, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 15) {
                     for (Star star : stars) {
                         if (star.getI() == i + (int) (ServerCamera.originY / 150) && star.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(star.getImage(), 0, -150, null);
+                            g2d.drawImage(LoadImage.area, 0, -150, null);
                     }
                 }
                 atMap.translate(150, 0);
