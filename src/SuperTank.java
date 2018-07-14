@@ -15,7 +15,7 @@ public abstract class SuperTank extends Moving implements Serializable {
     protected CopyOnWriteArrayList<Bullet> bullets ;
 
     public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY , int level){
-        super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY);
+        super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY,level);
         angelBody = 0;
         angelGun = 0;
         bullets = new CopyOnWriteArrayList<>();

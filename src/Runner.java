@@ -29,28 +29,28 @@ public abstract class Runner implements Serializable {
         this.level = level;
     }
 
-    public void changeBodyImage(){
-        long now = System.nanoTime();
-        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-            if (isFirstImage) {
-                try {
-                    image = ImageIO.read(new File(secondBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = false;
-            } else {
-                try {
-                    image = ImageIO.read(new File(firstBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = true;
-            }
-            lastTimeImageChanged = now;
-        }
-    }
-
+//    public void changeBodyImage(){
+//        long now = System.nanoTime();
+//        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+//            if (isFirstImage) {
+//                try {
+//                    image = ImageIO.read(new File(secondBodyImage));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                isFirstImage = false;
+//            } else {
+//                try {
+//                    image = ImageIO.read(new File(firstBodyImage));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                isFirstImage = true;
+//            }
+//            lastTimeImageChanged = now;
+//        }
+//    }
+//
 
     public void setBulletImageAddress(String bulletImageAddress){
         this.bulletImageAddress = bulletImageAddress;

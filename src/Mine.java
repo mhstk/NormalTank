@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -9,12 +10,7 @@ public class Mine extends Runner {
     private boolean visible;
 
     public Mine(int positionX, int positionY,int level) {
-        super("onMine.png","offMine.png","", positionX, positionY,level);
-        try {
-            this.image= ImageIO.read(new File("onMine.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super("" , positionX, positionY,level);
         damage = 4;
         health = 1;
         alive = true;
@@ -43,7 +39,7 @@ public class Mine extends Runner {
 
     public void act(){
         if (visible && alive){
-            changeBodyImage();
+            //changeBodyImage();
         }
     }
 
@@ -55,7 +51,7 @@ public class Mine extends Runner {
         return visible;
     }
 
-    public void drawBody(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawBody(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(0), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);

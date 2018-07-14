@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Iterator;
 
 public class PlayerTank extends SuperTank implements Serializable {
 
@@ -105,7 +106,6 @@ public class PlayerTank extends SuperTank implements Serializable {
         }
         Sound sound = new Sound(shootString, 0);
         sound.execute();
-        super.shoot(originX, originY, destX, destY);
         Bullet bullet;
         if (isFirstImage) {
             bullet = new Bullet(originX, originY, destX, destY, 0, bulletSpeed , damage);
@@ -142,11 +142,7 @@ public class PlayerTank extends SuperTank implements Serializable {
         shootString = "lightgun.wav";
         bulletSpeed = 25 + moreSpeed;
         difTimeBullet = 0.2;
-        try {
-            gunImage = ImageIO.read(new File("Tank-top2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void changeGunOne() {
@@ -155,11 +151,7 @@ public class PlayerTank extends SuperTank implements Serializable {
         damage = 4 + moreDamage;
         bulletSpeed = 20 + moreSpeed;
         difTimeBullet = 0.7;
-        try {
-            gunImage = ImageIO.read(new File("Tank-top.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 

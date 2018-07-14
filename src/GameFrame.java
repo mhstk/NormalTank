@@ -116,12 +116,13 @@ public class GameFrame extends JFrame {
         }
         for (Mine mine : state.map.mines) {
             if (mine.isAlive() && mine.isVisible()) {
-                mine.drawBody(g2d, state, oldTrans);
+                mine.drawBody(LoadImage.area,g2d, state, oldTrans);
             }
         }
 
         //Draw Bullet's Gun
         state.getPlayerTank().drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
+        state.getPlayerTank().updateBullet();
         for (Turret turret : state.map.turrets) {
             turret.drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
             turret.updateBullet();

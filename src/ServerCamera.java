@@ -18,6 +18,7 @@ public class ServerCamera {
    private static ArrayList<TankGun> tankGuns ;
    private static ArrayList<Repair> rapairs ;
    private static ArrayList<Star> stars ;
+    private static ArrayList<Mine> mines ;
 
     private static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
@@ -33,6 +34,11 @@ public class ServerCamera {
         hardWalls = state.map.hardWalls;
         softWalls = state.map.softWalls;
         teazels = state.map.teazel;
+        mashinGuns = state.map.mashinGuns;
+        tankGuns = state.map.tankGuns;
+        rapairs = state.map.repairs;
+        stars = state.map.stars;
+        mines = state.map.mines;
         if (GameState.mode == 1){
             coPlayerTank = GameState.coPlayer ;
         }

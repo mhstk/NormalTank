@@ -11,8 +11,8 @@ public class ClientGameState extends GameState {
     private MouseHandler mouseHandler;
 
 
-    public ClientGameState(int mode) {
-        super(mode);
+    public ClientGameState(int mode , int level) {
+        super(mode , level);
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 

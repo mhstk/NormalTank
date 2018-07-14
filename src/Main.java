@@ -55,7 +55,7 @@ public class Main {
         frame.setVisible(true);
         frame.initBufferStrategy();
         // Create and execute the game-loop
-        GameLoop game = new GameLoop(frame , level);
+        GameLoop game = new GameLoop(frame ,0, level);
         game.init();
         ThreadPool.execute(game);
 

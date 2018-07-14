@@ -106,4 +106,7 @@ public class EnemyTank extends SuperTank {
     }
 
 
+    public int getHealth() {
+        return health;
+    }
 }

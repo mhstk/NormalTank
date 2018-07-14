@@ -73,7 +73,7 @@ public class GameState implements Serializable {
 
         }
         if (mode == 1) {
-            coPlayer = new CoPlayerTank(60,900);
+            coPlayer = new CoPlayerTank(60,900 , 0);
             Server.getInstance().start();
 
             Data data = new Data(playerTank,coPlayer,map);

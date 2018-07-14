@@ -161,24 +161,24 @@ public class Map implements Serializable {
 
                         }
                     }
-                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 9) {
+                } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 9) {
                     for (MashinGun mashinGun : mashinGuns) {
-                        if (mashinGun.i == i + (int) (Camera.originY / 150) && mashinGun.j == j + (int) (Camera.originX / 150))
+                        if (mashinGun.i == i + (int) (ServerCamera.originY / 150) && mashinGun.j == j + (int) (ServerCamera.originX / 150))
                             g2d.drawImage(mashinGun.getImage(), 0, -150, null);
                     }
-                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 13) {
+                } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 13) {
                     for (TankGun tankGun : tankGuns) {
-                        if (tankGun.getI() == i + (int) (Camera.originY / 150) && tankGun.getJ() == j + (int) (Camera.originX / 150))
+                        if (tankGun.getI() == i + (int) (ServerCamera.originY / 150) && tankGun.getJ() == j + (int) (ServerCamera.originX / 150))
                             g2d.drawImage(tankGun.getImage(), 0, -150, null);
                     }
-                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 14) {
+                } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 14) {
                     for (Repair repair : repairs) {
-                        if (repair.getI() == i + (int) (Camera.originY / 150) && repair.getJ() == j + (int) (Camera.originX / 150))
+                        if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150))
                             g2d.drawImage(repair.getImage(), 0, -150, null);
                     }
-                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 15) {
+                } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 15) {
                     for (Star star : stars) {
-                        if (star.getI() == i + (int) (Camera.originY / 150) && star.getJ() == j + (int) (Camera.originX / 150))
+                        if (star.getI() == i + (int) (ServerCamera.originY / 150) && star.getJ() == j + (int) (ServerCamera.originX / 150))
                             g2d.drawImage(star.getImage(), 0, -150, null);
                     }
                 }

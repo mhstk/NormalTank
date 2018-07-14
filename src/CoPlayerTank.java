@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 public class CoPlayerTank extends PlayerTank implements Serializable {
 
-    public CoPlayerTank(int positionX, int positionY) {
-        super(positionX, positionY);
+    public CoPlayerTank(int positionX, int positionY , int level) {
+        super(positionX, positionY , level);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class Client implements DataListener{
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame,2);
+                GameLoop game = new GameLoop(frame,2,0);
                 game.initClient();
                 ThreadPool.execute(game);
                 // and the game starts ...

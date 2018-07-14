@@ -34,7 +34,7 @@ public class Server implements DataListener {
             @Override
             public void run() {
                 SOUND.execute();
-                frame = new GameFrame("Simple Ball !");
+                frame = new GameFrame("Simple Ball !" , 0);
                 frame.setLocationRelativeTo(null); // put frame at center of screen
 //                Toolkit toolkit = Toolkit.getDefaultToolkit();
 //                Image image = toolkit.getImage(".\\pointer.png");
@@ -54,7 +54,7 @@ public class Server implements DataListener {
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame,1);
+                GameLoop game = new GameLoop(frame,1,0);
                 game.initServer();
                 ThreadPool.execute(game);
                 // and the game starts ...

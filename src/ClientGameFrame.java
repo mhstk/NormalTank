@@ -3,7 +3,7 @@ import java.awt.geom.AffineTransform;
 
 public class ClientGameFrame extends GameFrame {
     public ClientGameFrame(String title) {
-        super(title);
+        super(title,0);
     }
 
     @Override
