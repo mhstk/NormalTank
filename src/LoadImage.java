@@ -26,6 +26,15 @@ public class LoadImage {
     static BufferedImage idiotEnemy2 ;
     static BufferedImage teazel ;
     static BufferedImage cursor ;
+    static BufferedImage turretGun;
+    static BufferedImage turretBody;
+    static BufferedImage onMine;
+    static BufferedImage offMine;
+    static BufferedImage star;
+    static BufferedImage mashinGun;
+    static BufferedImage tankGun;
+    static BufferedImage repair;
+    static BufferedImage blank;
 
     public static void LoadImage() throws IOException {
         tankUnder1 = ImageIO.read(new File("Tank-under.png")) ;
@@ -49,6 +58,14 @@ public class LoadImage {
         idiotEnemy2 = ImageIO.read(new File("idiotEnemy2.png")) ;
         teazel = ImageIO.read(new File("sim.png")) ;
         cursor = ImageIO.read(new File("pointer2.png")) ;
-
+        turretGun = ImageIO.read(new File("turret3.png"));
+        turretBody = ImageIO.read(new File("Tank-under3.png"));
+        onMine = ImageIO.read(new File("onMine.png"));
+        offMine = ImageIO.read(new File("offMine.png"));
+        star =ImageIO.read(new File("star.png"));
+        tankGun = ImageIO.read(new File("star.png"));
+        mashinGun = ImageIO.read(new File("star.png"));
+        repair = ImageIO.read(new File("star.png"));
+        blank = ImageIO.read(new File("blankCursor.png"));
     }
 }

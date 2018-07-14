@@ -15,6 +15,7 @@ public abstract class Moving extends Runner implements Serializable {
     protected boolean down = false;
     protected boolean left = false;
     protected boolean right = false;
+    private int count = 0;
 
     public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY , int level){
         super(bulletImageAddress,positionX,positionY, level);
@@ -26,12 +27,19 @@ public abstract class Moving extends Runner implements Serializable {
         return  null ;
     }
 
-    public void drawBody(BufferedImage image ,Graphics2D g2d , GameState state , AffineTransform oldTrans){
+    public void drawBody(BufferedImage image ,BufferedImage image2 ,Graphics2D g2d , GameState state , AffineTransform oldTrans){
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
         g2d.setTransform(atBody);
-        g2d.drawImage(image, positionX, positionY, null);
+        long now = System.nanoTime();
+        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+            count ++;
+            lastTimeImageChanged = now;
+        }
+        if (count%2 == 0){
+            g2d.drawImage(image,positionX,positionY,null);
+        } else  g2d.drawImage(image2,positionX,positionY,null);
         g2d.setTransform(oldTrans);
     }
 
@@ -144,27 +152,6 @@ public abstract class Moving extends Runner implements Serializable {
         }
     }
 
-//    public void changeBodyImage(){
-//        long now = System.nanoTime();
-//        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-//            if (isFirstImage) {
-//                try {
-//                    image = ImageIO.read(new File(secondBodyImage));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                isFirstImage = false;
-//            } else {
-//                try {
-//                    image = ImageIO.read(new File(firstBodyImage));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                isFirstImage = true;
-//            }
-//            lastTimeImageChanged = now;
-//        }
-//    }
 
     public double getAngelBody() {
         return angelBody;

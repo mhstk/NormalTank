@@ -9,9 +9,9 @@ public class Turret extends SuperTank {
     private long timeLastShotGun = 0;
 
     public Turret(int positionX, int positionY, String status, int level) {
-        super("Tank-under.png","Tank-under.png","Tank-top.png","Tank-Bullet.png",positionX,positionY,level);
+        super("Tank-under.png", "Tank-under.png", "Tank-top.png", "Tank-Bullet.png", positionX, positionY, level);
         this.status = status;
-        damage = 4 ;
+        damage = 4;
         health = 8 + 4 * level;
         setFirstAngel();
     }
@@ -44,7 +44,7 @@ public class Turret extends SuperTank {
         }
     }
 
-    public void drawGun(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawGun(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(positionX, positionY);
@@ -63,7 +63,7 @@ public class Turret extends SuperTank {
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(positionX + (100), positionY + (80), GameState.tankPosition().x + (205/ 2), GameState.tankPosition().y + (160 / 2), 0, 20 , damage);
+        Bullet bullet = new Bullet(positionX + (100), positionY + (80), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20, damage);
         if (isPossible(bullet.getAngelBody())) {
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
@@ -88,4 +88,13 @@ public class Turret extends SuperTank {
     public int getHealth() {
         return health;
     }
+
+    public void drawBody(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+        g2d.setTransform(oldTrans);
+        AffineTransform atBody = g2d.getTransform();
+        atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
+        g2d.setTransform(atBody);
+        g2d.drawImage(image, positionX, positionY, null);
+    }
+
 }

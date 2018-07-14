@@ -4,6 +4,7 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -99,24 +100,30 @@ public class GameFrame extends JFrame {
 
         // Draw Objects in map
 
-        state.map.drawWalls(LoadImage.hardWall, LoadImage.softWall0, LoadImage.softWall1, LoadImage.softWall2, LoadImage.softWall3, LoadImage.teazel, g2d, state, oldTrans);
+        state.map.drawWalls(LoadImage.hardWall,
+                LoadImage.softWall0,
+                LoadImage.softWall1,
+                LoadImage.softWall2,
+                LoadImage.softWall3,
+                LoadImage.teazel,
+                g2d, state, oldTrans);
 
         // Draw Body
-        state.getPlayerTank().drawBody(LoadImage.tankUnder1, g2d, state, oldTrans);
+        state.getPlayerTank().drawBody(LoadImage.tankUnder1, LoadImage.tankUnder2, g2d, state, oldTrans);
         if (GameState.mode == 1 && GameState.coPlayer != null) {
             GameState.coPlayer.drawBodyServer(LoadImage.tankUnder3, g2d, state, oldTrans);
         }
         for (Turret turret : state.map.turrets)
-            //turret.drawBody(g2d,state,oldTrans);
-            for (EnemyTank enemyTank : state.map.enemyTanks)
-                enemyTank.drawBody(LoadImage.tankUnder1, g2d, state, oldTrans);
+            turret.drawBody(LoadImage.blank , g2d, state, oldTrans);
+        for (EnemyTank enemyTank : state.map.enemyTanks)
+            enemyTank.drawBody(LoadImage.tankUnder1, LoadImage.tankUnder2, g2d, state, oldTrans);
         for (IdiotEnemy idiotEnemy : state.map.idiotEnemies) {
             if (idiotEnemy.isAlive() && idiotEnemy.isVisible())
-                idiotEnemy.drawBody(LoadImage.idiotEnemy1, g2d, state, oldTrans);
+                idiotEnemy.drawBody(LoadImage.idiotEnemy1, LoadImage.idiotEnemy2, g2d, state, oldTrans);
         }
         for (Mine mine : state.map.mines) {
             if (mine.isAlive() && mine.isVisible()) {
-                mine.drawBody(LoadImage.area,g2d, state, oldTrans);
+                mine.drawBody(LoadImage.onMine,LoadImage.offMine, g2d, state, oldTrans);
             }
         }
 
@@ -127,30 +134,26 @@ public class GameFrame extends JFrame {
             turret.drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
             turret.updateBullet();
         }
-        for (EnemyTank enemyTank : state.map.enemyTanks){
+        for (EnemyTank enemyTank : state.map.enemyTanks) {
             enemyTank.drawBullets(LoadImage.bullet1, LoadImage.bullet2, g2d, state, oldTrans);
-             enemyTank.updateBullet();
+            enemyTank.updateBullet();
         }
         // Draw Gun
-        state.getPlayerTank().drawGun(LoadImage.tankTop1,g2d, state, oldTrans);
-        if (GameState.mode ==1 ){
-            GameState.coPlayer.drawGunClient(LoadImage.tankTop3,g2d,state,oldTrans);
+        state.getPlayerTank().drawGun(LoadImage.tankTop1,LoadImage.tankTop2, g2d, state, oldTrans);
+        if (GameState.mode == 1) {
+            GameState.coPlayer.drawGunClient(LoadImage.tankTop3, g2d, state, oldTrans);
         }
         for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawGun(LoadImage.tankTop1,g2d, state, oldTrans);
+            enemyTank.drawGun(LoadImage.tankTop1,LoadImage.tankTop2 , g2d, state, oldTrans);
         for (Turret turret : state.map.turrets)
-            //turret.drawGun(g2d, state, oldTrans);
-
-        // Draw trees
-        state.map.drawPlants(LoadImage.plant,g2d, state, oldTrans);
-
-
-
+            turret.drawGun(LoadImage.turretGun,g2d, state, oldTrans);
+            // Draw trees
+            state.map.drawPlants(LoadImage.plant, g2d, state, oldTrans);
 
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
-        g2d.drawImage(LoadImage.cursor , state.mouseX-40,state.mouseY-40,null);
+        g2d.drawImage(LoadImage.cursor, state.mouseX - 40, state.mouseY - 40, null);
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();

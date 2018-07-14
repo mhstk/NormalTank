@@ -8,6 +8,8 @@ import java.io.IOException;
 public class Mine extends Runner {
     private boolean alive ;
     private boolean visible;
+    private int count = 0;
+    private long lastTimeImageChanged;
 
     public Mine(int positionX, int positionY,int level) {
         super("" , positionX, positionY,level);
@@ -51,12 +53,19 @@ public class Mine extends Runner {
         return visible;
     }
 
-    public void drawBody(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawBody(BufferedImage image , BufferedImage image2 , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(0), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
         g2d.setTransform(atBody);
-        g2d.drawImage(image, positionX, positionY, null);
+        long now = System.nanoTime();
+        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+            count ++;
+            lastTimeImageChanged = now;
+        }
+        if (count%2 == 0){
+            g2d.drawImage(image,positionX,positionY,null);
+        } else  g2d.drawImage(image2,positionX,positionY,null);
         g2d.setTransform(oldTrans);
     }
 
