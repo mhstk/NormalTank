@@ -93,11 +93,7 @@ public class EnemyTank extends SuperTank {
         Long now = System.nanoTime();
         if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
             Bullet bullet;
-            if (isFirstImage) {
                 bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20 , damage);
-            } else {
-                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 1, 20 , damage);
-            }
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);
             sound.execute();

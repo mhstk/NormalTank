@@ -163,22 +163,35 @@ public class Map implements Serializable {
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 9) {
                     for (MashinGun mashinGun : mashinGuns) {
                         if (mashinGun.i == i + (int) (ServerCamera.originY / 150) && mashinGun.j == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(LoadImage.area, 0, -150, null);
+                            if (mashinGun.used())
+                                g2d.drawImage(LoadImage.area,0,-150,null);
+                            else
+                                g2d.drawImage(LoadImage.mashinGun, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 13) {
                     for (TankGun tankGun : tankGuns) {
                         if (tankGun.getI() == i + (int) (ServerCamera.originY / 150) && tankGun.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(LoadImage.area, 0, -150, null);
+                            if (tankGun.used())
+                                g2d.drawImage(LoadImage.area,0,-150,null);
+                            else
+                                g2d.drawImage(LoadImage.tankGun, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 14) {
                     for (Repair repair : repairs) {
-                        if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(LoadImage.area, 0, -150, null);
+                        if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150)){
+                            if (repair.used())
+                                g2d.drawImage(LoadImage.area,0,-150,null);
+                            else
+                            g2d.drawImage(LoadImage.repair, 0, -150, null);
+                        }
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 15) {
                     for (Star star : stars) {
                         if (star.getI() == i + (int) (ServerCamera.originY / 150) && star.getJ() == j + (int) (ServerCamera.originX / 150))
-                            g2d.drawImage(LoadImage.area, 0, -150, null);
+                            if (star.used())
+                                g2d.drawImage(LoadImage.area,0,-150,null);
+                            else
+                                g2d.drawImage(LoadImage.star, 0, -150, null);
                     }
                 }
                 atMap.translate(150, 0);

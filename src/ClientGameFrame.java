@@ -35,7 +35,7 @@ public class ClientGameFrame extends GameFrame {
 
         // Draw Gun
         ClientGameState.data.playerTank.drawGunClient(LoadImage.tankTop3, g2d, state, oldTrans);
-        ClientGameState.data.coPlayer.drawGun(LoadImage.tankTop1, g2d, state, oldTrans);
+        ClientGameState.data.coPlayer.drawGun(LoadImage.tankTop1,LoadImage.tankTop2, g2d, state, oldTrans);
 
 
         // Draw trees

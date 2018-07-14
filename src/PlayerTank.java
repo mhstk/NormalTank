@@ -112,7 +112,6 @@ public class PlayerTank extends SuperTank implements Serializable {
         } else {
             bullet = new Bullet(originX, originY, destX, destY, 1, bulletSpeed , damage);
         }
-
         bullets.add(bullet);
     }
 
@@ -142,12 +141,13 @@ public class PlayerTank extends SuperTank implements Serializable {
         shootString = "lightgun.wav";
         bulletSpeed = 25 + moreSpeed;
         difTimeBullet = 0.2;
-
+    isFirstImage = false;
     }
 
     public void changeGunOne() {
         shootString = "heavygun.wav";
         bulletImageAddress = "Tank-Bullet.png";
+        isFirstImage = true;
         damage = 4 + moreDamage;
         bulletSpeed = 20 + moreSpeed;
         difTimeBullet = 0.7;
@@ -203,15 +203,6 @@ public class PlayerTank extends SuperTank implements Serializable {
         this.mouseY = mouseY;
     }
 
-
-//    public void drawBody(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
-//        g2d.setTransform(oldTrans);
-//        AffineTransform atBody = g2d.getTransform();
-//        atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
-//        g2d.setTransform(atBody);
-//        g2d.drawImage(image, positionX, positionY, null);
-//        g2d.setTransform(oldTrans);
-//    }
 
     public int getHealth() {
         return health;

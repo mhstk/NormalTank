@@ -25,7 +25,6 @@ public class Star implements Serializable {
     }
 
     public void changeImage() {
-
         Sound sound = new Sound("star.wav",0);
         sound.execute();
         use = true;
