@@ -44,9 +44,12 @@ public abstract class SuperTank extends Moving implements Serializable {
         atGun.translate(positionX, positionY);
         atGun.rotate(angelGun, 100, 80);
         g2d.setTransform(atGun);
-        if (isFirstImage)
-            g2d.drawImage(image, 0, 0, null);
-        else g2d.drawImage(image2, 0, 0, null);
+        if (isAlive()) {
+            if (isFirstImage)
+                g2d.drawImage(image, 0, 0, null);
+            else g2d.drawImage(image2, 0, 0, null);
+
+        }
     }
 
     public void drawGunClient(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {

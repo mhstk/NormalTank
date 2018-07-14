@@ -8,6 +8,8 @@ public class Collision {
     private static ArrayList<IdiotEnemy> idiotEnemies = state.map.idiotEnemies;
     private static ArrayList<Teazel> teazels = state.map.teazel;
     private static ArrayList<Mine> mines = state.map.mines;
+    private static ArrayList<Shield> shields = state.map.shields;
+    private static Key key = state.map.key;
 
     private static ArrayList<SoftWall> softWalls = state.map.softWalls;
     private static ArrayList<HardWall> hardWalls = state.map.hardWalls;
@@ -19,6 +21,8 @@ public class Collision {
     public static boolean collisionBullet(Bullet bullet) {
         for (HardWall hardWall : hardWalls) {
             if (CollisionDetection.intersect(bullet.getBounds(), hardWall.getBounds(), bullet.getAngelBody(), 0)) {
+                Sound sound = new Sound("softWall.wav", 0);
+                sound.execute();
                 return true;
             }
         }
@@ -59,8 +63,10 @@ public class Collision {
         }
 
         for (EnemyTank enemyTank : enemyTanks) {
-            if (CollisionDetection.intersect(playerTank.getBounds(), enemyTank.getBounds(), playerTank.getAngelBody(), enemyTank.getAngelBody())) {
-                return true;
+            if (enemyTank.isAlive()) {
+                if (CollisionDetection.intersect(playerTank.getBounds(), enemyTank.getBounds(), playerTank.getAngelBody(), enemyTank.getAngelBody())) {
+                    return true;
+                }
             }
         }
 
@@ -106,11 +112,34 @@ public class Collision {
             }
         }
 
+        for (Shield shield : shields) {
+            if (CollisionDetection.intersect(playerTank.getBounds(), shield.getBounds(), playerTank.angelBody, 0)) {
+                if (!shield.used()) {
+                    playerTank.shield();
+                    shield.changeImage();
+                    return false;
+                }
+            }
+        }
+
+
+            if (CollisionDetection.intersect(playerTank.getBounds(), key.getBounds(), playerTank.angelBody, 0)) {
+                if (!key.used()) {
+                    key.changeImage();
+
+                    return false;
+                }
+            }
+
+
         for (Mine mine : mines) {
             if (mine.isAlive()) {
                 if (CollisionDetection.intersect(playerTank.getBounds(), mine.getBounds(), playerTank.getAngelBody(), 0)) {
                     mine.destroy();
-                    playerTank.toBeInjured(mine.damage);
+                    if (playerTank.getShield())playerTank.setShield();
+                    else {
+                        playerTank.toBeInjured(mine.damage);
+                    }
                 }
             }
         }
@@ -123,17 +152,28 @@ public class Collision {
             for (IdiotEnemy idiotEnemy : idiotEnemies)
                 if (idiotEnemy.isAlive())
                     if (CollisionDetection.intersect(bullet.getBounds(), idiotEnemy.getBounds(), bullet.getAngelBody(), idiotEnemy.getAngelBody())) {
+                        Sound sound = new Sound("BulletToTank.wav", 0);
+                        sound.execute();
                         idiotEnemy.toBeInjured(bullet.getDamage());
-                        if (idiotEnemy.getHealth() <= 0)
+                        if (idiotEnemy.getHealth() <= 0) {
+                            Sound sound2 = new Sound("enemydestroyed.wav", 0);
+                            sound2.execute();
                             idiotEnemies.remove(idiotEnemy);
+                        }
                         return true;
                     }
 
             for (EnemyTank enemyTank : enemyTanks) {
-                if (CollisionDetection.intersect(bullet.getBounds(), enemyTank.getBounds(), bullet.getAngelBody(), enemyTank.angelBody)) {
+                if (enemyTank.isAlive()&&CollisionDetection.intersect(bullet.getBounds(), enemyTank.getBounds(), bullet.getAngelBody(), enemyTank.angelBody)) {
                     enemyTank.toBeInjured(bullet.getDamage());
-                    if (enemyTank.getHealth() <= 0)
-                        enemyTanks.remove(enemyTank);
+                    Sound sound = new Sound("BulletToTank.wav", 0);
+                    sound.execute();
+                    if (enemyTank.getHealth() <= 0) {
+                        Sound sound2 = new Sound("enemydestroyed.wav", 0);
+                        sound2.execute();
+//                        enemyTanks.remove(enemyTank);
+                        enemyTank.destroy();
+                    }
                     return true;
                 }
             }
@@ -141,8 +181,13 @@ public class Collision {
             for (Turret turret : turrets) {
                 if (CollisionDetection.intersect(bullet.getBounds(), turret.getBounds(), bullet.getAngelBody(), turret.getAngelBody())) {
                     turret.toBeInjured(bullet.getDamage());
-                    if (turret.getHealth() <= 0)
+                    Sound sound = new Sound("BulletToTank.wav", 0);
+                    sound.execute();
+                    if (turret.getHealth() <= 0) {
+                        Sound sound2 = new Sound("enemydestroyed.wav", 0);
+                        sound2.execute();
                         turrets.remove(turret);
+                    }
                     return true;
                 }
             }
@@ -150,6 +195,8 @@ public class Collision {
             for (Mine mine : mines) {
                 if (mine.isAlive() && mine.isVisible()) {
                     if (CollisionDetection.intersect(bullet.getBounds(), mine.getBounds(), bullet.getAngelBody(), 0)) {
+                        Sound sound2 = new Sound("enemydestroyed.wav", 0);
+                        sound2.execute();
                         mine.destroy();
                         return true;
                     }
@@ -180,6 +227,8 @@ public class Collision {
 
 
         if (CollisionDetection.intersect(playerTank.getBounds(), enemyTank.getBounds(), playerTank.getAngelBody(), enemyTank.getAngelBody())) {
+            Sound sound = new Sound("BulletToTank.wav", 0);
+            sound.execute();
             return true;
         }
         return false;
@@ -203,6 +252,12 @@ public class Collision {
         }
 
         if (CollisionDetection.intersect(playerTank.getBounds(), idiotEnemy.getBounds(), playerTank.getAngelBody(), idiotEnemy.getAngelBody())) {
+            Sound sound = new Sound("BulletToTank.wav", 0);
+            sound.execute();
+            if (playerTank.getShield()) playerTank.setShield();
+            else {
+                state.getPlayerTank().toBeInjured(2);
+            }
             return 2;
         }
         return 0;
@@ -211,7 +266,12 @@ public class Collision {
     public static boolean collisionEnemyBullet(Bullet bullet) {
         if (collisionBullet(bullet)) return true;
         else if (CollisionDetection.intersect(bullet.getBounds(), playerTank.getBounds(), bullet.getAngelBody(), playerTank.angelBody)) {
-            playerTank.toBeInjured(bullet.getDamage());
+            Sound sound = new Sound("BulletToTank.wav", 0);
+            sound.execute();
+            if (playerTank.getShield()) playerTank.setShield();
+            else {
+                playerTank.toBeInjured(bullet.getDamage());
+            }
             return true;
         }
         return false;

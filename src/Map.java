@@ -19,6 +19,8 @@ public class Map implements Serializable {
     public ArrayList<Mine> mines;
     public ArrayList<Repair> repairs;
     public ArrayList<Star> stars;
+    public ArrayList<Shield> shields;
+    public Key key;
 
     private int level;
     private int[][] map;
@@ -36,11 +38,13 @@ public class Map implements Serializable {
         tankGuns = new ArrayList<>();
         repairs = new ArrayList<>();
         stars = new ArrayList<>();
+        shields = new ArrayList<>();
 
         turrets = new ArrayList<>();
         enemyTanks = new ArrayList<>();
         idiotEnemies = new ArrayList<>();
         mines = new ArrayList<>();
+
     }
 
     public void createMap(String fileAddress) {
@@ -81,6 +85,10 @@ public class Map implements Serializable {
                         repairs.add(new Repair(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
                     } else if (map[i][j] == 15) {
                         stars.add(new Star(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 16) {
+                        shields.add(new Shield(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 17) {
+                        key = new Key(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j);
                     }
                 }
                 j--;
@@ -91,7 +99,7 @@ public class Map implements Serializable {
     }
 
 
-    public void drawPlants(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawPlants(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(0, 1080);
@@ -109,7 +117,7 @@ public class Map implements Serializable {
         }
     }
 
-    public void drawPlantsClient(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawPlantsClient(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(0, 1080);
@@ -127,7 +135,7 @@ public class Map implements Serializable {
         }
     }
 
-    public void drawWalls(BufferedImage hardwall ,BufferedImage softWall0,BufferedImage softWall1,BufferedImage softWall2,BufferedImage softWall3,BufferedImage teazel, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawWalls(BufferedImage hardwall, BufferedImage softWall0, BufferedImage softWall1, BufferedImage softWall2, BufferedImage softWall3, BufferedImage teazel, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(0, 1080);
@@ -143,17 +151,17 @@ public class Map implements Serializable {
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 3) {
                     for (SoftWall s : softWalls) {
                         if (s.i == i + (int) (ServerCamera.originY / 150) && s.j == j + (int) (ServerCamera.originX / 150)) {
-                            switch (s.mood){
-                                case 0 :
+                            switch (s.mood) {
+                                case 0:
                                     g2d.drawImage(softWall0, 0, -150, null);
                                     break;
                                 case 1:
                                     g2d.drawImage(softWall1, 0, -150, null);
                                     break;
-                                case 2 :
+                                case 2:
                                     g2d.drawImage(softWall2, 0, -150, null);
                                     break;
-                                case 3 :
+                                case 3:
                                     g2d.drawImage(softWall3, 0, -150, null);
                                     break;
                             }
@@ -164,7 +172,7 @@ public class Map implements Serializable {
                     for (MashinGun mashinGun : mashinGuns) {
                         if (mashinGun.i == i + (int) (ServerCamera.originY / 150) && mashinGun.j == j + (int) (ServerCamera.originX / 150))
                             if (mashinGun.used())
-                                g2d.drawImage(LoadImage.area,0,-150,null);
+                                g2d.drawImage(LoadImage.area, 0, -150, null);
                             else
                                 g2d.drawImage(LoadImage.mashinGun, 0, -150, null);
                     }
@@ -172,35 +180,52 @@ public class Map implements Serializable {
                     for (TankGun tankGun : tankGuns) {
                         if (tankGun.getI() == i + (int) (ServerCamera.originY / 150) && tankGun.getJ() == j + (int) (ServerCamera.originX / 150))
                             if (tankGun.used())
-                                g2d.drawImage(LoadImage.area,0,-150,null);
+                                g2d.drawImage(LoadImage.area, 0, -150, null);
                             else
                                 g2d.drawImage(LoadImage.tankGun, 0, -150, null);
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 14) {
                     for (Repair repair : repairs) {
-                        if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150)){
+                        if (repair.getI() == i + (int) (ServerCamera.originY / 150) && repair.getJ() == j + (int) (ServerCamera.originX / 150)) {
                             if (repair.used())
-                                g2d.drawImage(LoadImage.area,0,-150,null);
+                                g2d.drawImage(LoadImage.area, 0, -150, null);
                             else
-                            g2d.drawImage(LoadImage.repair, 0, -150, null);
+                                g2d.drawImage(LoadImage.repair, 0, -150, null);
                         }
                     }
                 } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 15) {
                     for (Star star : stars) {
                         if (star.getI() == i + (int) (ServerCamera.originY / 150) && star.getJ() == j + (int) (ServerCamera.originX / 150))
                             if (star.used())
-                                g2d.drawImage(LoadImage.area,0,-150,null);
+                                g2d.drawImage(LoadImage.area, 0, -150, null);
                             else
                                 g2d.drawImage(LoadImage.star, 0, -150, null);
                     }
+                } else if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 16) {
+                    for (Shield shield : shields) {
+                        if (shield.getI() == i + (int) (ServerCamera.originY / 150) && shield.getJ() == j + (int) (ServerCamera.originX / 150))
+                            if (shield.used())
+                                g2d.drawImage(LoadImage.area, 0, -150, null);
+                            else
+                                g2d.drawImage(LoadImage.shield, 0, -150, null);
+                    }
+                }
+                if (map[j + (int) (ServerCamera.originX / 150)][i + (int) (ServerCamera.originY / 150)] == 17) {
+                    if (key.getI() == i + (int) (ServerCamera.originY / 150) && key.getJ() == j + (int) (ServerCamera.originX / 150))
+                        if (key.used())
+                            g2d.drawImage(LoadImage.area, 0, -150, null);
+                        else
+                            g2d.drawImage(LoadImage.key, 0, -150, null);
+
                 }
                 atMap.translate(150, 0);
             }
             atMap.translate(-15 * 150, -150);
         }
+
     }
 
-    public void drawWallsClient(BufferedImage hardwall ,BufferedImage softWall0,BufferedImage softWall1,BufferedImage softWall2,BufferedImage softWall3,BufferedImage teazel, Graphics2D g2d, ClientGameState state, AffineTransform oldTrans) {
+    public void drawWallsClient(BufferedImage hardwall, BufferedImage softWall0, BufferedImage softWall1, BufferedImage softWall2, BufferedImage softWall3, BufferedImage teazel, Graphics2D g2d, ClientGameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(0, 1080);
@@ -217,17 +242,17 @@ public class Map implements Serializable {
                     for (SoftWall s : state.data.map.softWalls) {
                         if (s.i == i + (int) (ClientCamera.originY / 150) && s.j == j + (int) (ClientCamera.originX / 150)) {
                             System.out.println(s.mood);
-                            switch (s.mood){
-                                case 0 :
+                            switch (s.mood) {
+                                case 0:
                                     g2d.drawImage(softWall0, 0, -150, null);
                                     break;
                                 case 1:
                                     g2d.drawImage(softWall1, 0, -150, null);
                                     break;
-                                case 2 :
+                                case 2:
                                     g2d.drawImage(softWall2, 0, -150, null);
                                     break;
-                                case 3 :
+                                case 3:
                                     g2d.drawImage(softWall3, 0, -150, null);
                                     break;
                             }
@@ -242,7 +267,7 @@ public class Map implements Serializable {
     }
 
 
-    public void drawArea(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawArea(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(-150, 1080 + 150);
         atMap.translate(-((ServerCamera.originX % 150) - 1), ((ServerCamera.originY % 150) - 1));
@@ -257,7 +282,8 @@ public class Map implements Serializable {
         }
         g2d.setTransform(oldTrans);
     }
-    public void drawAreaClient(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+
+    public void drawAreaClient(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         AffineTransform atMap = g2d.getTransform();
         atMap.translate(-150, 1080 + 150);
         atMap.translate(-((ClientCamera.originX % 150) - 1), ((ClientCamera.originY % 150) - 1));

@@ -19,11 +19,13 @@ public class ServerCamera {
    private static ArrayList<Repair> rapairs ;
    private static ArrayList<Star> stars ;
     private static ArrayList<Mine> mines ;
+    private static ArrayList<Shield> shields ;
+    private static Key key;
 
     private static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
-    private static int cameraSpeed = 4;
+    private static int cameraSpeed = 4 ;
 
     public ServerCamera(GameState state) {
         this.state = state;
@@ -39,9 +41,12 @@ public class ServerCamera {
         rapairs = state.map.repairs;
         stars = state.map.stars;
         mines = state.map.mines;
+        shields = state.map.shields;
+        key = state.map.key;
         if (GameState.mode == 1){
             coPlayerTank = GameState.coPlayer ;
         }
+        cameraSpeed = 4 + (playerTank.speed - 9) ;
     }
 
     public static void updateInfo() {
@@ -109,16 +114,16 @@ public class ServerCamera {
         }
 
         if (mouseUP) {
-            originY += (1.25 * cameraSpeed);
+            originY += (2 * cameraSpeed);
         }
         if (mouseDOWN) {
-            originY -= (1.25 * cameraSpeed);
+            originY -= (2 * cameraSpeed);
         }
         if (mouseLEFT) {
-            originX -= (1.25 * cameraSpeed);
+            originX -= (2 * cameraSpeed);
         }
         if (mouseRIGHT) {
-            originX += (1.25 * cameraSpeed);
+            originX += (2 * cameraSpeed);
         }
 
 
@@ -139,15 +144,24 @@ public class ServerCamera {
 
         if (keyUP && !camerafixedY) {
             playerTank.positionY += cameraSpeed;
+            for (Bullet bullet : playerTank.bullets){
+                bullet.setPositionY(bullet.getPositionY()+cameraSpeed);
+            }
             if (GameState.mode == 1) {
                 coPlayerTank.clientLoc.y += cameraSpeed;
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY += cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()+cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
                 turret.positionY += cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()+cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY += cameraSpeed;
@@ -170,19 +184,31 @@ public class ServerCamera {
                 repair.positionY += cameraSpeed;
             for (Star star : stars )
                 star.positionY += cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionY += cameraSpeed;
+            key.positionY+= cameraSpeed;
         }
 
         if (keyDOWN && !camerafixedY) {
             playerTank.positionY -= cameraSpeed;
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionY(bullet.getPositionY()-cameraSpeed);
+            }
             if (GameState.mode == 1) {
                 coPlayerTank.clientLoc.y -= cameraSpeed;
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY -= cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()-cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
                 turret.positionY -= cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()-cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionY -= cameraSpeed;
@@ -205,19 +231,31 @@ public class ServerCamera {
                 repair.positionY -= cameraSpeed;
             for (Star star : stars )
                 star.positionY -= cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionY -= cameraSpeed;
+            key.positionY-= cameraSpeed;
         }
 
         if (keyLEFT && !camerafixedX) {
             playerTank.positionX += cameraSpeed;
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionX(bullet.getPositionX()+cameraSpeed);
+            }
             if (GameState.mode == 1) {
                 coPlayerTank.clientLoc.x += cameraSpeed;
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX += cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()+cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
                 turret.positionX += cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()+cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX += cameraSpeed;
@@ -240,19 +278,31 @@ public class ServerCamera {
                 repair.positionX += cameraSpeed;
             for (Star star : stars )
                 star.positionX += cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionX += cameraSpeed;
+            key.positionX+= cameraSpeed;
         }
 
         if (keyRIGHT && !camerafixedX) {
             playerTank.positionX -= cameraSpeed;
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionX(bullet.getPositionX()-cameraSpeed);
+            }
             if (GameState.mode == 1) {
                 coPlayerTank.clientLoc.x -= cameraSpeed;
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX -= cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()-cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
                 turret.positionX -= cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()-cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
                 idiotEnemy.positionX -= cameraSpeed;
@@ -275,146 +325,197 @@ public class ServerCamera {
                 repair.positionX -= cameraSpeed;
             for (Star star : stars )
                 star.positionX -= cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionX -= cameraSpeed;
+            key.positionX-= cameraSpeed;
         }
 
         if (mouseUP && !camerafixedY) {
-            playerTank.positionY += (1.25 * cameraSpeed);
+            playerTank.positionY += (2 * cameraSpeed);
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionY(bullet.getPositionY()+2*cameraSpeed);
+            }
             if (GameState.mode == 1) {
-                coPlayerTank.clientLoc.y += (1.25 * cameraSpeed);
+                coPlayerTank.clientLoc.y += (2 * cameraSpeed);
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
-                enemyTank.positionY += 1.25 * cameraSpeed;
+                enemyTank.positionY += 2 * cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()+2*cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
-                turret.positionY += 1.25 * cameraSpeed;
+                turret.positionY += 2 * cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()+2*cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
-                idiotEnemy.positionY += 1.25 * cameraSpeed;
+                idiotEnemy.positionY += 2 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
-                softWall.positionY += (1.25 * cameraSpeed);
+                softWall.positionY += (2 * cameraSpeed);
             }
             for (HardWall hardWall : hardWalls) {
-                hardWall.positionY += (1.25 * cameraSpeed);
+                hardWall.positionY += (2 * cameraSpeed);
             }
             for (Teazel teazel : teazels)
-                teazel.positionY += 1.25 * cameraSpeed;
+                teazel.positionY += 2 * cameraSpeed;
             for (Mine mine : mines)
-                mine.positionY += 1.25 * cameraSpeed;
+                mine.positionY += 2 * cameraSpeed;
             for (MashinGun mashinGun : mashinGuns)
-                mashinGun.positionY += 1.25 * cameraSpeed;
+                mashinGun.positionY += 2 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
-                tankGun.positionY += 1.25 * cameraSpeed;
+                tankGun.positionY += 2 * cameraSpeed;
             for (Repair repair : rapairs)
-                repair.positionY += 1.25 * cameraSpeed;
+                repair.positionY += 2 * cameraSpeed;
             for (Star star : stars )
-                star.positionY += 1.25 * cameraSpeed;
+                star.positionY += 2 * cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionY += 2*cameraSpeed;
+            key.positionY+= 2*cameraSpeed;
         }
 
         if (mouseDOWN && !camerafixedY) {
-            playerTank.positionY -= (1.25 * cameraSpeed);
+            playerTank.positionY -= (2 * cameraSpeed);
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionY(bullet.getPositionY()-2*cameraSpeed);
+            }
             if (GameState.mode == 1) {
-                coPlayerTank.clientLoc.y -= (1.25 * cameraSpeed);
+                coPlayerTank.clientLoc.y -= (2 * cameraSpeed);
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
-                enemyTank.positionY -= 1.25 * cameraSpeed;
+                enemyTank.positionY -= 2 * cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()-2*cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
-                turret.positionY -= 1.25 * cameraSpeed;
+                turret.positionY -= 2 * cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionY(bullet.getPositionY()-2*cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
-                idiotEnemy.positionY -= 1.25 * cameraSpeed;
+                idiotEnemy.positionY -= 2 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
-                softWall.positionY -= (1.25 * cameraSpeed);
+                softWall.positionY -= (2 * cameraSpeed);
             }
             for (HardWall hardWall : hardWalls) {
-                hardWall.positionY -= (1.25 * cameraSpeed);
+                hardWall.positionY -= (2 * cameraSpeed);
             }
             for (Teazel teazel : teazels)
-                teazel.positionY -= 1.25 * cameraSpeed;
+                teazel.positionY -= 2 * cameraSpeed;
             for (Mine mine : mines)
-                mine.positionY -= 1.25 * cameraSpeed;
+                mine.positionY -= 2 * cameraSpeed;
             for (MashinGun mashinGun : mashinGuns)
-                mashinGun.positionY -= 1.25 * cameraSpeed;
+                mashinGun.positionY -= 2 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
-                tankGun.positionY -= 1.25 * cameraSpeed;
+                tankGun.positionY -= 2 * cameraSpeed;
             for (Repair repair : rapairs)
-                repair.positionY -= 1.25 * cameraSpeed;
+                repair.positionY -= 2 * cameraSpeed;
             for (Star star : stars )
-                star.positionY -= 1.25 * cameraSpeed;
+                star.positionY -= 2 * cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionY -= 2*cameraSpeed;
+            key.positionY-= 2*cameraSpeed;
         }
 
         if (mouseLEFT && !camerafixedX) {
-            playerTank.positionX += (1.25 * cameraSpeed);
+            playerTank.positionX += (2 * cameraSpeed);
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionX(bullet.getPositionX()+2*cameraSpeed);
+            }
             if (GameState.mode == 1) {
-                coPlayerTank.clientLoc.x += (1.25 * cameraSpeed);
+                coPlayerTank.clientLoc.x += (2 * cameraSpeed);
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
-                enemyTank.positionX += 1.25 * cameraSpeed;
+                enemyTank.positionX += 2 * cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()+2*cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
-                turret.positionX += 1.25 * cameraSpeed;
+                turret.positionX += 2 * cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()+2*cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
-                idiotEnemy.positionX += 1.25 * cameraSpeed;
+                idiotEnemy.positionX += 2 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
-                softWall.positionX += (1.25 * cameraSpeed);
+                softWall.positionX += (2 * cameraSpeed);
             }
             for (HardWall hardWall : hardWalls) {
-                hardWall.positionX += (1.25 * cameraSpeed);
+                hardWall.positionX += (2 * cameraSpeed);
             }
             for (Teazel teazel : teazels)
-                teazel.positionX += 1.25 * cameraSpeed;
+                teazel.positionX += 2 * cameraSpeed;
             for (Mine mine : mines)
-                mine.positionX += 1.25 * cameraSpeed;
+                mine.positionX += 2 * cameraSpeed;
             for (MashinGun mashinGun : mashinGuns)
-                mashinGun.positionX += 1.25 * cameraSpeed;
+                mashinGun.positionX += 2 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
-                tankGun.positionX += 1.25 * cameraSpeed;
+                tankGun.positionX += 2 * cameraSpeed;
             for (Repair repair : rapairs)
-                repair.positionX += 1.25 * cameraSpeed;
+                repair.positionX += 2 * cameraSpeed;
             for (Star star : stars )
-                star.positionX += 1.25 * cameraSpeed;
+                star.positionX += 2 * cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionX += 2*cameraSpeed;
+            key.positionX+= 2*cameraSpeed;
         }
 
         if (mouseRIGHT && !camerafixedX) {
-            playerTank.positionX -= (1.25 * cameraSpeed);
+            playerTank.positionX -= (2 * cameraSpeed);
+            for (Bullet bullet : playerTank.bullets ){
+                bullet.setPositionX(bullet.getPositionX()-2*cameraSpeed);
+            }
             if (GameState.mode == 1) {
-                coPlayerTank.clientLoc.x -= (1.25 * cameraSpeed);
+                coPlayerTank.clientLoc.x -= (2 * cameraSpeed);
             }
             for (EnemyTank enemyTank :
                     enemyTanks) {
-                enemyTank.positionX -= 1.25 * cameraSpeed;
+                enemyTank.positionX -= 2 * cameraSpeed;
+                for (Bullet bullet : enemyTank.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()-2*cameraSpeed);
+                }
             }
             for (Turret turret : turrets) {
-                turret.positionX -= 1.25 * cameraSpeed;
+                turret.positionX -= 2 * cameraSpeed;
+                for (Bullet bullet : turret.bullets ){
+                    bullet.setPositionX(bullet.getPositionX()-2*cameraSpeed);
+                }
             }
             for (IdiotEnemy idiotEnemy : idiotEnemies) {
-                idiotEnemy.positionX -= 1.25 * cameraSpeed;
+                idiotEnemy.positionX -= 2 * cameraSpeed;
             }
             for (SoftWall softWall : softWalls) {
-                softWall.positionX -= (1.25 * cameraSpeed);
+                softWall.positionX -= (2 * cameraSpeed);
             }
             for (HardWall hardWall : hardWalls) {
-                hardWall.positionX -= (1.25 * cameraSpeed);
+                hardWall.positionX -= (2 * cameraSpeed);
             }
             for (Teazel teazel : teazels)
-                teazel.positionX -= 1.25 * cameraSpeed;
+                teazel.positionX -= 2 * cameraSpeed;
             for (Mine mine : mines)
-                mine.positionX -= 1.25 * cameraSpeed;
+                mine.positionX -= 2 * cameraSpeed;
             for (MashinGun mashinGun : mashinGuns)
-                mashinGun.positionX -= 1.25 * cameraSpeed;
+                mashinGun.positionX -= 2 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
-                tankGun.positionX -= 1.25 * cameraSpeed;
+                tankGun.positionX -= 2 * cameraSpeed;
             for (Repair repair : rapairs)
-                repair.positionX -= 1.25 * cameraSpeed;
+                repair.positionX -= 2 * cameraSpeed;
             for (Star star : stars )
-                star.positionX -= 1.25 * cameraSpeed;
+                star.positionX -= 2 * cameraSpeed;
+            for (Shield shield : shields )
+                shield.positionX -= 2*cameraSpeed;
+            key.positionX-= 2*cameraSpeed;
         }
     }
 }

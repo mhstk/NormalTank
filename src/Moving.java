@@ -27,19 +27,23 @@ public abstract class Moving extends Runner implements Serializable {
         return  null ;
     }
 
-    public void drawBody(BufferedImage image ,BufferedImage image2 ,Graphics2D g2d , GameState state , AffineTransform oldTrans){
+    public void drawBody(BufferedImage image ,BufferedImage image2 ,BufferedImage destroyed,Graphics2D g2d , GameState state , AffineTransform oldTrans){
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
         g2d.setTransform(atBody);
-        long now = System.nanoTime();
-        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-            count ++;
-            lastTimeImageChanged = now;
+        if (this.isAlive()) {
+            long now = System.nanoTime();
+            if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+                count++;
+                lastTimeImageChanged = now;
+            }
+            if (count % 2 == 0) {
+                g2d.drawImage(image, positionX, positionY, null);
+            } else g2d.drawImage(image2, positionX, positionY, null);
+        }else {
+            g2d.drawImage(destroyed, positionX, positionY, null);
         }
-        if (count%2 == 0){
-            g2d.drawImage(image,positionX,positionY,null);
-        } else  g2d.drawImage(image2,positionX,positionY,null);
         g2d.setTransform(oldTrans);
     }
 
@@ -118,6 +122,12 @@ public abstract class Moving extends Runner implements Serializable {
 
         }
     }
+
+    public void destroy(){
+        alive = false ;
+    }
+
+
 
     protected void moveLeft() {
         if (!(angelInRange(angelBody) == 0) && !(down) && !(up)) {

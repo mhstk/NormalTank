@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class IdiotEnemy extends Moving {
     private boolean visible = false;
-    private boolean alive;
+
 
     public IdiotEnemy(int positionX, int positionY,int level) {
         super("idiotEnemy1.png","idiotEnemy2.png","",positionX,positionY,level);

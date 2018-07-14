@@ -60,13 +60,15 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         boolean gameOver = false;
-        while (!gameOver) {
+        boolean key = false;
+        while (!(gameOver && key) ) {
             try {
                 long start = System.currentTimeMillis();
                 //
                 state.update();
                 canvas.render(state);
                 gameOver = state.gameOver;
+                key = state.map.key.used() ;
                 //
                 long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
                 if (delay > 0)
@@ -75,5 +77,7 @@ public class GameLoop implements Runnable {
             }
         }
         canvas.render(state);
+
+
     }
 }

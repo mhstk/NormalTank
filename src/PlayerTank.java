@@ -18,6 +18,7 @@ public class PlayerTank extends SuperTank implements Serializable {
     private int firstHealth;
     private int moreSpeed = 0;
     private int moreDamage = 0;
+    private boolean shield;
 
 
     public PlayerTank(int positionX, int positionY , int level) {
@@ -33,6 +34,7 @@ public class PlayerTank extends SuperTank implements Serializable {
         firstHealth = health;
         tankGun = 25;
         mashinGun = 100;
+        shield = false;
     }
 
     @Override
@@ -82,10 +84,20 @@ public class PlayerTank extends SuperTank implements Serializable {
             //changeBodyImage();
         }
 
+
+
         positionX = Math.max(positionX, 0);
         positionX = Math.min(positionX, GameFrame.GAME_WIDTH - 205);
         positionY = Math.max(positionY, 0);
         positionY = Math.min(positionY, GameFrame.GAME_HEIGHT - 160);
+    }
+
+    public int getTankGun() {
+        return tankGun;
+    }
+
+    public int getMashinGun() {
+        return mashinGun;
     }
 
     public void shoot(int originX, int originY, int destX, int destY) {
@@ -222,5 +234,17 @@ public class PlayerTank extends SuperTank implements Serializable {
         damage += moreDamage;
         bulletSpeed += moreSpeed;
         speed += moreSpeed;
+    }
+    public void shield() {
+        shield = true;
+    }
+
+    public boolean getShield() {
+        return shield;
+    }
+
+    public void setShield(){
+        shield = false;
+
     }
 }

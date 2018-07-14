@@ -17,6 +17,7 @@ public abstract class Runner implements Serializable {
     private String secondBodyImage;
     private long lastTimeImageChanged;
     private boolean isFirstImage = true;
+    protected boolean alive;
     protected int level ;
 
     public Runner(String bulletImageAddress, int positionX, int positionY , int level) {
@@ -27,9 +28,14 @@ public abstract class Runner implements Serializable {
         clientLoc.x = positionX;
         clientLoc.y = positionY;
         this.level = level;
+        alive = true;
     }
 
-//    public void changeBodyImage(){
+    public boolean isAlive() {
+        return alive;
+    }
+
+    //    public void changeBodyImage(){
 //        long now = System.nanoTime();
 //        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
 //            if (isFirstImage) {

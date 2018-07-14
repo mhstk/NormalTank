@@ -17,87 +17,93 @@ public class EnemyTank extends SuperTank {
     }
 
     private void changePosition() {
-        angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
-        shoot();
+        if (isAlive()) {
+            angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
+            shoot();
+        }
     }
 
 
     public void move() {
-        angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
-        if (GameState.tankPosition().x > positionX) {
-            positionX += speed;
-            clientLoc.x += speed;
-            right = true;
-            left = false;
-            if (Collision.CollisionEnemyTank(this)) {
-                right = false;
-                left = true;
-                positionX -= speed;
-                clientLoc.x -= speed;
-            }
-            if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
-            moveRight();
-        } else if (GameState.tankPosition().x < positionX) {
-            positionX -= speed;
-            clientLoc.x -= speed;
-            left = true;
-            right = false;
-            if (Collision.CollisionEnemyTank(this)) {
-                right = true;
-                left = false;
+        if (isAlive()) {
+            angelGun = Math.atan2(GameState.tankPosition().y - (positionY), GameState.tankPosition().x - (positionX));
+            if (GameState.tankPosition().x > positionX) {
                 positionX += speed;
                 clientLoc.x += speed;
+                right = true;
+                left = false;
+                if (Collision.CollisionEnemyTank(this)) {
+                    right = false;
+                    left = true;
+                    positionX -= speed;
+                    clientLoc.x -= speed;
+                }
+                if (positionX > GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                moveRight();
+            } else if (GameState.tankPosition().x < positionX) {
+                positionX -= speed;
+                clientLoc.x -= speed;
+                left = true;
+                right = false;
+                if (Collision.CollisionEnemyTank(this)) {
+                    right = true;
+                    left = false;
+                    positionX += speed;
+                    clientLoc.x += speed;
+                }
+                if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
+                moveLeft();
+            } else {
+                right = false;
+                left = false;
             }
-            if (positionX < GameState.tankPosition().x) positionX = GameState.tankPosition().x;
-            moveLeft();
-        } else {
-            right = false;
-            left = false;
-        }
-        if (GameState.tankPosition().y > positionY) {
-            positionY += speed;
-            clientLoc.y += speed;
-            down = true;
-            up = false;
-            if (Collision.CollisionEnemyTank(this)) {
-                down = false;
-                up = true;
-                positionY -= speed;
-                clientLoc.y -= speed;
-            }
-            if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-            moveDown();
-
-        } else if (GameState.tankPosition().y < positionY) {
-            positionY -= speed;
-            clientLoc.y -= speed;
-            if (Collision.CollisionEnemyTank(this)) {
-                down = true;
-                up = false;
+            if (GameState.tankPosition().y > positionY) {
                 positionY += speed;
                 clientLoc.y += speed;
+                down = true;
+                up = false;
+                if (Collision.CollisionEnemyTank(this)) {
+                    down = false;
+                    up = true;
+                    positionY -= speed;
+                    clientLoc.y -= speed;
+                }
+                if (positionY > GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+                moveDown();
+
+            } else if (GameState.tankPosition().y < positionY) {
+                positionY -= speed;
+                clientLoc.y -= speed;
+                if (Collision.CollisionEnemyTank(this)) {
+                    down = true;
+                    up = false;
+                    positionY += speed;
+                    clientLoc.y += speed;
+                }
+                if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
+                up = true;
+                down = false;
+                moveUp();
+            } else {
+                up = false;
+                down = false;
             }
-            if (positionY < GameState.tankPosition().y) positionY = GameState.tankPosition().y;
-            up = true;
-            down = false;
-            moveUp();
-        } else {
-            up = false;
-            down = false;
+            //changeBodyImage();
+            shoot();
         }
-        //changeBodyImage();
-        shoot();
     }
 
     public void shoot() {
-        Long now = System.nanoTime();
-        if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
-            Bullet bullet;
-                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20 , damage);
-            bullets.add(bullet);
-            Sound sound = new Sound("heavygun.wav", 0);
-            sound.execute();
-            timeLastShotGun = now;
+        if (isAlive()) {
+            Long now = System.nanoTime();
+            if ((now - timeLastShotGun) / 1000000000.0 > 2.7) {
+                Bullet bullet;
+                bullet = new Bullet(getGunX(), getGunY(), GameState.tankPosition().x + (205 / 2), GameState.tankPosition().y + (160 / 2), 0, 20, damage);
+                bullets.add(bullet);
+                Sound sound = new Sound("heavygun.wav", 0);
+                sound.execute();
+                timeLastShotGun = now;
+            }
         }
     }
 
