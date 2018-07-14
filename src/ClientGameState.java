@@ -88,7 +88,6 @@ public class ClientGameState extends GameState {
 
                     break;
                 case KeyEvent.VK_ESCAPE:
-                    gameOver = true;
                     Main.SOUND.cancel();
                     break;
             }

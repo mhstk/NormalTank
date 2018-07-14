@@ -63,7 +63,7 @@ public class GameLoop implements Runnable {
     public void run() {
         boolean gameOver = false;
         boolean key = false;
-        while (!(gameOver && key) ) {
+        while (!(gameOver || key) ) {
             try {
                 long start = System.currentTimeMillis();
                 //
@@ -79,6 +79,14 @@ public class GameLoop implements Runnable {
             }
         }
         canvas.render(state);
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
+
 
 
     }

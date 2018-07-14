@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
-    private static final String SERVER_ADDRESS = "192.168.43.95";
+    private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 12345;
     private static Client instance = new Client();
     private Socket clientSocket;

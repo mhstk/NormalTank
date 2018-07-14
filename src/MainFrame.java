@@ -89,19 +89,25 @@ public class MainFrame extends JFrame {
     }
 
     private void startSinglePlayer() {
-        Object[] objects = new Object[3];
+        Object[] objects = new Object[5];
         JRadioButton easy = new JRadioButton("Easy");
         JRadioButton normal = new JRadioButton("Normal");
         JRadioButton hard = new JRadioButton("Hard");
+        JRadioButton map2 = new JRadioButton("Map2");
+        JRadioButton map3 = new JRadioButton("Map3");
         ButtonGroup buttonGroup = new ButtonGroup();
         easy.setSelected(true);
         buttonGroup.add(easy);
         buttonGroup.add(normal);
         buttonGroup.add(hard);
+        buttonGroup.add(map2);
+        buttonGroup.add(map3);
 
         objects[0] = easy;
         objects[1] = normal;
         objects[2] = hard;
+        objects[3] = map2;
+        objects[4] = map3;
         int res = JOptionPane.showOptionDialog(new JFrame(), objects, "GameMood", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
         if (res == JOptionPane.OK_OPTION) {
             this.dispose();
@@ -111,6 +117,11 @@ public class MainFrame extends JFrame {
                 Main.startGame(1,"Map.txt");
             else if (hard.isSelected())
                 Main.startGame(2,"Map.txt");
+            else if (map2.isSelected())
+                Main.startGame(0,"Map2.txt");
+            else if (map3.isSelected())
+            Main.startGame(0,"Map3.txt");
+
         }
     }
 
