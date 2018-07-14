@@ -13,8 +13,8 @@ public abstract class SuperTank extends Moving {
     protected BufferedImage gunImage;
     protected CopyOnWriteArrayList<Bullet> bullets ;
 
-    public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY){
-        super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY);
+    public SuperTank(String firstBodyImage, String secondBodyImage , String imageFileGun , String bulletImageAddress,int positionX,int positionY,int level){
+        super(firstBodyImage, secondBodyImage,bulletImageAddress,positionX,positionY, level);
         try {
             gunImage = ImageIO.read(new File(imageFileGun));
         } catch (IOException e) {

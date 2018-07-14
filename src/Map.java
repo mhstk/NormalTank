@@ -20,14 +20,16 @@ public class Map {
     public ArrayList<EnemyTank> enemyTanks;
     public ArrayList<Turret> turrets;
     public ArrayList<Mine> mines;
-    public ArrayList<Repair> repaires;
+    public ArrayList<Repair> repairs;
+    public ArrayList<Star> stars;
 
+    private int level;
     private int[][] map;
     private BufferedImage area;
 
-    public Map() {
+    public Map(int level) {
         map = new int[30][30];
-
+        this.level = level;
         try {
             area = ImageIO.read(new File("area.png"));
         } catch (IOException e) {
@@ -39,7 +41,8 @@ public class Map {
         teazel = new ArrayList<>();
         mashinGuns = new ArrayList<>();
         tankGuns = new ArrayList<>();
-        repaires  = new ArrayList<>();
+        repairs = new ArrayList<>();
+        stars = new ArrayList<>();
 
         turrets = new ArrayList<>();
         enemyTanks = new ArrayList<>();
@@ -64,25 +67,27 @@ public class Map {
                     } else if (map[i][j] == 4) {
                         teazel.add(new Teazel(i * 150, 1080 - (3750 - (150 * (24 - j)))));
                     } else if (map[i][j] == 5) {
-                        idiotEnemies.add(new IdiotEnemy(i * 150, 1080 - (3750 - (150 * (24 - j)))));
+                        idiotEnemies.add(new IdiotEnemy(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
                     } else if (map[i][j] == 6) {
-                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "UP"));
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "UP", level));
                     } else if (map[i][j] == 7) {
-                        enemyTanks.add(new EnemyTank(i * 150, 1080 - (3750 - (150 * (24 - j)))));
+                        enemyTanks.add(new EnemyTank(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
                     } else if (map[i][j] == 8) {
-                        mines.add(new Mine(i * 150, 1080 - (3750 - (150 * (24 - j)))));
+                        mines.add(new Mine(i * 150, 1080 - (3750 - (150 * (24 - j))), level));
                     } else if (map[i][j] == 9) {
                         mashinGuns.add(new MashinGun(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
                     } else if (map[i][j] == 10) {
-                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "DOWN"));
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "DOWN", level));
                     } else if (map[i][j] == 11) {
-                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "LEFT"));
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "LEFT", level));
                     } else if (map[i][j] == 12) {
-                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "RIGHT"));
+                        turrets.add(new Turret(i * 150, 1080 - (3750 - (150 * (24 - j))), "RIGHT", level));
                     } else if (map[i][j] == 13) {
-                        tankGuns.add(new TankGun(i * 150, 1080 - (3750 - (150 * (24 - j))),i,j));
-                    }  else if (map[i][j] == 14) {
-                        repaires.add(new Repair(i * 150, 1080 - (3750 - (150 * (24 - j))),i,j));
+                        tankGuns.add(new TankGun(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 14) {
+                        repairs.add(new Repair(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
+                    } else if (map[i][j] == 15) {
+                        stars.add(new Star(i * 150, 1080 - (3750 - (150 * (24 - j))), i, j));
                     }
                 }
                 j--;
@@ -140,10 +145,15 @@ public class Map {
                         if (tankGun.getI() == i + (int) (Camera.originY / 150) && tankGun.getJ() == j + (int) (Camera.originX / 150))
                             g2d.drawImage(tankGun.getImage(), 0, -150, null);
                     }
-                }else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 14) {
-                    for (Repair repair : repaires) {
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 14) {
+                    for (Repair repair : repairs) {
                         if (repair.getI() == i + (int) (Camera.originY / 150) && repair.getJ() == j + (int) (Camera.originX / 150))
                             g2d.drawImage(repair.getImage(), 0, -150, null);
+                    }
+                } else if (map[j + (int) (Camera.originX / 150)][i + (int) (Camera.originY / 150)] == 15) {
+                    for (Star star : stars) {
+                        if (star.getI() == i + (int) (Camera.originY / 150) && star.getJ() == j + (int) (Camera.originX / 150))
+                            g2d.drawImage(star.getImage(), 0, -150, null);
                     }
                 }
                 atMap.translate(150, 0);

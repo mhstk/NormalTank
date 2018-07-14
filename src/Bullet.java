@@ -12,15 +12,13 @@ public class Bullet {
     private int positionX;
     private int positionY;
     private int speed;
-    private int destX;
-    private int destY;
     private double angel;
+    private int damage;
 
-    public Bullet(int positionX, int positionY,int destX , int destY , String bulletImageAddress , int speed) {
+    public Bullet(int positionX, int positionY,int destX , int destY , String bulletImageAddress , int speed, int damage) {
         this.positionX = positionX;
         this.positionY = positionY;
-        this.destX = destX;
-        this.destY = destY;
+        this.damage = damage;
         try {
             image = ImageIO.read(new File(bulletImageAddress));
         } catch (IOException e) {
@@ -69,4 +67,7 @@ public class Bullet {
         return angel;
     }
 
+    public int getDamage(){
+        return damage ;
+    }
 }

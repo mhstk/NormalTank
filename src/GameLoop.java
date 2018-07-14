@@ -20,11 +20,13 @@ public class GameLoop implements Runnable {
      * Higher is better, but any value above 24 is fine.
      */
     public static final int FPS = 50;
+    private int level;
 
     private GameFrame canvas;
     public static GameState state;
 
-    public GameLoop(GameFrame frame) {
+    public GameLoop(GameFrame frame , int level) {
+        this.level = level;
         canvas = frame;
     }
 
@@ -32,7 +34,7 @@ public class GameLoop implements Runnable {
      * This must be called before the game loop starts.
      */
     public void init() {
-        state = new GameState();
+        state = new GameState(level);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());

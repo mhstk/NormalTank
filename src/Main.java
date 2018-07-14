@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -15,6 +16,8 @@ public class Main {
 
     public static final Sound SOUND = new Sound(".\\game.wav",105000);
     public static GameFrame frame;
+    public static int level ;
+    public static MainFrame mainFrame ;
     public static void main(String[] args) {
         // Initialize the global thread-pool
         ThreadPool.init();
@@ -25,24 +28,29 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                SOUND.execute();
-                frame = new GameFrame("Simple Ball !");
-                frame.setLocationRelativeTo(null); // put frame at center of screen
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = toolkit.getImage(".\\pointer.png");
-                int a = (frame.getX()) + 30;
-                int b = frame.getY() + 30;
-                Cursor c = toolkit.createCustomCursor(image, new Point(a, b), "img");
-                frame.setCursor(c);
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setVisible(true);
-                frame.initBufferStrategy();
-                // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame);
-                game.init();
-                ThreadPool.execute(game);
+                mainFrame = new MainFrame();
                 // and the game starts ...
             }
         });
+    }
+
+    public static void startGame(int level){
+        SOUND.execute();
+        frame = new GameFrame("Simple Ball", level);
+        frame.setLocationRelativeTo(null); // put frame at center of screen
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage(".\\pointer.png");
+        int a = (frame.getX()) + 30;
+        int b = frame.getY() + 30;
+        Cursor c = toolkit.createCustomCursor(image, new Point(a, b), "img");
+        frame.setCursor(c);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.initBufferStrategy();
+        // Create and execute the game-loop
+        GameLoop game = new GameLoop(frame , level);
+        game.init();
+        ThreadPool.execute(game);
+
     }
 }

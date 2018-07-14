@@ -8,13 +8,15 @@ public class Mine extends Runner {
     private boolean alive ;
     private boolean visible;
 
-    public Mine(int positionX, int positionY) {
-        super("onMine.png","offMine.png","", positionX, positionY);
+    public Mine(int positionX, int positionY,int level) {
+        super("onMine.png","offMine.png","", positionX, positionY,level);
         try {
             this.image= ImageIO.read(new File("onMine.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        damage = 4;
+        health = 1;
         alive = true;
         visible =false;
     }

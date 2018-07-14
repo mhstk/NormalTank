@@ -12,6 +12,7 @@ public class SoftWall {
     int j;
     private BufferedImage image;
     private int mood;
+    private int health = 4;
 
     public SoftWall(int positionX, int positionY, int j, int i) {
         mood = 0;
@@ -36,9 +37,13 @@ public class SoftWall {
         return new Rectangle(positionX, positionY, 150, 150);
     }
 
-    public int destroy() {
-        mood++;
-        if (mood == 1 || mood == 2 || mood == 3) {
+    public int destroy(int damage) {
+        health -= damage;
+        if (health<=0){
+            mood++;
+            health = 4;
+        }
+        if (mood == 0 || mood == 1 || mood == 2 || mood == 3) {
             try {
                 image = ImageIO.read(new File("softWall" + mood + ".png"));
             } catch (IOException e) {

@@ -16,14 +16,16 @@ public abstract class Runner {
     private String secondBodyImage;
     private long lastTimeImageChanged;
     private boolean isFirstImage = true;
+    protected int level ;
 
-    public Runner(String firstBodyImage , String secondBodyImage ,String bulletImageAddress, int positionX, int positionY) {
+    public Runner(String firstBodyImage , String secondBodyImage ,String bulletImageAddress, int positionX, int positionY , int level) {
         this.health = 5;
         this.bulletImageAddress = bulletImageAddress;
         this.positionX = positionX;
         this.positionY = positionY;
         this.firstBodyImage = firstBodyImage;
         this.secondBodyImage = secondBodyImage;
+        this.level = level;
     }
 
     public void changeBodyImage(){
@@ -49,9 +51,8 @@ public abstract class Runner {
     }
 
 
-    public void toBeInjured() {
-        this.health --;
-        System.out.println(health);
+    public void toBeInjured(int damage) {
+        this.health -= damage;
     }
 
     public Rectangle getBounds(){

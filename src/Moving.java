@@ -13,8 +13,8 @@ public abstract class Moving extends Runner {
     protected boolean left = false;
     protected boolean right = false;
 
-    public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY){
-        super(firstBodyImage,secondBodyImage,bulletImageAddress,positionX,positionY);
+    public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY,int level){
+        super(firstBodyImage,secondBodyImage,bulletImageAddress,positionX,positionY,level);
         try {
             image = ImageIO.read(new File(firstBodyImage));
         } catch (IOException e) {

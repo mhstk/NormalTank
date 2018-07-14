@@ -22,10 +22,9 @@ public class GameFrame extends JFrame {
 
     private long lastRender;
     private ArrayList<Float> fpsHistory;
-
     private BufferStrategy bufferStrategy;
 
-    public GameFrame(String title) {
+    public GameFrame(String title, int level) {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -130,6 +129,7 @@ public class GameFrame extends JFrame {
         // Draw trees
         state.map.drawPlants(g2d, state, oldTrans);
 
+
         // Back to normal affine
         g2d.setTransform(oldTrans);
 
@@ -151,7 +151,7 @@ public class GameFrame extends JFrame {
             g2d.setFont(g2d.getFont().deriveFont(18.0f));
             int strWidth = g2d.getFontMetrics().stringWidth(str);
             int strHeight = g2d.getFontMetrics().getHeight();
-            g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, strHeight + 50);
+            g2d.drawString("", (GAME_WIDTH - strWidth) / 2, strHeight + 50);
         }
         lastRender = currentRender;
         // Print user guide

@@ -17,9 +17,10 @@ public class Camera {
     private static ArrayList<Teazel> teazels = state.map.teazel;
     private static ArrayList<MashinGun> mashinGuns = state.map.mashinGuns;
     private static ArrayList<TankGun> tankGuns = state.map.tankGuns;
-    private static ArrayList<Repair> rapaires = state.map.repaires;
+    private static ArrayList<Repair> rapairs = state.map.repairs;
+    private static ArrayList<Star> stars = state.map.stars;
 
-    static int mouseX, mouseY;
+    private static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
 
@@ -142,8 +143,10 @@ public class Camera {
                 mashinGun.positionY += cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionY += cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionY += cameraSpeed;
+            for (Star star : stars )
+                star.positionY += cameraSpeed;
         }
 
         if (keyDOWN && !camerafixedY) {
@@ -172,8 +175,10 @@ public class Camera {
                 mashinGun.positionY -= cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionY -= cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionY -= cameraSpeed;
+            for (Star star : stars )
+                star.positionY -= cameraSpeed;
         }
 
         if (keyLEFT && !camerafixedX) {
@@ -202,8 +207,10 @@ public class Camera {
                 mashinGun.positionX += cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionX += cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionX += cameraSpeed;
+            for (Star star : stars )
+                star.positionX += cameraSpeed;
         }
 
         if (keyRIGHT && !camerafixedX) {
@@ -232,8 +239,10 @@ public class Camera {
                 mashinGun.positionX -= cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionX -= cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionX -= cameraSpeed;
+            for (Star star : stars )
+                star.positionX -= cameraSpeed;
         }
 
         if (mouseUP && !camerafixedY) {
@@ -262,8 +271,10 @@ public class Camera {
                 mashinGun.positionY += 1.25 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionY += 1.25 * cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionY += 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionY += 1.25 * cameraSpeed;
         }
 
         if (mouseDOWN && !camerafixedY) {
@@ -292,8 +303,10 @@ public class Camera {
                 mashinGun.positionY -= 1.25 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionY -= 1.25 * cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionY -= 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionY -= 1.25 * cameraSpeed;
         }
 
         if (mouseLEFT && !camerafixedX) {
@@ -322,8 +335,10 @@ public class Camera {
                 mashinGun.positionX += 1.25 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionX += 1.25 * cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionX += 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionX += 1.25 * cameraSpeed;
         }
 
         if (mouseRIGHT && !camerafixedX) {
@@ -353,8 +368,10 @@ public class Camera {
                 mashinGun.positionX -= 1.25 * cameraSpeed;
             for (TankGun tankGun : tankGuns)
                 tankGun.positionX -= 1.25 * cameraSpeed;
-            for (Repair repair : rapaires)
+            for (Repair repair : rapairs)
                 repair.positionX -= 1.25 * cameraSpeed;
+            for (Star star : stars )
+                star.positionX -= 1.25 * cameraSpeed;
         }
     }
 }
