@@ -1,13 +1,12 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public abstract class Runner {
+public abstract class Runner implements Serializable {
     protected int health;
     protected int damage;
     protected int positionX;
     protected int positionY;
-    protected BufferedImage image;
+    protected Point clientLoc = new Point();
     protected String bulletImageAddress;
 
     public Runner(String bulletImageAddress, int positionX, int positionY) {
@@ -15,6 +14,8 @@ public abstract class Runner {
         this.bulletImageAddress = bulletImageAddress;
         this.positionX = positionX;
         this.positionY = positionY;
+        clientLoc.x = positionX;
+        clientLoc.y = positionY;
     }
 
     public void toBeInjured() {
@@ -31,8 +32,7 @@ public abstract class Runner {
     }
 
     public Rectangle getBounds(){
-        System.out.printf(image.getWidth()+"   ******   "+image.getHeight()+"\n");
-        return new Rectangle(positionX,positionY,image.getWidth(),image.getHeight());
+        return null ;
     }
 
     public int getX() {

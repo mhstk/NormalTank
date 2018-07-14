@@ -28,17 +28,24 @@ public class Main {
                 SOUND.execute();
                 frame = new GameFrame("Simple Ball !");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = toolkit.getImage(".\\pointer.png");
-                int a = (frame.getX()) + 30;
-                int b = frame.getY() + 30;
-                Cursor c = toolkit.createCustomCursor(image, new Point(a, b), "img");
-                frame.setCursor(c);
+//                Toolkit toolkit = Toolkit.getDefaultToolkit();
+//                Image image = toolkit.getImage(".\\pointer.png");
+//                int a = (frame.getX()) + 30;
+//                int b = frame.getY() + 30;
+//                Cursor c = toolkit.createCustomCursor(image, new Point(a, b), "img");
+                Cursor blankCursor = null;
+                try {
+                    blankCursor = Toolkit.getDefaultToolkit().createCustomCursor
+                            (ImageIO.read(new File("blankCursor.png")), new Point(0, 0), "blank cursor");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                frame.setCursor(blankCursor);
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame);
+                GameLoop game = new GameLoop(frame,0);
                 game.init();
                 ThreadPool.execute(game);
                 // and the game starts ...

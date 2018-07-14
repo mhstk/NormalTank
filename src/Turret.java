@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class Turret extends SuperTank {
 
@@ -41,13 +42,13 @@ public class Turret extends SuperTank {
         }
     }
 
-    public void drawGun(Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+    public void drawGun(BufferedImage image , Graphics2D g2d, GameState state, AffineTransform oldTrans) {
         g2d.setTransform(oldTrans);
         AffineTransform atGun = g2d.getTransform();
         atGun.translate(positionX, positionY);
         atGun.rotate(angelGun, 87, 67);
         g2d.setTransform(atGun);
-        g2d.drawImage(gunImage, 0, 0, null);
+        g2d.drawImage(image, 0, 0, null);
     }
 
     public void isInArea() {
@@ -60,7 +61,7 @@ public class Turret extends SuperTank {
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (GameState.getTank().image.getWidth() / 2), GameState.tankPosition().y + (GameState.getTank().image.getHeight() / 2), bulletImageAddress, 20);
+        Bullet bullet = new Bullet(positionX + (87), positionY + (67), GameState.tankPosition().x + (205/ 2), GameState.tankPosition().y + (160 / 2), 0, 20);
         if (isPossible(bullet.getAngelBody())) {
             bullets.add(bullet);
             Sound sound = new Sound("heavygun.wav", 0);

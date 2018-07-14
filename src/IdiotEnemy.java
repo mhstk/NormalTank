@@ -22,7 +22,7 @@ public class IdiotEnemy extends Moving {
     @Override
     public void move() {
                 if (visible &&alive) {
-            changeBodyImage();
+            //changeBodyImage();
             if (GameState.tankPosition().x > positionX) {
                 positionX += speed;
                 right = true;
@@ -89,7 +89,7 @@ public class IdiotEnemy extends Moving {
     }
 
     public Rectangle getBounds(){
-        return  new Rectangle(positionX , positionY , image.getWidth(),image.getHeight()) ;
+        return  new Rectangle(positionX , positionY , 86,86) ;
     }
 
     public double getAngelBody() {

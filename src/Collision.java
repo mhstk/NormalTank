@@ -48,11 +48,11 @@ public class Collision {
 //            }
 //        }
 
-//        if (CollisionDetection.intersect(bullet.getBounds() , playerTank.getBounds(),bullet.getAngelBody(),playerTank.angelBody)) {
-//            playerTank.toBeInjured();
-//            System.out.println("klek");
-//            return true;
-//        }
+        if (CollisionDetection.intersect(bullet.getBounds() , playerTank.getBounds(),bullet.getAngelBody(),playerTank.angelBody)) {
+            playerTank.toBeInjured();
+            System.out.println("klek");
+            return true;
+        }
             return false;
     }
 

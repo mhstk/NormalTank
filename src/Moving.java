@@ -4,10 +4,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class Moving extends Runner {
+public abstract class Moving extends Runner implements Serializable {
     private long lastTimeImageChanged;
-    private boolean isFirstImage = true;
+    protected boolean isFirstImage = true;
     protected int speed;
     protected double angelBody;
     private String firstBodyImage;
@@ -19,26 +20,30 @@ public abstract class Moving extends Runner {
 
     public Moving(String firstBodyImage,String secondBodyImage,String bulletImageAddress,int positionX , int positionY){
         super(bulletImageAddress,positionX,positionY);
-        try {
-            image = ImageIO.read(new File(firstBodyImage));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         this.firstBodyImage = firstBodyImage;
         this.secondBodyImage = secondBodyImage;
 
     }
 
     public Rectangle getBounds(){
-        return  new Rectangle(positionX , positionY , image.getWidth(),image.getHeight()) ;
+        return  null ;
     }
 
-    public void drawBody(Graphics2D g2d , GameState state , AffineTransform oldTrans){
+    public void drawBody(BufferedImage image ,Graphics2D g2d , GameState state , AffineTransform oldTrans){
         g2d.setTransform(oldTrans);
         AffineTransform atBody = g2d.getTransform();
         atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
         g2d.setTransform(atBody);
         g2d.drawImage(image, positionX, positionY, null);
+        g2d.setTransform(oldTrans);
+    }
+
+    public void drawBodyClient(BufferedImage image ,Graphics2D g2d , GameState state , AffineTransform oldTrans){
+        g2d.setTransform(oldTrans);
+        AffineTransform atBody = g2d.getTransform();
+        atBody.rotate(Math.toRadians(angelBody), clientLoc.x + image.getWidth() / 2, clientLoc.y + image.getHeight() / 2);
+        g2d.setTransform(atBody);
+        g2d.drawImage(image, clientLoc.x, clientLoc.y, null);
         g2d.setTransform(oldTrans);
     }
 
@@ -142,27 +147,27 @@ public abstract class Moving extends Runner {
         }
     }
 
-    public void changeBodyImage(){
-        long now = System.nanoTime();
-        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
-            if (isFirstImage) {
-                try {
-                    image = ImageIO.read(new File(secondBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = false;
-            } else {
-                try {
-                    image = ImageIO.read(new File(firstBodyImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isFirstImage = true;
-            }
-            lastTimeImageChanged = now;
-        }
-    }
+//    public void changeBodyImage(){
+//        long now = System.nanoTime();
+//        if ((now - lastTimeImageChanged) / 1000000000.0 > 0.08) {
+//            if (isFirstImage) {
+//                try {
+//                    image = ImageIO.read(new File(secondBodyImage));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                isFirstImage = false;
+//            } else {
+//                try {
+//                    image = ImageIO.read(new File(firstBodyImage));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                isFirstImage = true;
+//            }
+//            lastTimeImageChanged = now;
+//        }
+//    }
 
     public double getAngelBody() {
         return angelBody;

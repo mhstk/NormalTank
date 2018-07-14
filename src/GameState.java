@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -19,10 +20,12 @@ public class GameState implements Serializable {
     public int locX, locY, diam;
     public boolean gameOver;
     public boolean cameraFixedX, cameraFixedY;
-    private static PlayerTank playerTank = new PlayerTank(160,1600);
+    private static PlayerTank playerTank;
+    static CoPlayerTank coPlayer;
+    public static int mode;
     public boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     public boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
-    private boolean mousePress;
+    protected boolean mousePress;
     public int mouseX, mouseY;
     private static int count = 1;
     private long timeLastShotGun = 0;
@@ -30,7 +33,7 @@ public class GameState implements Serializable {
     private MouseHandler mouseHandler;
     public Map map;
 
-    public GameState() {
+    public GameState(int mode) {
         cameraFixedX = false;
         cameraFixedY = false;
         locX = 100;
@@ -48,20 +51,39 @@ public class GameState implements Serializable {
         mouseLEFT = false;
         //
         mousePress = false;
+        playerTank = new PlayerTank(60, 900);
 
         mouseX = 800;
         mouseY = 400;
+        GameState.mode = mode;
         //
-        keyHandler = new KeyHandler();
-        mouseHandler = new MouseHandler();
+        if (mode != 2) {
+            keyHandler = new KeyHandler();
+            mouseHandler = new MouseHandler();
+        }
 
-        map = new Map();
-        map.createMap("Map.txt");
+
+        if (mode != 2) {
+            map = new Map();
+            map.createMap("Map.txt");
+
+        }
+        if (mode == 1) {
+            coPlayer = new CoPlayerTank(60,900);
+            Server.getInstance().start();
+
+            Data data = new Data(playerTank,coPlayer,map);
+
+
+            Server.getInstance().sendData(data);
+            Server.getInstance().reset();
+        }
+
 
     }
 
-    public static Point tankPosition(){
-        return new Point(playerTank.positionX,playerTank.positionY);
+    public static Point tankPosition() {
+        return new Point(playerTank.positionX, playerTank.positionY);
     }
 
     public static PlayerTank getTank() {
@@ -72,30 +94,49 @@ public class GameState implements Serializable {
      * The method which updates the game state.
      */
     public void update() {
+        if (mode == 1) {
+
+            Server.getInstance().getData();
+            System.out.println(coPlayer.up);
+            System.out.println("up : "+ coPlayer.up + "***" +"down : "+ coPlayer.down + "***" +"left : "+ coPlayer.left + "***" +"right : "+ coPlayer.right );
+            coPlayer.move();
+
+//          Client.getInstance().reset();
+
+        }
+
         playerTank.move();
         for (EnemyTank enemyTank : map.enemyTanks) enemyTank.isInArea();
-        for (Turret turret : map.turrets )turret.isInArea();
-        for (IdiotEnemy idiotEnemy : map.idiotEnemies){
+        for (Turret turret : map.turrets) turret.isInArea();
+        for (IdiotEnemy idiotEnemy : map.idiotEnemies) {
             idiotEnemy.isInArea();
             idiotEnemy.move();
         }
-
-        Camera.updateInfo();
+        ServerCamera serverCamera = new ServerCamera(this);
+        serverCamera.updateInfo();
 
         if (!Collision.collisionPlayerTank()) {
-            Camera.cameraMove();
+            serverCamera.cameraMove();
         }
         if (mousePress && playerTank.checkMouseLoc()) {
             Long now = System.nanoTime();
             if ((now - timeLastShotGun) / 1000000000.0 > playerTank.difTimeBullet) {
                 playerTank.shoot(playerTank.getGunX(), playerTank.getGunY(), mouseX, mouseY);
                 timeLastShotGun = now;
-                if (playerTank.getGunNumber() == 1){
+                if (playerTank.getGunNumber() == 1) {
                     mousePress = false;
                 }
 
             }
         }
+
+        if (mode == 1){
+            Data data = new Data(GameLoop.state.getPlayerTank(),GameState.coPlayer,GameLoop.state.map);
+            Server.getInstance().sendData(data);
+            Server.getInstance().reset();
+
+        }
+
     }
 
     public KeyListener getKeyListener() {

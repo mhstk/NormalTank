@@ -6,26 +6,24 @@ import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Bullet {
-    private BufferedImage image;
+public class Bullet implements Serializable {
     private int positionX;
     private int positionY;
     private int speed;
     private int destX;
     private int destY;
+    public int mode;
     private double angel;
 
-    public Bullet(int positionX, int positionY,int destX , int destY , String bulletImageAddress , int speed) {
+    public Bullet(int positionX, int positionY,int destX , int destY , int mode , int speed) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.destX = destX;
         this.destY = destY;
-        try {
-            image = ImageIO.read(new File(bulletImageAddress));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.mode = mode;
+
         angel = Math.atan2(destY - (positionY ), destX - (positionX ));
 
         this.speed = speed;
@@ -38,7 +36,12 @@ public class Bullet {
     }
 
     public Rectangle getBounds(){
-        return new Rectangle(positionX , positionY , image.getWidth(),image.getHeight()) ;
+        if (mode == 0){ // heavy gun
+            return new Rectangle(positionX , positionY ,45 ,16) ;
+        }else { // second gun
+            return new Rectangle(positionX , positionY ,35 ,8) ;
+        }
+
     }
 
     public int getPositionX() {
@@ -57,13 +60,6 @@ public class Bullet {
         this.positionY = positionY;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
 
     public double getAngelBody() {
         return angel;

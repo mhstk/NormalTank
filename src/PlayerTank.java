@@ -1,23 +1,21 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.Serializable;
 
-public class PlayerTank extends SuperTank {
+public class PlayerTank extends SuperTank implements Serializable {
 
     public int mouseX, mouseY;
     public double difTimeBullet;
     boolean camerafixedX, camerafixedY;
-    private boolean mousePress;
-    private boolean mouseMoved;
-    private int bulletSpeed;
-    private String shootString;
+    protected boolean mousePress;
+    protected boolean mouseMoved;
+    protected int bulletSpeed;
+    protected String shootString;
 
 
     public PlayerTank(int positionX, int positionY) {
-        super("Tank-under.png","Tank-under2.png", "Tank-top.png", "Tank-Bullet.png",positionX,positionY);
+        super("Tank-under.png", "Tank-under2.png", "Tank-top.png", "Tank-Bullet.png", positionX, positionY);
         speed = 7;
         shootString = "heavygun.wav";
         camerafixedX = false;
@@ -34,35 +32,43 @@ public class PlayerTank extends SuperTank {
 
         if (up) {
             positionY -= speed;
+            clientLoc.y -= speed;
             moveUp();
             if (Collision.collisionPlayerTank()) {
                 positionY += speed;
+                clientLoc.y += speed;
             }
         }
 
         if (down) {
             positionY += speed;
+            clientLoc.y += speed;
             moveDown();
             if (Collision.collisionPlayerTank()) {
                 positionY -= speed;
+                clientLoc.y -= speed;
             }
         }
         if (left) {
             positionX -= speed;
+            clientLoc.x -= speed;
             moveLeft();
             if (Collision.collisionPlayerTank()) {
                 positionX += speed;
+                clientLoc.x += speed;
             }
         }
         if (right) {
             positionX += speed;
+            clientLoc.x += speed;
             moveRight();
             if (Collision.collisionPlayerTank()) {
                 positionX -= speed;
+                clientLoc.x -= speed;
             }
         }
         if (up || down || right || left) {
-            changeBodyImage();
+            //changeBodyImage();
         }
 
         positionX = Math.max(positionX, 0);
@@ -76,7 +82,13 @@ public class PlayerTank extends SuperTank {
         Sound sound = new Sound(shootString, 0);
         sound.execute();
         super.shoot(originX, originY, destX, destY);
-        Bullet bullet = new Bullet(originX, originY, destX, destY, bulletImageAddress, bulletSpeed);
+        Bullet bullet;
+        if (isFirstImage) {
+            bullet = new Bullet(originX, originY, destX, destY, 0, bulletSpeed);
+        } else {
+            bullet = new Bullet(originX, originY, destX, destY, 1, bulletSpeed);
+        }
+
         bullets.add(bullet);
     }
 
@@ -94,11 +106,7 @@ public class PlayerTank extends SuperTank {
         shootString = "lightgun.wav";
         bulletSpeed = 25;
         difTimeBullet = 0.2;
-        try {
-            gunImage = ImageIO.read(new File("Tank-top2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void changeGunOne() {
@@ -106,16 +114,9 @@ public class PlayerTank extends SuperTank {
         bulletImageAddress = "Tank-Bullet.png";
         bulletSpeed = 20;
         difTimeBullet = 0.7;
-        try {
-            gunImage = ImageIO.read(new File("Tank-top.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
-    public BufferedImage getGunImage() {
-        return gunImage;
-    }
 
     public int getGunNumber() {
         if (difTimeBullet == 0.7) {
@@ -158,17 +159,14 @@ public class PlayerTank extends SuperTank {
     }
 
 
-
-
-    public void drawBody(Graphics2D g2d , GameState state , AffineTransform oldTrans){
-        g2d.setTransform(oldTrans);
-        AffineTransform atBody = g2d.getTransform();
-        atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
-        g2d.setTransform(atBody);
-        g2d.drawImage(image, positionX, positionY, null);
-        g2d.setTransform(oldTrans);
-    }
-
+//    public void drawBody(BufferedImage image, Graphics2D g2d, GameState state, AffineTransform oldTrans) {
+//        g2d.setTransform(oldTrans);
+//        AffineTransform atBody = g2d.getTransform();
+//        atBody.rotate(Math.toRadians(angelBody), positionX + image.getWidth() / 2, positionY + image.getHeight() / 2);
+//        g2d.setTransform(atBody);
+//        g2d.drawImage(image, positionX, positionY, null);
+//        g2d.setTransform(oldTrans);
+//    }
 
 
 }

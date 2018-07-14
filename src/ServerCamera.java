@@ -1,24 +1,39 @@
 import java.util.ArrayList;
 
-public class Camera {
+public class ServerCamera {
     public static boolean camerafixedX = false, camerafixedY = false;
     public static int originX = 0;
     public static int originY = 0;
-    static GameState state = GameLoop.state;
-    static PlayerTank playerTank = state.getPlayerTank();
+    static GameState state;
+    static PlayerTank playerTank ;
 
-    static ArrayList<EnemyTank> enemyTanks = state.map.enemyTanks;
-    static ArrayList<Turret> turrets = state.map.turrets;
-    static ArrayList<IdiotEnemy> idiotEnemys = state.map.idiotEnemies;
+    static ArrayList<EnemyTank> enemyTanks ;
+    static ArrayList<Turret> turrets ;
+    static ArrayList<IdiotEnemy> idiotEnemys;
+    static CoPlayerTank coPlayerTank ;
 
-    static ArrayList<HardWall> hardWalls = state.map.hardWalls;
-    static ArrayList<SoftWall> softWalls = state.map.softWalls;
-    static ArrayList<Teazel> teazels = state.map.teazel;
+    static ArrayList<HardWall> hardWalls ;
+    static ArrayList<SoftWall> softWalls ;
+    static ArrayList<Teazel> teazels;
 
     static int mouseX, mouseY;
     private static boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private static boolean mouseUP, mouseDOWN, mouseRIGHT, mouseLEFT;
     private static int cameraSpeed = 4;
+
+    public ServerCamera(GameState state) {
+        this.state = state;
+        playerTank = state.getPlayerTank();
+        enemyTanks = state.map.enemyTanks;
+        turrets = state.map.turrets;
+        idiotEnemys = state.map.idiotEnemies;
+        hardWalls = state.map.hardWalls;
+        softWalls = state.map.softWalls;
+        teazels = state.map.teazel;
+        if (GameState.mode == 1){
+            coPlayerTank = GameState.coPlayer ;
+        }
+    }
 
     public static void updateInfo() {
         keyUP = state.keyUP;
@@ -115,6 +130,9 @@ public class Camera {
 
         if (keyUP && !camerafixedY) {
             playerTank.positionY += cameraSpeed;
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.y += cameraSpeed;
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY += cameraSpeed;
@@ -137,6 +155,9 @@ public class Camera {
 
         if (keyDOWN && !camerafixedY) {
             playerTank.positionY -= cameraSpeed;
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.y -= cameraSpeed;
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY -= cameraSpeed;
@@ -159,6 +180,9 @@ public class Camera {
 
         if (keyLEFT && !camerafixedX) {
             playerTank.positionX += cameraSpeed;
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.x += cameraSpeed;
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX += cameraSpeed;
@@ -182,6 +206,9 @@ public class Camera {
 
         if (keyRIGHT && !camerafixedX) {
             playerTank.positionX -= cameraSpeed;
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.x -= cameraSpeed;
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX -= cameraSpeed;
@@ -204,6 +231,9 @@ public class Camera {
 
         if (mouseUP && !camerafixedY) {
             playerTank.positionY += (1.25 * cameraSpeed);
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.y += (1.25 * cameraSpeed);
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY += 1.25 * cameraSpeed;
@@ -227,6 +257,9 @@ public class Camera {
 
         if (mouseDOWN && !camerafixedY) {
             playerTank.positionY -= (1.25 * cameraSpeed);
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.y -= (1.25 * cameraSpeed);
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionY -= 1.25 * cameraSpeed;
@@ -249,6 +282,9 @@ public class Camera {
 
         if (mouseLEFT && !camerafixedX) {
             playerTank.positionX += (1.25 * cameraSpeed);
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.x += (1.25 * cameraSpeed);
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX += 1.25 * cameraSpeed;
@@ -271,7 +307,9 @@ public class Camera {
 
         if (mouseRIGHT && !camerafixedX) {
             playerTank.positionX -= (1.25 * cameraSpeed);
-
+            if (GameState.mode == 1) {
+                coPlayerTank.clientLoc.x -= (1.25 * cameraSpeed);
+            }
             for (EnemyTank enemyTank :
                     enemyTanks) {
                 enemyTank.positionX -= 1.25 * cameraSpeed;

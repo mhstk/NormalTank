@@ -4,6 +4,7 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
@@ -20,8 +21,8 @@ public class GameFrame extends JFrame {
     public static final int GAME_HEIGHT = 1080;  // 720p game resolution
     public static final int GAME_WIDTH = 1920;  // wide aspect ratio
 
-    private long lastRender;
-    private ArrayList<Float> fpsHistory;
+    protected long lastRender;
+    protected ArrayList<Float> fpsHistory;
 
     private BufferStrategy bufferStrategy;
 
@@ -29,8 +30,14 @@ public class GameFrame extends JFrame {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
+
+        try {
+            LoadImage.LoadImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         lastRender = -1;
         fpsHistory = new ArrayList<>(100);
@@ -83,45 +90,57 @@ public class GameFrame extends JFrame {
     /**
      * Rendering all game elements based on the game state.
      */
-    private void doRendering(Graphics2D g2d, GameState state) {
+    protected void doRendering(Graphics2D g2d, GameState state) {
+
         AffineTransform oldTrans = g2d.getTransform();
 
         // Draw background
-        state.map.drawArea(g2d, state, oldTrans);
+        state.map.drawArea(LoadImage.area,g2d, state, oldTrans);
 
         // Draw Objects in map
-        state.map.drawWalls(g2d, state, oldTrans);
+
+        state.map.drawWalls(LoadImage.hardWall,LoadImage.softWall0,LoadImage.softWall1,LoadImage.softWall2,LoadImage.softWall3,LoadImage.teazel,g2d, state, oldTrans);
 
         // Draw Body
-        state.getPlayerTank().drawBody(g2d, state, oldTrans);
+        state.getPlayerTank().drawBody(LoadImage.tankUnder1,g2d, state, oldTrans);
+        if (GameState.mode ==1 && GameState.coPlayer != null){
+            GameState.coPlayer.drawBodyServer(LoadImage.tankUnder3,g2d,state,oldTrans);
+        }
         for (Turret turret : state.map.turrets)
-            turret.drawBody(g2d,state,oldTrans);
+            //turret.drawBody(g2d,state,oldTrans);
         for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawBody(g2d, state, oldTrans);
+            enemyTank.drawBody(LoadImage.tankUnder1,g2d, state, oldTrans);
         for (IdiotEnemy idiotEnemy : state.map.idiotEnemies) {
             if (idiotEnemy.isAlive()&&idiotEnemy.isVisible())
-            idiotEnemy.drawBody(g2d, state, oldTrans);
+            idiotEnemy.drawBody(LoadImage.idiotEnemy1,g2d, state, oldTrans);
         }
 
         //Draw Bullet's Gun
-        state.getPlayerTank().drawBullets(g2d, state, oldTrans);
+        state.getPlayerTank().drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d, state, oldTrans);
         for (Turret turret : state.map.turrets)
-            turret.drawBullets(g2d,state,oldTrans);
+            turret.drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d,state,oldTrans);
         for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawBullets(g2d, state, oldTrans);
+            enemyTank.drawBullets(LoadImage.bullet1,LoadImage.bullet2,g2d, state, oldTrans);
 
         // Draw Gun
-        state.getPlayerTank().drawGun(g2d, state, oldTrans);
+        state.getPlayerTank().drawGun(LoadImage.tankTop1,g2d, state, oldTrans);
+        if (GameState.mode ==1 ){
+            GameState.coPlayer.drawGunClient(LoadImage.tankTop3,g2d,state,oldTrans);
+        }
         for (EnemyTank enemyTank : state.map.enemyTanks)
-            enemyTank.drawGun(g2d, state, oldTrans);
+            enemyTank.drawGun(LoadImage.tankTop1,g2d, state, oldTrans);
         for (Turret turret : state.map.turrets)
-            turret.drawGun(g2d, state, oldTrans);
+            //turret.drawGun(g2d, state, oldTrans);
 
         // Draw trees
-        state.map.drawPlants(g2d, state, oldTrans);
+        state.map.drawPlants(LoadImage.plant,g2d, state, oldTrans);
+
+
+
 
         // Back to normal affine
         g2d.setTransform(oldTrans);
+        g2d.drawImage(LoadImage.cursor , state.mouseX-40,state.mouseY-40,null);
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();

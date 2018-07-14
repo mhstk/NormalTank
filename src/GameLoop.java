@@ -19,20 +19,37 @@ public class GameLoop implements Runnable {
      * Frame Per Second.
      * Higher is better, but any value above 24 is fine.
      */
-    public static final int FPS = 50;
+    public static final int FPS = 30;
 
     private GameFrame canvas;
     public static GameState state;
+    private int mode ;
 
-    public GameLoop(GameFrame frame) {
+    public GameLoop(GameFrame frame, int mode) {
         canvas = frame;
+        this.mode = mode;
     }
 
     /**
      * This must be called before the game loop starts.
      */
     public void init() {
-        state = new GameState();
+        state = new GameState(mode);
+        canvas.addKeyListener(state.getKeyListener());
+        canvas.addMouseListener(state.getMouseListener());
+        canvas.addMouseMotionListener(state.getMouseMotionListener());
+    }
+
+    public void initServer() {
+
+        state = new GameState(mode);
+        canvas.addKeyListener(state.getKeyListener());
+        canvas.addMouseListener(state.getMouseListener());
+        canvas.addMouseMotionListener(state.getMouseMotionListener());
+    }
+
+    public void initClient() {
+        state = new ClientGameState(mode);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());

@@ -5,21 +5,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-
-/**
- * Created by mahdihs76 on 5/21/18.
- */
-public class Server implements DataListener {
-    public static int SERVER_PORT = 12345 ;
-    private static Server instance = new Server(SERVER_PORT);
-    private int port;
-    private ServerSocket serverSocket;
+public class Client implements DataListener{
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 12345;
+    private static Client instance = new Client();
     private Socket clientSocket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+
+    private Client(){}
+
+    public static Client getInstance() {
+        return instance;
+    }
 
     public static final Sound SOUND = new Sound(".\\game.wav",105000);
     public static GameFrame frame;
@@ -34,7 +34,7 @@ public class Server implements DataListener {
             @Override
             public void run() {
                 SOUND.execute();
-                frame = new GameFrame("Simple Ball !");
+                frame = new ClientGameFrame("Simple Ball !");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
 //                Toolkit toolkit = Toolkit.getDefaultToolkit();
 //                Image image = toolkit.getImage(".\\pointer.png");
@@ -54,41 +54,12 @@ public class Server implements DataListener {
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop
-                GameLoop game = new GameLoop(frame,1);
-                game.initServer();
+                GameLoop game = new GameLoop(frame,2);
+                game.initClient();
                 ThreadPool.execute(game);
                 // and the game starts ...
             }
         });
-    }
-
-    private Server(int port) {
-        this.port = port;
-    }
-
-    public static Server getInstance() {
-        return instance;
-    }
-
-    public void start(){
-        try {
-            setup();
-            waitForClient();
-            initIOStreams();
-//            getData();
-            //startThreads();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void setup() throws IOException {
-        serverSocket = new ServerSocket(port);
-    }
-
-    private void waitForClient() throws IOException {
-        clientSocket = serverSocket.accept();
     }
 
     public void reset(){
@@ -100,16 +71,19 @@ public class Server implements DataListener {
 
     }
 
-    public void getData(){
+    public void start(){
         try {
-            CoPlayerTank coPlayerTank = (CoPlayerTank) inputStream.readObject() ;
-            System.out.println(coPlayerTank.up);
-            GameState.coPlayer = coPlayerTank ;
+            connect2Server();
+            initIOStreams();
+            //startTheards();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
+    }
+
+    private void connect2Server() throws IOException {
+        clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+
     }
 
     public void initIOStreams() throws IOException {
@@ -117,13 +91,24 @@ public class Server implements DataListener {
         inputStream = new ObjectInputStream(clientSocket.getInputStream());
     }
 
-    private void startThreads() {
+    public void getData(){
+        try {
+            Data data = (Data) inputStream.readObject() ;
+            ClientGameState.data = data ;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startTheards() {
         new Thread(new GetDataRunnable(inputStream, this)).start();
     }
 
-    public void sendData(Data data) {
+    public void sendData(CoPlayerTank coPlayerTank) {
         try {
-            outputStream.writeObject(data);
+            outputStream.writeObject(coPlayerTank);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,6 +122,6 @@ public class Server implements DataListener {
 
     @Override
     public void receive(CoPlayerTank coPlayerTank) {
-        //GameState.coPlayer = coPlayerTank ;
+
     }
 }
