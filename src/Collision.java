@@ -21,7 +21,7 @@ public class Collision {
     public static boolean collisionBullet(Bullet bullet) {
         for (HardWall hardWall : hardWalls) {
             if (CollisionDetection.intersect(bullet.getBounds(), hardWall.getBounds(), bullet.getAngelBody(), 0)) {
-                Sound sound = new Sound("softWall.wav", 0);
+                Sound sound = new Sound("softwall.wav", 0);
                 sound.execute();
                 return true;
             }
@@ -30,7 +30,7 @@ public class Collision {
         for (SoftWall softWall : softWalls) {
             if (CollisionDetection.intersect(bullet.getBounds(), softWall.getBounds(), bullet.getAngelBody(), 0)) {
                 {
-                    Sound sound = new Sound("softWall.wav", 0);
+                    Sound sound = new Sound("softwall.wav", 0);
                     sound.execute();
                     if (softWall.destroy(bullet.getDamage()) == 4) {
                         softWalls.remove(softWall);

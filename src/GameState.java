@@ -18,8 +18,9 @@ import java.io.Serializable;
 public class GameState implements Serializable {
 
     public int locX, locY, diam;
-    private static int count = 1 ;
+    private static int count = 1;
     public boolean gameOver;
+    public boolean pause;
     public boolean cameraFixedX, cameraFixedY;
     private static PlayerTank playerTank;
     static CoPlayerTank coPlayer;
@@ -35,7 +36,7 @@ public class GameState implements Serializable {
     private int level;
     private CheatCode cheatCode;
 
-    public GameState(int mode , int level,String map) {
+    public GameState(int mode, int level, String map) {
         this.level = level;
         playerTank = new PlayerTank(160, 800, level);
         cheatCode = new CheatCode(playerTank);
@@ -45,6 +46,7 @@ public class GameState implements Serializable {
         locY = 100;
         diam = 32;
         gameOver = false;
+        pause = false;
         //
         keyUP = false;
         keyDOWN = false;
@@ -73,10 +75,10 @@ public class GameState implements Serializable {
 
         }
         if (mode == 1) {
-            coPlayer = new CoPlayerTank(60,900 , 0);
+            coPlayer = new CoPlayerTank(60, 900, 0);
             Server.getInstance().start();
 
-            Data data = new Data(playerTank,coPlayer,this.map);
+            Data data = new Data(playerTank, coPlayer, this.map);
 
 
             Server.getInstance().sendData(data);
@@ -105,7 +107,7 @@ public class GameState implements Serializable {
 
             Server.getInstance().getData();
             System.out.println(coPlayer.up);
-            System.out.println("up : "+ coPlayer.up + "***" +"down : "+ coPlayer.down + "***" +"left : "+ coPlayer.left + "***" +"right : "+ coPlayer.right );
+            System.out.println("up : " + coPlayer.up + "***" + "down : " + coPlayer.down + "***" + "left : " + coPlayer.left + "***" + "right : " + coPlayer.right);
             coPlayer.move();
 
 //          Client.getInstance().reset();
@@ -142,8 +144,8 @@ public class GameState implements Serializable {
             }
         }
 
-        if (mode == 1){
-            Data data = new Data(GameLoop.state.getPlayerTank(),GameState.coPlayer,GameLoop.state.map);
+        if (mode == 1) {
+            Data data = new Data(GameLoop.state.getPlayerTank(), GameState.coPlayer, GameLoop.state.map);
             Server.getInstance().sendData(data);
             Server.getInstance().reset();
 
@@ -209,8 +211,10 @@ public class GameState implements Serializable {
                     break;
 
                 case KeyEvent.VK_ESCAPE:
-                    gameOver = true;
-                    Main.SOUND.cancel();
+                    if (pause) {
+                        pause = false;
+                    } else pause = true;
+
                     break;
 
                 case KeyEvent.VK_Q:

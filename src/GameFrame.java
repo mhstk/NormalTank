@@ -92,6 +92,14 @@ public class GameFrame extends JFrame {
      * Rendering all game elements based on the game state.
      */
     protected void doRendering(Graphics2D g2d, GameState state) {
+        if (state.pause){
+            String str = "Game Paused!";
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
+            int strWidth = g2d.getFontMetrics().stringWidth(str);
+            g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
+            return;
+        }
 
         AffineTransform oldTrans = g2d.getTransform();
 

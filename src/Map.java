@@ -44,6 +44,7 @@ public class Map implements Serializable {
         enemyTanks = new ArrayList<>();
         idiotEnemies = new ArrayList<>();
         mines = new ArrayList<>();
+        key = new Key(0,0,0,0);
 
     }
 

@@ -63,14 +63,24 @@ public class GameLoop implements Runnable {
     public void run() {
         boolean gameOver = false;
         boolean key = false;
+        boolean pause = false;
         while (!(gameOver || key) ) {
             try {
+                if (pause){
+                    canvas.render(state);
+                    Thread.sleep(1000);
+                    pause = state.pause;
+                    continue;
+                }
                 long start = System.currentTimeMillis();
                 //
                 state.update();
                 canvas.render(state);
                 gameOver = state.gameOver;
-                key = state.map.key.used() ;
+                if (mode == 0) {
+                    key = state.map.key.used();
+                }
+                pause = state.pause ;
                 //
                 long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
                 if (delay > 0)
@@ -86,7 +96,6 @@ public class GameLoop implements Runnable {
             e.printStackTrace();
         }
         System.exit(0);
-
 
 
     }

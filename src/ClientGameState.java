@@ -23,7 +23,7 @@ public class ClientGameState extends GameState {
 
     public void update() {
 
-        System.out.print(coPlayer.up);
+
         Client.getInstance().sendData(coPlayer);
         Client.getInstance().reset();
 
